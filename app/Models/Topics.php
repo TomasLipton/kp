@@ -12,6 +12,7 @@ class Topics extends Model
     use SoftDeletes, HasFactory;
 
     protected $fillable = [
+        'slug',
         'name_ru',
         'description_ru',
         'name_pl',

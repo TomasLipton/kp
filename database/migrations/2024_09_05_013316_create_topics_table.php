@@ -9,6 +9,7 @@ return new class extends Migration {
     {
         Schema::create('topics', function (Blueprint $table) {
             $table->id();
+            $table->string('slug');
             $table->string('name_ru');
             $table->string('description_ru');
             $table->string('name_pl');
