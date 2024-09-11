@@ -5,14 +5,19 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\TopicsResource\Pages;
 use App\Filament\Resources\TopicsResource\RelationManagers;
 use App\Models\Topics;
+use Closure;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 
 class TopicsResource extends Resource
 {
@@ -24,12 +29,27 @@ class TopicsResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('slug')->required()->columnSpan('full'),
-                Forms\Components\TextInput::make('name_ru')->required(),
+                Forms\Components\TextInput::make('slug')
+                    ->afterStateUpdated(function (Set $set) {
+                        $set('is_slug_changed_manually', true);
+                    })
+                    ->required()
+                    ->columnSpan('full'),
+                Hidden::make('is_slug_changed_manually')
+                    ->default(false)
+                    ->dehydrated(false),
 
-                Forms\Components\TextInput::make('name_pl')->required(),
-                Forms\Components\TextInput::make('description_ru')->required(),
+                Forms\Components\TextInput::make('name_pl')->required()
+                    ->afterStateUpdated(function (Get $get, Set $set, ?string $state) {
+                        if (! $get('is_slug_changed_manually') && filled($state)) {
+                            $set('slug', Str::slug($state));
+                        }
+                    })
+                    ->reactive(),
+
+                Forms\Components\TextInput::make('name_ru'),
                 Forms\Components\TextInput::make('description_pl')->required(),
+                Forms\Components\TextInput::make('description_ru'),
 
                 Forms\Components\Select::make('parent_id')
                     ->relationship('parent', 'name_ru'),
