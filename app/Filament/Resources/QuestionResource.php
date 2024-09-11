@@ -4,15 +4,20 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\QuestionResource\Pages;
 use App\Models\Question;
+use Closure;
+use Filament\Forms\Components\Field;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\ToggleButtons;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
@@ -66,8 +71,40 @@ class QuestionResource extends Resource
                                 TextInput::make('question_ru')
                                     ->label('Pytanie w języku rosyjskim'),
                                 TextInput::make('explanation_ru'),
-
+                            ]),
+                        Repeater::make('answers')
+                            ->relationship()
+                            ->orderColumn('order')
+                            ->grid(2)
+                            ->reorderableWithButtons()
+                            ->collapsible()
+                            ->cloneable()
+//                            ->itemLabel(fn(array $state): ?string => '# ' . $state['id'] ?? null)
+                            ->schema([
+//                                TextInput::make('id'),
+                                Toggle::make('is_correct'),
+                                Textarea::make('text')
+                                    ->label('Odpowiedź w języku polskim')
+                                    ->required(),
+                                FileUpload::make('picture')
+                                    ->image()
+                                    ->imageEditor()
+                                    ->label('Zdjęcie'),
                             ])
+                            ->rules([
+                                fn (): Closure => function (string $attribute, $value, Closure $fail) {
+
+                                    // Check if at least one is_correct toggle is true
+                                        if (!collect($value)->contains('is_correct', true)) {
+                                            $fail('At least one option must be set as correct.');
+                                            Notification::make()
+                                                ->title('At least one answer must be set as correct.')
+                                                ->danger()
+                                                ->send();
+                                        }
+                                    },
+                            ]),
+
                     ])->columnSpan(['lg' => 2]),
 
 
@@ -111,7 +148,6 @@ class QuestionResource extends Resource
                 TextColumn::make('question_type'),
 
                 TextColumn::make('topics.name_pl')
-
                     ->label('Topic')
                     ->searchable()
                     ->sortable(),
@@ -173,4 +209,6 @@ class QuestionResource extends Resource
 
         return $details;
     }
+
+
 }

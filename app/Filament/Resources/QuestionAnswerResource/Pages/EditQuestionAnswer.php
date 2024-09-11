@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Filament\Resources\QuestionResource\Pages;
+namespace App\Filament\Resources\QuestionAnswerResource\Pages;
 
-use App\Filament\Resources\QuestionResource;
+use App\Filament\Resources\QuestionAnswerResource;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\RestoreAction;
 use Filament\Resources\Pages\EditRecord;
 
-class EditQuestion extends EditRecord
+class EditQuestionAnswer extends EditRecord
 {
-    protected static string $resource = QuestionResource::class;
+    protected static string $resource = QuestionAnswerResource::class;
 
     protected function getHeaderActions(): array
     {
@@ -18,10 +18,6 @@ class EditQuestion extends EditRecord
             DeleteAction::make(),
             ForceDeleteAction::make(),
             RestoreAction::make(),
-            $this->getSaveFormAction()
-                ->formId('form'),
         ];
     }
-
-
 }
