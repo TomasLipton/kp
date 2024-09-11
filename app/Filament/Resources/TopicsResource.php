@@ -47,9 +47,9 @@ class TopicsResource extends Resource
                     })
                     ->reactive(),
 
-                Forms\Components\TextInput::make('name_ru'),
+                Forms\Components\TextInput::make('name_ru')->default('-')->required(),
                 Forms\Components\TextInput::make('description_pl')->required(),
-                Forms\Components\TextInput::make('description_ru'),
+                Forms\Components\TextInput::make('description_ru')->default('-')->required(),
 
                 Forms\Components\Select::make('parent_id')
                     ->relationship('parent', 'name_ru'),
@@ -72,9 +72,12 @@ class TopicsResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name_ru')
+                Tables\Columns\ImageColumn::make('picture')
+                    ->width('100px')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name_pl')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('name_ru')
                     ->searchable(),
             ])
             ->filters([
