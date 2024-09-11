@@ -19,6 +19,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\ToggleButtons;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\BulkActionGroup;
@@ -75,9 +76,11 @@ class QuestionResource extends Resource
                                 TextInput::make('explanation_ru'),
                             ]),
                         Repeater::make('answers')
+                            ->reactive()
                             ->relationship()
                             ->orderColumn('order')
                             ->grid(2)
+                            ->maxItems(fn (Get $get): int => in_array($get('question_type'), ['year', 'date_month']) ? 1 : 5)
                             ->reorderableWithButtons()
                             ->collapsible()
                             ->cloneable()
@@ -118,7 +121,13 @@ class QuestionResource extends Resource
                                 'multi_text' => 'Multi Text',
                                 'date_month' => 'Date Month',
                                 'year' => 'Year',
-                            ])->inline()->required(),
+                            ])->inline()->required()->reactive()
+                            ->afterStateUpdated(function ($state, callable $set) {
+                                if (in_array($state, ['year', 'date_month'])) {
+                                    // Clear the repeater items when question_type is 'year'
+                                    $set('answers', []);
+                                }
+                            }),
                         Select::make('topics_id')
                             ->relationship('topics', 'name_pl')
                             ->required(),
