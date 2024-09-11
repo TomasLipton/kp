@@ -5,6 +5,8 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\QuestionResource\Pages;
 use App\Models\Question;
 use Closure;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Field;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Group;
@@ -55,13 +57,13 @@ class QuestionResource extends Resource
 
                 Group::make()
                     ->schema([
-                        Section::make()
+                        Section::make('Pytanie w języku polskim')
+                            ->collapsible()
                             ->schema([
                                 TextInput::make('question_pl')
                                     ->label('Pytanie w języku polskim')
                                     ->required(),
                                 Textarea::make('explanation_pl'),
-
                             ]),
 
                         Section::make('Pytanie w języku rosyjskim')
@@ -81,28 +83,27 @@ class QuestionResource extends Resource
                             ->cloneable()
 //                            ->itemLabel(fn(array $state): ?string => '# ' . $state['id'] ?? null)
                             ->schema([
-//                                TextInput::make('id'),
                                 Toggle::make('is_correct'),
                                 Textarea::make('text')
                                     ->label('Odpowiedź w języku polskim')
                                     ->required(),
-                                FileUpload::make('picture')
-                                    ->image()
-                                    ->imageEditor()
-                                    ->label('Zdjęcie'),
+//                                FileUpload::make('picture')
+//                                    ->image()
+//                                    ->imageEditor()
+//                                    ->label('Zdjęcie'),
                             ])
                             ->rules([
-                                fn (): Closure => function (string $attribute, $value, Closure $fail) {
+                                fn(): Closure => function (string $attribute, $value, Closure $fail) {
 
                                     // Check if at least one is_correct toggle is true
-                                        if (!collect($value)->contains('is_correct', true)) {
-                                            $fail('At least one option must be set as correct.');
-                                            Notification::make()
-                                                ->title('At least one answer must be set as correct.')
-                                                ->danger()
-                                                ->send();
-                                        }
-                                    },
+                                    if (!collect($value)->contains('is_correct', true)) {
+                                        $fail('At least one option must be set as correct.');
+                                        Notification::make()
+                                            ->title('At least one answer must be set as correct.')
+                                            ->danger()
+                                            ->send();
+                                    }
+                                },
                             ]),
 
                     ])->columnSpan(['lg' => 2]),
@@ -116,6 +117,7 @@ class QuestionResource extends Resource
                                 'single_text' => 'Single Text',
                                 'multi_text' => 'Multi Text',
                                 'date_month' => 'Date Month',
+                                'year' => 'Year',
                             ])->inline()->required(),
                         Select::make('topics_id')
                             ->relationship('topics', 'name_pl')
