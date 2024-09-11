@@ -37,6 +37,7 @@ class TopicsResource extends Resource
                 Forms\Components\Section::make('Image')
                     ->schema([
                         FileUpload::make('picture')
+                            ->disk('public')
                             ->image()
                             ->imageEditor()
                             ->directory('topics')
