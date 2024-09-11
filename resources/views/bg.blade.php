@@ -18,6 +18,7 @@
             height: 100vh;
             margin: 0;
             backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
             display: flex;
             justify-content: center;
             align-items: center;
