@@ -40,7 +40,7 @@ class QuestionResource extends Resource
 
     protected static ?string $pluralLabel = 'Pytania';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-c-question-mark-circle';
 
     public static function form(Form $form): Form
     {

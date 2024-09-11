@@ -23,7 +23,7 @@ class TopicsResource extends Resource
 {
     protected static ?string $model = Topics::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-s-rectangle-group';
 
     public static function form(Form $form): Form
     {
