@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string('name_pl');
             $table->string('description_pl');
             $table->string('picture');
-            $table->foreignId('parent_id');
+            $table->foreignId('parent_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
