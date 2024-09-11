@@ -24,16 +24,24 @@ class TopicsResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('slug')->required(),
+                Forms\Components\TextInput::make('slug')->required()->columnSpan('full'),
                 Forms\Components\TextInput::make('name_ru')->required(),
-                Forms\Components\TextInput::make('description_ru')->required(),
+
                 Forms\Components\TextInput::make('name_pl')->required(),
+                Forms\Components\TextInput::make('description_ru')->required(),
                 Forms\Components\TextInput::make('description_pl')->required(),
-                FileUpload::make('picture')
-                    ->image()
-                    ->imageEditor()
-                    ->directory('topics')
-                    ->required()
+
+                Forms\Components\Select::make('parent_id')
+                    ->relationship('parent', 'name_ru'),
+
+                Forms\Components\Section::make('Image')
+                    ->schema([
+                        FileUpload::make('picture')
+                            ->image()
+                            ->imageEditor()
+                            ->directory('topics')
+                            ->required(),
+                    ])
 
 
             ]);
@@ -43,7 +51,10 @@ class TopicsResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('name_ru')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('name_pl')
+                    ->searchable(),
             ])
             ->filters([
                 //
