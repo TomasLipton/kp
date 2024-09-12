@@ -13,6 +13,9 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet"/>
+
+    <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet" />
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
 
@@ -26,32 +29,6 @@
             box-sizing: border-box;
         }
 
-        body {
-            background: linear-gradient(to bottom, #e9e8e7 50%, red 50%);
-            height: 100dvh;
-            margin: 0;
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-
-            /*display: flex;*/
-            /*justify-content: center;*/
-            /*align-items: center;*/
-        }
-
-        .app_container {
-            width: 80%;
-            min-height: 100dvh;
-            background: #fdfdfd;
-            margin: 0 auto;
-
-            /*overflow: auto; !* AdminPanelProvider*/
-        }
-        @media only screen and (max-width: 600px) {
-            .app_container {
-                width: 94%;
-            }
-        }
-
         :root {
             --background-dark: #2d3548;
             --text-light: rgba(255, 255, 255, 0.6);
@@ -62,7 +39,36 @@
             --spacing-xl: 32px;
             --spacing-xxl: 64px;
             --width-container: 1200px;
+            --font-family: 'Inter';
         }
+
+        body {
+            background: linear-gradient(to bottom, #e9e8e7 50%, red 50%);
+            height: 100dvh;
+            margin: 0;
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+
+            font-feature-settings: normal;
+            -webkit-tap-highlight-color: transparent;
+            font-family: var(--font-family), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            font-variation-settings: normal;
+        }
+
+        .app_container {
+            width: 80%;
+            min-height: 100dvh;
+            background-color:  rgb(235, 235, 235);
+            margin: 0 auto;
+
+            /*overflow: auto; !* AdminPanelProvider*/
+        }
+        @media only screen and (max-width: 600px) {
+            .app_container {
+                width: 94%;
+            }
+        }
+
 
         .hero-section {
             align-items: flex-start;
@@ -153,7 +159,7 @@
         }
 
     </style>
-    @livewireStyles
+    @yield('styles')
 
 </head>
 <body>
@@ -165,7 +171,7 @@
     </nav>
     @yield('content')
 </div>
-@livewireScripts
+{{--@livewireScripts--}}
 
 </body>
 </html>
