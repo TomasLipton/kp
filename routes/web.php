@@ -9,9 +9,6 @@ Route::get('/', function () {
 });
 
 
-Route::get('/{topic:slug}', function (\App\Models\Topics $topic) {
+Route::get('/{topic:slug}', \App\Livewire\StartSurvey::class);
 
-    return view('topic', ['topic' => $topic]);
-});
-
-Route::get('/{topic:slug}/quiz', \App\Livewire\SurveyQuestion::class);
+Route::get('/{topic:slug}/{quiz:uuid}', \App\Livewire\SurveyQuestion::class);
