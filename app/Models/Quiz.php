@@ -30,6 +30,11 @@ class Quiz extends Model
         return $this->belongsTo(Topics::class);
     }
 
+    public function answers()
+    {
+        return $this->hasMany(QuizAnswer::class);
+    }
+
     protected function casts(): array
     {
         return [

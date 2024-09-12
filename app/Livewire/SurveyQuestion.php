@@ -2,7 +2,10 @@
 
 namespace App\Livewire;
 
+use App\Models\Question;
+use App\Models\QuestionAnswer;
 use App\Models\Quiz;
+use App\Models\QuizAnswer;
 use App\Models\Topics;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
@@ -15,16 +18,20 @@ class SurveyQuestion extends Component
 
     public Quiz $quiz;
 
-//    public function mount(Topics $topic, Quiz $quiz)
-//    {
-//        	$this->topic = $topic;
-//        	$this->quiz = $quiz;
-//    }
+    public Question $question;
+
+    public $chosenAnswer;
+
     #[Layout('layouts.app')]
     #[Title('Create Post')]
     public function render()
     {
         return view('livewire.survey-question');
+    }
+
+    public function mount()
+    {
+        $this->question = $this->topic->questions()->inRandomOrder()->first();
     }
 
     public function testClick()
@@ -36,5 +43,27 @@ class SurveyQuestion extends Component
     {
         $this->quiz->is_completed = true;
         $this->quiz->save();
+    }
+
+    public function submitAnswer(QuestionAnswer $answer)
+    {
+        if ($this->chosenAnswer) {
+            return;
+        }
+        $this->chosenAnswer = $answer;
+
+        (new QuizAnswer([
+            'quiz_id' => $this->quiz->id,
+            'question_answer_id' => $answer->id,
+        ]))->save();
+
+//        $this->question = $this->topic->questions()->inRandomOrder()->first();
+//        $this->chosenAnswer = null;
+
+        if ($this->topic->questions()->count() == $this->quiz->answers()->count()) {
+//dd('finish');
+//            $this->finish();
+        }
+//        dd($answer);
     }
 }

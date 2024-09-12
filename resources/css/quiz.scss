@@ -2,11 +2,45 @@
     .header {
         display: flex;
         align-items: center;
-justify-content: space-between;
+        justify-content: space-between;
         height: 31px;
         background-color: #e0e0e0;
-        padding:0 10px;
-        border-top: 1px solid #e0e0e0;
+        padding: 0 10px;
+
+        border-top: 1px solid #fff;
         border-bottom: 1px solid #bfbfbf;
+    }
+
+    .question {
+        padding: 10px 30px;
+        //padding-left: 30px;
+        height: 71px;
+        border-top: 1px solid #fff;
+        border-bottom: 1px solid #bfbfbf;
+        font-weight: bold;
+    }
+
+    .answers {
+        padding: 10px 10px;
+        border-top: 1px solid #fff;
+        border-bottom: 1px solid #bfbfbf;
+        min-height: 200px;
+        cursor: pointer;
+        //span {
+        //    font-weight: bold;
+        //}
+        li:hover {
+            text-decoration: underline;
+        }
+    }
+
+    .submit {
+        text-transform: uppercase;
+        font-weight: bold;
+        ;
+        text-align: center;
+        padding: 10px 10px;
+        border-top: 1px solid #fff;
+        //border-bottom: 1px solid #bfbfbf;
     }
 }
