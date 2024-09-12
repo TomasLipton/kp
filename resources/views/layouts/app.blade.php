@@ -8,7 +8,7 @@
 
     <link rel="icon" type="image/png" href="/favicon.png"/>
 
-    <title> Karty Polaka</title>
+    <title>{{ $title ?? 'Karty Polaka' }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -43,7 +43,7 @@
         }
 
         body {
-            background: linear-gradient(to bottom, #e9e8e7 50%, red 50%);
+            background: linear-gradient(to bottom, #e9e8e7 50%, rgba(255, 0, 0, 0.9) 50%);
             height: 100dvh;
             margin: 0;
             backdrop-filter: blur(30px);
@@ -170,6 +170,7 @@
         </div>
     </nav>
     @yield('content')
+    {{ $slot }}
 </div>
 {{--@livewireScripts--}}
 

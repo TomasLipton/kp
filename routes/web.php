@@ -13,3 +13,5 @@ Route::get('/{topic:slug}', function (\App\Models\Topics $topic) {
 
     return view('topic', ['topic' => $topic]);
 });
+
+Route::get('/{topic:slug}/quiz', \App\Livewire\SurveyQuestion::class);

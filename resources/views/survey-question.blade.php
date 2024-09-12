@@ -14,17 +14,8 @@
 @endsection
 
 @section('content')
-<section class="topic_page">
-    <h1>{{$topic->picture}}</h1>
-    <h1>{{$topic->name_pl}}</h1>
-    <h1>{{$topic->description_pl}}</h1>
-    <h1>{{$topic->description_pl}}</h1>
+    <livewire:survey-question />
 
-
-    <div class="avatar" style="background-image: url({{url('storage/' . $topic->picture)}})"></div>
-
-    <a href="/{{$topic->slug}}/quiz">Start</a>
-</section>
 
 
 @endsection
