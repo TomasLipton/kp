@@ -80,7 +80,7 @@ class QuestionResource extends Resource
                             ->relationship()
                             ->orderColumn('order')
                             ->grid(2)
-                            ->maxItems(fn (Get $get): int => in_array($get('question_type'), ['year', 'date_month']) ? 1 : 5)
+                            ->maxItems(fn (Get $get): int => in_array($get('question_type'), ['year', 'date_month', 'number']) ? 1 : 5)
                             ->reorderableWithButtons()
                             ->collapsible()
                             ->cloneable()
@@ -121,9 +121,10 @@ class QuestionResource extends Resource
                                 'multi_text' => 'Multi Text',
                                 'date_month' => 'Date Month',
                                 'year' => 'Year',
+                                'number' => 'Number',
                             ])->inline()->required()->reactive()
                             ->afterStateUpdated(function ($state, callable $set) {
-                                if (in_array($state, ['year', 'date_month'])) {
+                                if (in_array($state, ['year', 'date_month', 'number'])) {
                                     // Clear the repeater items when question_type is 'year'
                                     $set('answers', []);
                                 }

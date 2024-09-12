@@ -3,7 +3,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="theme-color" content="#e9e8e7">
+
+{{--    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">--}}
+
+    <link rel="icon" type="image/png" href="/favicon.png"/>
 
     <title> Karty Polaka</title>
 
@@ -13,26 +17,40 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             background: linear-gradient(to bottom, #e9e8e7 50%, red 50%);
             height: 100vh;
             margin: 0;
             backdrop-filter: blur(30px);
             -webkit-backdrop-filter: blur(30px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+
+            /*display: flex;*/
+            /*justify-content: center;*/
+            /*align-items: center;*/
         }
 
         .app_container {
             width: 80%;
-            height: 100%;
+            height: 100vh;
             background: #fdfdfd;
+            margin: 0 auto;
+
+            /*overflow: auto; !* AdminPanelProvider*/
         }
-        :root{
+
+        :root {
             --background-dark: #2d3548;
-            --text-light: rgba(255,255,255,0.6);
-            --text-lighter: rgba(255,255,255,0.9);
+            --text-light: rgba(255, 255, 255, 0.6);
+            --text-lighter: rgba(255, 255, 255, 0.9);
             --spacing-s: 8px;
             --spacing-m: 16px;
             --spacing-l: 24px;
@@ -41,49 +59,49 @@
             --width-container: 1200px;
         }
 
-        .hero-section{
+        .hero-section {
             align-items: flex-start;
             /*background-image: linear-gradient(15deg, #0f4667 0%, #2a6973 150%);*/
             display: flex;
-            justify-content:center;
+            justify-content: center;
             margin-block: 20px;
-
+            padding: 0 10px;
         }
 
-        .card-grid{
+        .card-grid {
             display: grid;
-            grid-template-columns: repeat(1, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             grid-column-gap: var(--spacing-l);
             grid-row-gap: var(--spacing-l);
             max-width: var(--width-container);
             width: 100%;
         }
 
-        @media(min-width: 540px){
-            .card-grid{
+        @media (min-width: 540px) {
+            .card-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
 
-        @media(min-width: 960px){
-            .card-grid{
+        @media (min-width: 960px) {
+            .card-grid {
                 grid-template-columns: repeat(4, 1fr);
             }
         }
 
-        .category-card{
+        .category-card {
             list-style: none;
             position: relative;
         }
 
-        .category-card:before{
+        .category-card:before {
             content: '';
             display: block;
             padding-bottom: 75%;
             width: 100%;
         }
 
-        .card__background{
+        .card__background {
             background-size: cover;
             background-position: center;
             border-radius: var(--spacing-l);
@@ -95,37 +113,36 @@
             top: 0;
             transform-origin: center;
             trsnsform: scale(1) translateZ(0);
-            transition:
-                    filter 200ms linear,
-                    transform 200ms linear;
+            transition: filter 200ms linear,
+            transform 200ms linear;
         }
 
-        .category-card:hover .card__background{
+        .category-card:hover .card__background {
             transform: scale(1.05) translateZ(0);
         }
 
-        .card-grid:hover > .category-card:not(:hover) .card__background{
+        .card-grid:hover > .category-card:not(:hover) .card__background {
             /*filter: brightness(0.5) saturate(0) contrast(1.2) blur(20px);*/
         }
 
-        .card__content{
+        .card__content {
             left: 0;
             padding: var(--spacing-l);
             position: absolute;
             top: 0;
         }
 
-        .card__category{
+        .card__category {
             color: var(--text-light);
             font-size: 0.9rem;
             margin-bottom: var(--spacing-s);
             text-transform: uppercase;
         }
 
-        .card__heading{
+        .card__heading {
             color: var(--text-lighter);
             font-size: 1.9rem;
-            text-shadow: 2px 2px 20px rgba(0,0,0,0.2);
+            text-shadow: 2px 2px 20px rgba(0, 0, 0, 0.2);
             line-height: 1.4;
             word-spacing: 100vw;
         }
@@ -145,7 +162,7 @@
                 <a class="category-card" href="#">
                     <div class="card__background" style="background-image: url({{url('storage/' . $topic->picture)}})"></div>
                     <div class="card__content">
-{{--                        <p class="card__category">Category</p>--}}
+                        {{--                        <p class="card__category">Category</p>--}}
                         <h3 class="card__heading">{{$topic->name_pl}}</h3>
                     </div>
                 </a>
