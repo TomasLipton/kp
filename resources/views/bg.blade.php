@@ -16,6 +16,7 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
+
     <style>
         body, html {
             margin: 0;
@@ -28,7 +29,7 @@
 
         body {
             background: linear-gradient(to bottom, #e9e8e7 50%, red 50%);
-            height: 100vh;
+            height: 100dvh;
             margin: 0;
             backdrop-filter: blur(30px);
             -webkit-backdrop-filter: blur(30px);
@@ -40,11 +41,16 @@
 
         .app_container {
             width: 80%;
-            height: 100vh;
+            min-height: 100dvh;
             background: #fdfdfd;
             margin: 0 auto;
 
             /*overflow: auto; !* AdminPanelProvider*/
+        }
+        @media only screen and (max-width: 600px) {
+            .app_container {
+                width: 94%;
+            }
         }
 
         :root {
@@ -148,6 +154,7 @@
         }
 
     </style>
+
 </head>
 <body>
 <div class="app_container shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)]">
@@ -162,7 +169,7 @@
                 <a class="category-card" href="#">
                     <div class="card__background" style="background-image: url({{url('storage/' . $topic->picture)}})"></div>
                     <div class="card__content">
-                        {{--                        <p class="card__category">Category</p>--}}
+                                                <p class="card__category">Category</p>
                         <h3 class="card__heading">{{$topic->name_pl}}</h3>
                     </div>
                 </a>
@@ -170,5 +177,6 @@
         </div>
     </section>
 </div>
+
 </body>
 </html>
