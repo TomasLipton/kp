@@ -1,3 +1,8 @@
+@php
+    use Carbon\Carbon;
+    Carbon::setLocale('pl');
+@endphp
+
 <div class="survey-question">
     <div class="header">
         <div x-data="{
@@ -10,7 +15,13 @@
         this.timeElapsed = `${minutes}:${seconds}`;
     }
 }" x-init="setInterval(() => updateSecondsElapsed(), 1000)">
-            <div class="time">Czas: <span x-text="timeElapsed"></span></div>
+            <div class="time">
+                @if($quiz->is_completed)
+                    Zakończono o <b>{{ $quiz->updated_at->translatedFormat('F j, H:i')  }}</b>
+                @else
+                    Czas:  <span x-text="timeElapsed"></span>
+                @endif
+            </div>
         </div>
         <div class="questions">0</div>
         <div class="actions">
