@@ -30,8 +30,8 @@
                         {{$surveyMode}}
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#" wire:click="setMode('10 pytań')">10 pytań</a></li>
-                        <li><a class="dropdown-item" href="#" wire:click="setMode('Wszystkie pytania')">Wszystkie pytania</a></li>
+                        <li><a class="dropdown-item"  wire:click="setMode('10 pytań')">10 pytań</a></li>
+                        <li><a class="dropdown-item"  wire:click="setMode('Wszystkie pytania')">Wszystkie pytania</a></li>
                     </ul>
                 </div>
                 <button wire:click="startSurvey" type="button" class="btn btn-primary">Rozpocznij test</button>
