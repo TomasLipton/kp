@@ -1,0 +1,19 @@
+{
+  "resources/css/app.css": {
+    "file": "assets/app-l0sNRNKZ.js",
+    "name": "app",
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/css/quiz.scss": {
+    "file": "assets/quiz-NwYrr9YS.css",
+    "src": "resources/css/quiz.scss",
+    "isEntry": true
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-CEsE5a7F.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  }
+}
