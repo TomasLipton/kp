@@ -31,7 +31,19 @@ class SurveyQuestion extends Component
 
     public function mount()
     {
-        $this->question = $this->topic->questions()->inRandomOrder()->first();
+        $answeredQuestionIds = QuizAnswer::where('quiz_id', $this->quiz->id)->with('questionAnswer.question')->get()->pluck('questionAnswer.question.id')->toArray();
+
+        $nextQuestion = $this->topic->questions()
+            ->whereNotIn('id', $answeredQuestionIds)
+            ->inRandomOrder()
+            ->first();
+
+        if (!$nextQuestion) {
+            $this->finish();
+            return;
+        }
+
+        $this->question = $nextQuestion;
     }
 
     public function testClick()
@@ -60,10 +72,29 @@ class SurveyQuestion extends Component
 //        $this->question = $this->topic->questions()->inRandomOrder()->first();
 //        $this->chosenAnswer = null;
 
-        if ($this->topic->questions()->count() == $this->quiz->answers()->count()) {
+//        if ($this->topic->questions()->count() == $this->quiz->answers()->count()) {
 //dd('finish');
 //            $this->finish();
-        }
+//        }
 //        dd($answer);
+    }
+
+    public function nextQuestion()
+    {
+
+        $answeredQuestionIds = QuizAnswer::where('quiz_id', $this->quiz->id)->with('questionAnswer.question')->get()->pluck('questionAnswer.question.id')->toArray();
+
+        $nextQuestion = $this->topic->questions()
+            ->whereNotIn('id', $answeredQuestionIds)
+            ->inRandomOrder()
+            ->first();
+
+        if (!$nextQuestion) {
+            $this->finish();
+            return;
+        }
+
+        $this->question = $nextQuestion;
+        $this->chosenAnswer = null;
     }
 }

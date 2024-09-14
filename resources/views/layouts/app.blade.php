@@ -167,11 +167,13 @@
 <div class="app_container shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)]">
     <nav class="navbar bg-body-tertiary">
         <div class="container-fluid">
-            <span class="navbar-brand mb-0 h1">Karta Polaka</span>
+            <a href="/" class="navbar-brand mb-0 h1">Karta Polaka</a>
         </div>
     </nav>
     @yield('content')
-    {{ $slot }}
+    @if(isset($slot))
+        {{ $slot }}
+    @endif
 </div>
 {{--@livewireScripts--}}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
