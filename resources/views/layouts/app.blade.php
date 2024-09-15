@@ -89,6 +89,11 @@
             width: 100%;
         }
 
+        @media (max-width: 444px) {
+            .card-grid {
+                grid-template-columns: repeat(1, 1fr);
+            }
+        }
         @media (min-width: 540px) {
             .card-grid {
                 grid-template-columns: repeat(2, 1fr);
