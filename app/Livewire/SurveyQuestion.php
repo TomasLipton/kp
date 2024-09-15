@@ -20,6 +20,8 @@ class SurveyQuestion extends Component
 
     public Question $question;
 
+    public $questionsAnswered = 0;
+
     public $chosenAnswer;
 
     #[Layout('layouts.app')]
@@ -37,6 +39,9 @@ class SurveyQuestion extends Component
             ->whereNotIn('id', $answeredQuestionIds)
             ->inRandomOrder()
             ->first();
+
+        $this->questionsAnswered = count($answeredQuestionIds);
+
 
         if (!$nextQuestion) {
             $this->finish();
@@ -88,6 +93,8 @@ class SurveyQuestion extends Component
             ->whereNotIn('id', $answeredQuestionIds)
             ->inRandomOrder()
             ->first();
+
+        $this->questionsAnswered = count($answeredQuestionIds);
 
         if (!$nextQuestion) {
             $this->finish();

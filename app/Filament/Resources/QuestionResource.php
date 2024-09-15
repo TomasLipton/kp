@@ -67,14 +67,14 @@ class QuestionResource extends Resource
                                 Textarea::make('explanation_pl'),
                             ]),
 
-                        Section::make('Pytanie w języku rosyjskim')
-                            ->collapsible()
-                            ->collapsed()
-                            ->schema([
-                                TextInput::make('question_ru')
-                                    ->label('Pytanie w języku rosyjskim'),
-                                TextInput::make('explanation_ru'),
-                            ]),
+//                        Section::make('Pytanie w języku rosyjskim')
+//                            ->collapsible()
+//                            ->collapsed()
+//                            ->schema([
+//                                TextInput::make('question_ru')
+//                                    ->label('Pytanie w języku rosyjskim'),
+//                                TextInput::make('explanation_ru'),
+//                            ]),
                         Repeater::make('answers')
                             ->reactive()
                             ->relationship()
@@ -116,6 +116,7 @@ class QuestionResource extends Resource
                     ->schema([
                         ToggleButtons::make('question_type')
                             ->label('Typ pytania')
+                            ->default('single_text')
                             ->options([
                                 'single_text' => 'Single Text',
                                 'multi_text' => 'Multi Text',

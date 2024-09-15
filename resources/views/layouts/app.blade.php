@@ -44,7 +44,7 @@
         }
 
         body {
-            background: linear-gradient(to bottom, #e9e8e7 50%, rgba(255, 0, 0, 0.9) 50%);
+            background: linear-gradient(to bottom, #e9e8e7 50%, rgba(255, 0, 0, 0.35) 50%);
             height: 100dvh;
             margin: 0;
             backdrop-filter: blur(30px);

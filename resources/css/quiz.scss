@@ -3,12 +3,23 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        height: 31px;
+        height: 41px;
         background-color: #e0e0e0;
         padding: 0 10px;
 
         border-top: 1px solid #fff;
         border-bottom: 1px solid #bfbfbf;
+       .timer {
+           width: 33%;
+       }
+       .questions {
+           text-align: center;
+           width: 33%;
+       }
+       .actions {
+           text-align: right;
+           width: 33%;
+       }
     }
 
     .question {

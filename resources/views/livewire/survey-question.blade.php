@@ -5,9 +5,8 @@
 
 <section>
     <div class="survey-question">
-        <div class="header">{{$topic->name_pl}}</div>
         <div class="header">
-            <div x-data="{
+            <div class="timer" x-data="{
     createdAt: new Date('{{$quiz->created_at}}'),
     timeElapsed: '00:00',
     updateSecondsElapsed() {
@@ -18,14 +17,18 @@
     }
 }" x-init="setInterval(() => updateSecondsElapsed(), 1000)">
                 <div class="time">
-                    @if($quiz->is_completed)
+                    {{$topic->name_pl}} |
+                    <small>
+                @if($quiz->is_completed)
                         Zakończono o <b>{{ $quiz->updated_at->translatedFormat('F j, H:i')  }}</b>
                     @else
                         Czas:  <span x-text="timeElapsed"></span>
-                    @endif
+                    @endif</small>
                 </div>
             </div>
-            <div class="questions">0</div>
+            <div class="questions">
+{{$questionsAnswered}}
+            </div>
             <div class="actions">
                 @if(!$quiz->is_completed)
                     <button type="button" class="btn btn-secondary btn-sm" wire:click="finish">Skończyć</button>
