@@ -75,7 +75,7 @@
             align-items: flex-start;
             /*background-image: linear-gradient(15deg, #0f4667 0%, #2a6973 150%);*/
             display: flex;
-            justify-content: center;
+            /*justify-content: center;*/
             margin-block: 20px;
             padding: 0 10px;
         }

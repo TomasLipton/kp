@@ -5,4 +5,3 @@
     <p>Czas trwania: <b>{{$quiz->created_at->diff()}}</b></p>
 {{--    <p>Correct answrs: {{$quiz->answers->questionAnswer->}}</p>--}}
 </div>
-
