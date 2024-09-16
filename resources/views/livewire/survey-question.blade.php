@@ -3,8 +3,9 @@
     Carbon::setLocale('pl');
 @endphp
 
-<section>
+<section >
     <div class="survey-question">
+        @if(!$quiz->is_completed)
         <div class="header">
             <div class="timer" x-data="{
     createdAt: new Date('{{$quiz->created_at}}'),
@@ -39,7 +40,7 @@
             </div>
         </div>
 
-        @if(!$quiz->is_completed)
+
 
             <div class="question">
                 {{$question->question_pl}}
@@ -70,7 +71,7 @@
             </div>
 
         @else
-            <livewire:survey-results/>
+            <livewire:survey-results :quiz="$quiz" />
         @endif
     </div>
 
