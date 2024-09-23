@@ -1,4 +1,4 @@
-@section('styles')
+@assets
     <style>
         /* Quiz Container Styles */
         .quiz-container {
@@ -114,7 +114,7 @@
             }
         }
     </style>
-@endsection
+@endassets
 <div>
     <div class="quiz-container">
         <h1 class="quiz-title">{{$topic->name_pl}}</h1>

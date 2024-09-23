@@ -1,4 +1,4 @@
-@section('styles')
+@assets
     <style>
         .results-container {
             max-width: 600px;
@@ -79,7 +79,7 @@
             }
         }
     </style>
-@endsection
+@endassets
 <div style="padding: 15px 10px">
     <div class="results-container">
         <h1>Wyniki testu</h1>
