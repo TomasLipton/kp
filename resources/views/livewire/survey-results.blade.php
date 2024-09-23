@@ -103,6 +103,6 @@
             <span class="label">Data:</span>
             <span class="value">{{$quiz->created_at->translatedFormat('F j, H:i') }}</span>
         </div>
-        <a href="/" class="retry-button">Powtórz test</a>
+        <a href="/" class="retry-button" wire:navigate wire:navigate.hover>Powtórz test</a>
     </div>
 </div>
