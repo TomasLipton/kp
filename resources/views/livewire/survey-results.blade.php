@@ -1,29 +1,4 @@
-<div style="padding: 15px 10px">
-    <div class="results-container">
-        <h1>Wyniki testu</h1>
-        <div class="result-item">
-            <span class="label">Czas zajęty:</span>
-            <span class="value">{{$quiz->created_at->diff($quiz->completed_at)}}</span>
-        </div>
-        <div class="result-item">
-            <span class="label">Razem pytania:</span>
-            <span class="value">{{$quiz->answers->count()}}</span>
-        </div>
-        <div class="result-item">
-            <span class="label">Prawidłowe odpowiedzi:</span>
-            <span class="value" style="color: #00bb00">{{$quiz->answers->filter(function ($answer) { return $answer->questionAnswer->is_correct; })->count()}}</span>
-        </div>
-        <div class="result-item">
-            <span class="label">Błędne odpowiedzi:</span>
-            <span class="value" style="color: #dd4444">{{$quiz->answers->filter(function ($answer) { return !$answer->questionAnswer->is_correct; })->count()}}</span>
-        </div>
-        <div class="result-item">
-            <span class="label">Data:</span>
-            <span class="value">{{$quiz->created_at->translatedFormat('F j, H:i') }}</span>
-        </div>
-        <a href="/" class="retry-button">Powtórz test</a>
-    </div>
-
+@section('styles')
     <style>
         .results-container {
             max-width: 600px;
@@ -104,4 +79,30 @@
             }
         }
     </style>
+@endsection
+<div style="padding: 15px 10px">
+    <div class="results-container">
+        <h1>Wyniki testu</h1>
+        <div class="result-item">
+            <span class="label">Czas zajęty:</span>
+            <span class="value">{{$quiz->created_at->diff($quiz->completed_at)}}</span>
+        </div>
+        <div class="result-item">
+            <span class="label">Razem pytania:</span>
+            <span class="value">{{$quiz->answers->count()}}</span>
+        </div>
+        <div class="result-item">
+            <span class="label">Prawidłowe odpowiedzi:</span>
+            <span class="value" style="color: #00bb00">{{$quiz->answers->filter(function ($answer) { return $answer->questionAnswer->is_correct; })->count()}}</span>
+        </div>
+        <div class="result-item">
+            <span class="label">Błędne odpowiedzi:</span>
+            <span class="value" style="color: #dd4444">{{$quiz->answers->filter(function ($answer) { return !$answer->questionAnswer->is_correct; })->count()}}</span>
+        </div>
+        <div class="result-item">
+            <span class="label">Data:</span>
+            <span class="value">{{$quiz->created_at->translatedFormat('F j, H:i') }}</span>
+        </div>
+        <a href="/" class="retry-button">Powtórz test</a>
+    </div>
 </div>
