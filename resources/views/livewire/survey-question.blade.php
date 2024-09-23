@@ -66,7 +66,12 @@
             <div class="question">
                 {{$question->question_pl}}
             </div>
-            <div class="answers">
+            <div class="answers" style="    display: flex;">
+                <div>
+                    <img src="{{url('storage/' . $question->picture)}}" style="
+    max-width: 300px;
+" alt="">
+                </div>
                 <ol>
                     @foreach($question->answers as $answer)
                         <li wire:key="{{ $answer->id }}" wire:click.debounce.1000ms="submitAnswer('{{$answer->id}}')" @if($chosenAnswer && $answer->id == $chosenAnswer->id) style="text-decoration: underline" @endif >  {{$answer->text}}</li>
