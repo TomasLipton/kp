@@ -16,7 +16,7 @@ class Quiz extends Model
         'user_id',
         'type',
         'questions_amount',
-        'is_completed',
+        'completed_at',
         'topics_id',
     ];
 

@@ -33,7 +33,6 @@ class StartSurvey extends Component
             'uuid' => Str::uuid(),
             'type' => $type[$this->surveyMode],
             'questions_amount' => 10,
-            'is_completed' => false,
             'user_id' => auth()->id(),
             'topics_id' => $this->topic->id,
         ]);

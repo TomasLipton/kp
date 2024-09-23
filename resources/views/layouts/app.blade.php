@@ -57,10 +57,12 @@
         }
 
         .app_container {
-            width: 80%;
+            width: 1220px;
             min-height: 100dvh;
             background-color:  rgb(235, 235, 235);
             margin: 0 auto;
+
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 
             /*overflow: auto; !* AdminPanelProvider*/
         }
@@ -172,7 +174,7 @@
 <div class="app_container shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)]">
     <nav class="navbar bg-body-tertiary">
         <div class="container-fluid">
-            <a href="/" class="navbar-brand mb-0 h1">Karta Polaka</a>
+            <a href="/" class="navbar-brand mb-0 h1">Karta Polaka - Testy</a>
         </div>
     </nav>
     @yield('content')

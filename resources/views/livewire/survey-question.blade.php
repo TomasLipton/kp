@@ -5,7 +5,7 @@
 
 <section >
     <div class="survey-question">
-        @if(!$quiz->is_completed)
+        @if(!$quiz->completed_at)
         <div class="header">
             <div class="timer" x-data="{
     createdAt: new Date('{{$quiz->created_at}}'),
@@ -20,7 +20,7 @@
                 <div class="time">
                     {{$topic->name_pl}} |
                     <small>
-                @if($quiz->is_completed)
+                @if($quiz->completed_at)
                         Zakończono o <b>{{ $quiz->updated_at->translatedFormat('F j, H:i')  }}</b>
                     @else
                         Czas:  <span x-text="timeElapsed"></span>
@@ -31,7 +31,7 @@
 {{$questionsAnswered}}
             </div>
             <div class="actions">
-                @if(!$quiz->is_completed)
+                @if(!$quiz->completed_at)
                     <button type="button" class="btn btn-secondary btn-sm" wire:click="finish">Skończyć</button>
                 @else
                     <button type="button" disabled class="btn btn-dander btn-sm">Test zakończony</button>

@@ -33,6 +33,8 @@ class QuizResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static bool $shouldRegisterNavigation = false;
+
     public static function form(Form $form): Form
     {
         return $form
@@ -47,7 +49,7 @@ class QuizResource extends Resource
                     ->required()
                     ->integer(),
 
-                Checkbox::make('is_completed'),
+                TextInput::make('completed_at'),
 
                 TextInput::make('topics_id')
                     ->required()
@@ -77,7 +79,7 @@ class QuizResource extends Resource
 
                 TextColumn::make('questions_amount'),
 
-                TextColumn::make('is_completed'),
+                TextColumn::make('completed_at'),
 
                 TextColumn::make('topics_id'),
             ])

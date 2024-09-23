@@ -28,6 +28,7 @@ use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ForceDeleteAction;
 use Filament\Tables\Actions\ForceDeleteBulkAction;
+use Filament\Tables\Actions\ReplicateAction;
 use Filament\Tables\Actions\RestoreAction;
 use Filament\Tables\Actions\RestoreBulkAction;
 use Filament\Tables\Columns\TextColumn;
@@ -80,6 +81,7 @@ class QuestionResource extends Resource
                             ->relationship()
                             ->orderColumn('order')
                             ->grid(2)
+                            ->defaultItems(4)
                             ->maxItems(fn (Get $get): int => in_array($get('question_type'), ['year', 'date_month', 'number']) ? 1 : 5)
                             ->reorderableWithButtons()
                             ->collapsible()
@@ -171,6 +173,21 @@ class QuestionResource extends Resource
 
             ])
             ->actions([
+                ReplicateAction::make()
+                    ->after(function (Question $replica, Question $question) {
+                        $question->answers()->each(function ($answer) use ($replica) {
+                            $replica->answers()->create([
+                                'text' => $answer->text,
+                                'is_correct' => $answer->is_correct,
+                                'picture' => $answer->picture,
+                                'order' => $answer->order,
+                            ]);
+                        });
+                    })
+                    ->beforeReplicaSaved(function (Question $question, Question $replica) {
+                        $replica->question_pl = $question->question_pl . ' (Copy)';
+                        return $replica;
+                    }),
                 EditAction::make(),
                 DeleteAction::make(),
                 RestoreAction::make(),
@@ -182,7 +199,8 @@ class QuestionResource extends Resource
                     RestoreBulkAction::make(),
                     ForceDeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->defaultSort('created_at', 'desc');
     }
 
     public static function getPages(): array

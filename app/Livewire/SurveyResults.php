@@ -9,6 +9,12 @@ class SurveyResults extends Component
 {
 
     public Quiz $quiz ;
+
+    public function mount()
+    {
+//        $this->
+    }
+
     public function render()
     {
         return view('livewire.survey-results');

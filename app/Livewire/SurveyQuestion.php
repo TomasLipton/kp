@@ -42,6 +42,9 @@ class SurveyQuestion extends Component
 
         $this->questionsAnswered = count($answeredQuestionIds);
 
+        if ($this->quiz->completed_at) {
+            return;
+        }
 
         if (!$nextQuestion) {
             $this->finish();
@@ -58,7 +61,7 @@ class SurveyQuestion extends Component
 
     public function finish()
     {
-        $this->quiz->is_completed = true;
+        $this->quiz->completed_at = now();
         $this->quiz->save();
     }
 

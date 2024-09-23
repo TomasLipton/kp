@@ -16,7 +16,7 @@ class QuizResource extends JsonResource
             'uuid' => $this->uuid,
             'type' => $this->type,
             'questions_amount' => $this->questions_amount,
-            'is_completed' => $this->is_completed,
+            'completed_at' => $this->completed_at,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
 

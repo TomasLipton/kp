@@ -20,7 +20,7 @@ class QuizController extends Controller
             'user_id' => ['nullable', 'exists:users'],
             'type' => ['nullable'],
             'questions_amount' => ['required', 'integer'],
-            'is_completed' => ['boolean'],
+            'completed_at' => ['boolean'],
             'topics_id' => ['required', 'exists:topics'],
         ]);
 
@@ -39,7 +39,7 @@ class QuizController extends Controller
             'user_id' => ['nullable', 'exists:users'],
             'type' => ['nullable'],
             'questions_amount' => ['required', 'integer'],
-            'is_completed' => ['boolean'],
+            'completed_at' => ['boolean'],
             'topics_id' => ['required', 'exists:topics'],
         ]);
 
