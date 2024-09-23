@@ -74,7 +74,7 @@ console.log(document.getElementById('submit').length)
             <div class="question">
                 {{$question->question_pl}}
             </div>
-            <div class="answers" style="    display: flex;">
+            <div class="answers" style="">
                 @if($question->picture)
                 <div>
                     <img src="{{url('storage/' . $question->picture)}}" style=" max-width: 300px; " alt="">
