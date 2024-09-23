@@ -28,7 +28,11 @@
                 </div>
             </div>
             <div class="questions">
-{{$questionsAnswered}}
+               <span style="color: #00bb00" data-tooltip="Prawidłowe odpowiedzi"> {{$quiz->answers->filter(function ($answer) { return $answer->questionAnswer->is_correct; })->count()}}</span>
+                /
+               <span title="asd" data-tooltip="Błędne odpowiedzi" style="color: #dd4444"> {{$quiz->answers->filter(function ($answer) { return !$answer->questionAnswer->is_correct; })->count()}}</span>
+                /
+                {{$quiz->answers->count()}}
             </div>
             <div class="actions">
                 @if(!$quiz->completed_at)

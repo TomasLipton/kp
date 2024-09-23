@@ -120,7 +120,12 @@
         <h1 class="quiz-title">{{$topic->name_pl}}</h1>
         <p class="quiz-description">{{$topic->description_pl}}</p>
         <div class="quiz-info">
-            <p class="questions-available">Dostępne pytania: <span class="number">{{$topic->questions->count()}}</span></p>
+            <p class="questions-available">
+                Dostępne   @php
+                    $count = $topic->questions()->count();
+                @endphp
+                @if($count == 1) pytanie @elseif($count % 10 >= 2 && $count % 10 <= 4 && ($count % 100 < 10 || $count % 100 >= 20)) pytania @else pytań@endif:
+                <b class="number">{{$topic->questions->count()}}</b></p>
             <p class="mode-label">Wybierz tryb:</p>
             <div class="mode-options">
                 <label class="mode-option" wire:click="setMode('Wszystkie pytania')">
