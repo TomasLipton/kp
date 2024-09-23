@@ -45,6 +45,17 @@
             }
         }
 
+        .answer-year-container {
+            text-align: center;
+            .year-answer {
+                border-radius: 8px;
+                height: 70px;
+                width: 300px;
+                text-align: center;
+                font-size: 3vw;
+            }
+        }
+
     }
 
     .submit {

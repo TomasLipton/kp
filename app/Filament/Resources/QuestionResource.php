@@ -82,7 +82,7 @@ class QuestionResource extends Resource
                             ->orderColumn('order')
                             ->grid(2)
                             ->defaultItems(4)
-                            ->maxItems(fn (Get $get): int => in_array($get('question_type'), ['year', 'date_month', 'number']) ? 1 : 5)
+                            ->maxItems(fn (Get $get): int => in_array($get('question_type'), ['year', 'date_month', 'number']) ? 2 : 5)
                             ->reorderableWithButtons()
                             ->collapsible()
                             ->cloneable()

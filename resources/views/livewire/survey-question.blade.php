@@ -6,9 +6,14 @@
 @script
 <script>
     Livewire.hook('component.init', ({ component, cleanup }) => {
-
-        document.addEventListener('keydown', function(event) {
-            console.log(event.key);
+        document.addEventListener('keydown', function (event) {
+console.log(document.getElementById('submit').length)
+            if (event.key === 'Enter' && document.getElementById('wrap').dataset.isAnswered === 'true') {
+                $wire.nextQuestion();
+            }
+            if (document.getElementById('wrap').dataset.questionType != 'single_text') {
+                return
+            }
             if (['1', '2', '3', '4'].includes(event.key)) {
                 $wire.submitAnswerByOrder(event.key);
             }
@@ -16,15 +21,18 @@
                 $wire.nextQuestion();
             }
         });
-    })
+    });
 </script>
 @endscript
 
-<section >
+<section
+    @if($question)  data-question-type="{{$question->question_type}}" @endif
+@if($question)  data-is-answered="{!! $chosenAnswer ? 'true' : 'false' !!}" @endif
+    id="wrap">
     <div class="survey-question">
         @if(!$quiz->completed_at)
-        <div class="header">
-            <div class="timer" x-data="{
+            <div class="header">
+                <div class="timer" x-data="{
     createdAt: new Date('{{$quiz->created_at}}'),
     timeElapsed: '00:00',
     updateSecondsElapsed() {
@@ -34,32 +42,32 @@
         this.timeElapsed = `${minutes}:${seconds}`;
     }
 }" x-init="setInterval(() => updateSecondsElapsed(), 1000)">
-                <div class="time">
-                    {{$topic->name_pl}} |
-                    <small>
-                @if($quiz->completed_at)
-                        Zakończono o <b>{{ $quiz->updated_at->translatedFormat('F j, H:i')  }}</b>
+                    <div class="time">
+                        {{$topic->name_pl}} |
+                        <small>
+                            @if($quiz->completed_at)
+                                Zakończono o <b>{{ $quiz->updated_at->translatedFormat('F j, H:i')  }}</b>
+                            @else
+                                Czas:  <span x-text="timeElapsed"></span>
+                            @endif</small>
+                    </div>
+                </div>
+                <div class="questions">
+                    <span style="color: #00bb00" data-tooltip="Prawidłowe odpowiedzi"> {{$quiz->answers->filter(function ($answer) { return $answer->questionAnswer->is_correct; })->count()}}</span>
+                    /
+                    <span data-tooltip="Błędne odpowiedzi" style="color: #dd4444"> {{$quiz->answers->filter(function ($answer) { return !$answer->questionAnswer->is_correct; })->count()}}</span>
+                    /
+                    {{$quiz->answers->count()}}
+                </div>
+                <div class="actions">
+                    @if(!$quiz->completed_at)
+                        <button type="button" class="btn btn-secondary btn-sm" wire:click="finish">Skończyć</button>
                     @else
-                        Czas:  <span x-text="timeElapsed"></span>
-                    @endif</small>
+                        <button type="button" disabled class="btn btn-dander btn-sm">Test zakończony</button>
+                    @endif
+
                 </div>
             </div>
-            <div class="questions">
-               <span style="color: #00bb00" data-tooltip="Prawidłowe odpowiedzi"> {{$quiz->answers->filter(function ($answer) { return $answer->questionAnswer->is_correct; })->count()}}</span>
-                /
-               <span data-tooltip="Błędne odpowiedzi" style="color: #dd4444"> {{$quiz->answers->filter(function ($answer) { return !$answer->questionAnswer->is_correct; })->count()}}</span>
-                /
-                {{$quiz->answers->count()}}
-            </div>
-            <div class="actions">
-                @if(!$quiz->completed_at)
-                    <button type="button" class="btn btn-secondary btn-sm" wire:click="finish">Skończyć</button>
-                @else
-                    <button type="button" disabled class="btn btn-dander btn-sm">Test zakończony</button>
-                @endif
-
-            </div>
-        </div>
 
 
 
@@ -67,20 +75,34 @@
                 {{$question->question_pl}}
             </div>
             <div class="answers" style="    display: flex;">
+                @if($question->picture)
                 <div>
-                    <img src="{{url('storage/' . $question->picture)}}" style="
-    max-width: 300px;
-" alt="">
+                    <img src="{{url('storage/' . $question->picture)}}" style=" max-width: 300px; " alt="">
                 </div>
-                <ol>
-                    @foreach($question->answers as $answer)
-                        <li wire:key="{{ $answer->id }}" wire:click.debounce.1000ms="submitAnswer('{{$answer->id}}')" @if($chosenAnswer && $answer->id == $chosenAnswer->id) style="text-decoration: underline" @endif >  {{$answer->text}}</li>
-                    @endforeach
-                </ol>
+                @endif
+                <div style=" width: 100%; ">
+                    @if($question->question_type === 'single_text')
+                    <ol>
+                        @foreach($question->answers as $answer)
+                            <li wire:key="{{ $answer->id }}" wire:click.debounce.1000ms="submitAnswer('{{$answer->id}}')" @if($chosenAnswer && $answer->id == $chosenAnswer->id) style="text-decoration: underline" @endif >  {{$answer->text}}</li>
+                        @endforeach
+                    </ol>
+                    @endif
 
+                    @if($question->question_type === 'year')
+                      <div class="answer-year-container"  x-data="{ inputValue: '' }">
+                          <input autofocus class="year-answer"   x-model="inputValue"
+                                 wire:keydown.enter="submitYear($event.target.value)"
+                                 x-on:input="inputValue = inputValue.slice(0, 4).replace(/\D/g, '')"
+                                 type="text"
+                                 @if($chosenAnswer) readonly @endif
+                                 maxlength="4" />
+                      </div>
+                    @endif
+                </div>
             </div>
 
-            <div class="submit" wire:click="nextQuestion" style="@if($chosenAnswer && $chosenAnswer->is_correct) background: #00d89e; @elseif($chosenAnswer && !$chosenAnswer->is_correct) background: #eb8989; @endif  @if($chosenAnswer) cursor:pointer @endif">
+            <div class="submit" id="submit" wire:click="nextQuestion" style="@if($chosenAnswer && $chosenAnswer->is_correct) background: #00d89e; @elseif($chosenAnswer && !$chosenAnswer->is_correct) background: #eb8989; @endif  @if($chosenAnswer) cursor:pointer @endif">
                 @if($chosenAnswer)
                     <div class="enter">Kontynuować [Enter]</div>
                 @endif
@@ -97,7 +119,7 @@
             </div>
 
         @else
-            <livewire:survey-results :quiz="$quiz" />
+            <livewire:survey-results :quiz="$quiz"/>
         @endif
     </div>
 

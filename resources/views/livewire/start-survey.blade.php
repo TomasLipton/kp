@@ -143,7 +143,7 @@ style="color: #9ca3af"
                 </label>
             </div>
         </div>
-        <button class="start-button" wire:click="startSurvey">Rozpocznij Quiz<br><small>(  {{$surveyMode}})</small></button>
+        <button class="start-button" wire:click="startSurvey">Rozpocznij Quiz</button>
         <br>
     </div>
 </div>
