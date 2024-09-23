@@ -3,6 +3,23 @@
     Carbon::setLocale('pl');
 @endphp
 
+@script
+<script>
+    Livewire.hook('component.init', ({ component, cleanup }) => {
+
+        document.addEventListener('keydown', function(event) {
+            console.log(event.key);
+            if (['1', '2', '3', '4'].includes(event.key)) {
+                $wire.submitAnswerByOrder(event.key);
+            }
+            if (event.key === 'Enter') {
+                $wire.nextQuestion();
+            }
+        });
+    })
+</script>
+@endscript
+
 <section >
     <div class="survey-question">
         @if(!$quiz->completed_at)
@@ -30,7 +47,7 @@
             <div class="questions">
                <span style="color: #00bb00" data-tooltip="Prawidłowe odpowiedzi"> {{$quiz->answers->filter(function ($answer) { return $answer->questionAnswer->is_correct; })->count()}}</span>
                 /
-               <span title="asd" data-tooltip="Błędne odpowiedzi" style="color: #dd4444"> {{$quiz->answers->filter(function ($answer) { return !$answer->questionAnswer->is_correct; })->count()}}</span>
+               <span data-tooltip="Błędne odpowiedzi" style="color: #dd4444"> {{$quiz->answers->filter(function ($answer) { return !$answer->questionAnswer->is_correct; })->count()}}</span>
                 /
                 {{$quiz->answers->count()}}
             </div>
@@ -52,7 +69,7 @@
             <div class="answers">
                 <ol>
                     @foreach($question->answers as $answer)
-                        <li wire:key="{{ $answer->id }}" wire:click="submitAnswer('{{$answer->id}}')">  {{$answer->text}}</li>
+                        <li wire:key="{{ $answer->id }}" wire:click.debounce.1000ms="submitAnswer('{{$answer->id}}')" @if($chosenAnswer && $answer->id == $chosenAnswer->id) style="text-decoration: underline" @endif >  {{$answer->text}}</li>
                     @endforeach
                 </ol>
 

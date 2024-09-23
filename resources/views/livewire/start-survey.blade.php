@@ -124,7 +124,7 @@
                 Dostępne   @php
                     $count = $topic->questions()->count();
                 @endphp
-                @if($count == 1) pytanie @elseif($count % 10 >= 2 && $count % 10 <= 4 && ($count % 100 < 10 || $count % 100 >= 20)) pytania @else pytań@endif:
+                @if($count == 1) pytanie: @elseif($count % 10 >= 2 && $count % 10 <= 4 && ($count % 100 < 10 || $count % 100 >= 20)) pytania: @else pytań: @endif
                 <b class="number">{{$topic->questions->count()}}</b></p>
             <p class="mode-label">Wybierz tryb:</p>
             <div class="mode-options">

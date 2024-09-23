@@ -67,6 +67,9 @@
     }
 }
 
+[data-tooltip] {
+    cursor: help;
+}
 [data-tooltip]:hover::after {
     display: block;
     position: absolute;

@@ -10,7 +10,7 @@ use Livewire\Attributes\Title;
 use Livewire\Component;
 
 #[Layout('layouts.app')]
-#[Title('Create Post')]
+#[Title('Rozpocznij test')]
 class StartSurvey extends Component
 {
     public Topics $topic;

@@ -25,10 +25,10 @@ class SurveyQuestion extends Component
     public $chosenAnswer;
 
     #[Layout('layouts.app')]
-    #[Title('Create Post')]
     public function render()
     {
-        return view('livewire.survey-question');
+        return view('livewire.survey-question')
+            ->title($this->topic->name_pl  . ($this->quiz->completed_at ? ' - Wyniki testu' : null));
     }
 
     public function mount()
@@ -87,9 +87,29 @@ class SurveyQuestion extends Component
 //        dd($answer);
     }
 
+    public function submitAnswerByOrder($number)
+    {
+        if ($this->chosenAnswer) {
+            return;
+        }
+
+        $this->chosenAnswer = $this->question->answers->where('order', $number)->first();
+
+        if (!$this->chosenAnswer) {
+            return;
+        }
+
+        (new QuizAnswer([
+            'quiz_id' => $this->quiz->id,
+            'question_answer_id' => $this->chosenAnswer->id,
+        ]))->save();
+
+    }
+
     public function nextQuestion()
     {
 
+        if (!$this->chosenAnswer) {return;}
         $answeredQuestionIds = QuizAnswer::where('quiz_id', $this->quiz->id)->with('questionAnswer.question')->get()->pluck('questionAnswer.question.id')->toArray();
 
         $nextQuestion = $this->topic->questions()
