@@ -80,7 +80,7 @@ console.log(document.getElementById('submit').length)
             <div class="answers" style="">
                 @if($question->picture)
                 <div>
-                    <img src="{{url('storage/' . $question->picture)}}" style=" max-width: 300px; " alt="">
+                    <img src="{{url('storage/' . $question->picture)}}" style=" max-width: 300px; border-radius: 8px;" alt="">
                 </div>
                 @endif
                 <div style=" width: 100%; ">
@@ -98,6 +98,8 @@ console.log(document.getElementById('submit').length)
                                  wire:keydown.enter="submitYear($event.target.value)"
                                  x-on:input="inputValue = inputValue.slice(0, 4).replace(/\D/g, '')"
                                  type="text"
+                                 pattern="[0-9]*"
+                                 inputmode="numeric"
                                  @if($chosenAnswer) readonly @endif
                                  maxlength="4" />
                       </div>
