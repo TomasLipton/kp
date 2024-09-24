@@ -72,10 +72,12 @@
         }
 
         .answer-year-container {
-            text-align: center;
+            justify-content: center;
+            display: flex;
 
             .year-answer {
-                border-radius: 8px;
+                outline: none;
+                border-radius: 8px 0 0 8px;
                 height: 70px;
                 width: 300px;
                 text-align: center;
@@ -119,18 +121,22 @@
 }
 
 
-.button-container {
-    display: flex; /* Flexbox for centering */
-    justify-content: center; /* Center the button horizontally */
-    margin-top: 50px; /* Space above the button */
-}
+//.button-container {
+//    display: flex; /* Flexbox for centering */
+//    justify-content: center; /* Center the button horizontally */
+//    margin-top: 50px; /* Space above the button */
+//}
 
 /* Submit Button Styles */
 .submit-button {
+    max-height: 70px;
+
     background-color: #007BFF; /* Blue background */
     color: #fff; /* White icon color */
     border: none; /* No border */
-    border-radius: 5px; /* Rounded corners */
+    //border-radius: 5px; /* Rounded corners */
+    border-radius: 0 8px 8px 0;
+
     padding: 15px; /* Padding inside the button */
     cursor: pointer; /* Pointer cursor on hover */
     font-size: 24px; /* Font size for icon */
@@ -142,7 +148,7 @@
 
 .submit-button:hover {
     background-color: #0056b3; /* Darker blue on hover */
-    transform: translateY(-2px); /* Lift effect on hover */
+    transform: translateX(-1px); /* Lift effect on hover */
 }
 
 /* Responsive Styles */
