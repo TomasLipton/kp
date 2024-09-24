@@ -24,6 +24,8 @@
         body, html {
             margin: 0;
             padding: 0;
+            touch-action: pan-x pan-y;
+
         }
 
         * {
