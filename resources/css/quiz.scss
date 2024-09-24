@@ -17,7 +17,7 @@
         .timer {
             width: 33%;
             @media screen and (max-width: 768px) {
-                width: 100%;
+                width: 45%;
             }
             white-space: nowrap;
         }
@@ -27,8 +27,8 @@
             width: 15%;
             white-space: nowrap;
             @media screen and (max-width: 768px) {
-                width: 100%;
-                text-align: left;
+                width: 45%;
+                text-align: right;
             }
         }
 
@@ -37,7 +37,7 @@
             width: 33%;
             @media screen and (max-width: 768px) {
                 width: 100%;
-                //text-align: left;
+                text-align: center;
                 margin-bottom: 3px;
             }
         }
