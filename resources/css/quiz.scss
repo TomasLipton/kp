@@ -118,3 +118,37 @@
     padding: .25em;
 }
 
+
+.button-container {
+    display: flex; /* Flexbox for centering */
+    justify-content: center; /* Center the button horizontally */
+    margin-top: 50px; /* Space above the button */
+}
+
+/* Submit Button Styles */
+.submit-button {
+    background-color: #007BFF; /* Blue background */
+    color: #fff; /* White icon color */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 15px; /* Padding inside the button */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 24px; /* Font size for icon */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Transition for hover effect */
+    display: flex; /* Flexbox for centering icon */
+    align-items: center; /* Center icon vertically */
+    justify-content: center; /* Center icon horizontally */
+}
+
+.submit-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: translateY(-2px); /* Lift effect on hover */
+}
+
+/* Responsive Styles */
+@media (max-width: 600px) {
+    .submit-button {
+        padding: 10px; /* Smaller padding on small screens */
+        font-size: 20px; /* Smaller font size for icon */
+    }
+}

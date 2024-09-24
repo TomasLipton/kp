@@ -8,7 +8,7 @@
 
     <link rel="icon" type="image/png" href="/favicon.png"/>
 
-    <title>{{ $title ?? 'Karty Polaka' }}</title>
+    <title>{{ $title ?? 'Karta Polaka - Testy' }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
