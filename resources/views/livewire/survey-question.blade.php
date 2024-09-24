@@ -87,7 +87,7 @@
                     @if($question->question_type === 'single_text')
                         <ol>
                             @foreach($question->answers as $answer)
-                                <li wire:key="{{ $answer->id }}" wire:click.debounce.1000ms="submitAnswer('{{$answer->id}}')" @if($chosenAnswer && $answer->id == $chosenAnswer->id) style="text-decoration: underline" @endif >  {{$answer->text}}</li>
+                                <li wire:key="{{ $answer->id }}" wire:click.debounce="submitAnswer('{{$answer->id}}')" @if($chosenAnswer && $answer->id == $chosenAnswer->id) style="text-decoration: underline" @endif >  {{$answer->text}}</li>
                             @endforeach
                         </ol>
                     @endif
