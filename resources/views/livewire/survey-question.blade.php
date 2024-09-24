@@ -30,9 +30,6 @@
 @if($question)  data-is-answered="{!! $chosenAnswer ? 'true' : 'false' !!}" @endif
     id="wrap">
     <div class="survey-question">
-        <div wire:loading>
-            Saving...
-        </div>
         @if(!$quiz->completed_at)
             <div class="header">
                 <div class="timer" x-data="{
@@ -100,6 +97,7 @@
                                    type="text"
                                    pattern="[0-9]*"
                                    inputmode="numeric"
+                                   placeholder="Rok"
                                    @if($chosenAnswer) readonly @endif
                                    maxlength="4"/>
                             <button class="submit-button" @click="$wire.submitYear(inputValue)">
@@ -117,6 +115,7 @@
                                                                wire:keydown.enter="submitYear($event.target.value)"
                                                                x-on:input="date = date.slice(0, 2).replace(/\D/g, '')"
                                                                type="text"
+                                                               placeholder="Data"
                                                                pattern="[0-9]*"
                                                                inputmode="numeric"
                                                                @if($chosenAnswer) readonly @endif
