@@ -78,6 +78,7 @@ class QuestionResource extends Resource
 //                            ]),
                         Repeater::make('answers')
                             ->reactive()
+                            ->helperText("For date+month use format 'DD.MM' e.g. '01.01'. For year use format 'YYYY' e.g. '2022'. For year and date+month add 1 incorrect answer with any value.")
                             ->relationship()
                             ->orderColumn('order')
                             ->grid(2)

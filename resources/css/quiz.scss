@@ -85,6 +85,46 @@
             }
         }
 
+        .answer-date_month-container {
+            justify-content: center;
+            display: flex;
+
+            input {
+                outline: none;
+                border-radius: 8px 0 0 8px;
+                height: 70px;
+                width: 300px;
+                text-align: center;
+                font-size: 50px;
+                border: 1px solid black;
+                @media screen and (max-width: 550px) {
+                    width: 60%;
+                    font-size: 25px;
+                    height: 40px;
+                }
+            }
+             select {
+                outline: none;
+                border-radius: 0;
+                height: 70px;
+                text-align: center;
+                font-size: 20px;
+                 border: 1px solid black;
+border-left: unset;
+                 @media screen and (max-width: 550px) {
+                     //width: 60%;
+                     font-size: 25px;
+                     height: 40px;
+                 }
+
+             }
+            @media screen and (max-width: 550px) {
+                .submit-button {
+                    height: 40px;
+                }
+            }
+        }
+
     }
 
     .submit {

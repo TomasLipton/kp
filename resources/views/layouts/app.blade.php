@@ -68,7 +68,7 @@
 
             /*overflow: auto; !* AdminPanelProvider*/
         }
-        @media only screen and (max-width: 600px) {
+        @media only screen and (max-width: 1220px) {
             .app_container {
                 width: 94%;
             }

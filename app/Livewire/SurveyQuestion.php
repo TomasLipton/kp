@@ -95,6 +95,24 @@ class SurveyQuestion extends Component
             'question_answer_id' => $this->chosenAnswer->id,
         ]))->save();
     }
+    public function submitDateMonth($date, $month)
+    {
+//        dd($date, $month);
+
+        if ($this->chosenAnswer || strlen($date)  > 2 || strlen($date) < 1) {
+            return;
+        }
+        $this->chosenAnswer = $this->question->answers->where('text', $date. '.' . $month)->first();
+
+        if (!$this->chosenAnswer) {
+            $this->chosenAnswer =  $this->question->answers->where('is_correct', 0)->first();
+        }
+
+        (new QuizAnswer([
+            'quiz_id' => $this->quiz->id,
+            'question_answer_id' => $this->chosenAnswer->id,
+        ]))->save();
+    }
 
     public function submitAnswerByOrder($number)
     {
