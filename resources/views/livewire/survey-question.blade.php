@@ -30,6 +30,9 @@ console.log(document.getElementById('submit').length)
 @if($question)  data-is-answered="{!! $chosenAnswer ? 'true' : 'false' !!}" @endif
     id="wrap">
     <div class="survey-question">
+        <div wire:loading>
+            Saving...
+        </div>
         @if(!$quiz->completed_at)
             <div class="header">
                 <div class="timer" x-data="{
@@ -101,7 +104,6 @@ console.log(document.getElementById('submit').length)
                     @endif
                 </div>
             </div>
-
             <div class="submit" id="submit" wire:click="nextQuestion" style="@if($chosenAnswer && $chosenAnswer->is_correct) background: #00d89e; @elseif($chosenAnswer && !$chosenAnswer->is_correct) background: #eb8989; @endif  @if($chosenAnswer) cursor:pointer @endif">
                 @if($chosenAnswer)
                     <div class="enter">Kontynuować [Enter]</div>
