@@ -22,8 +22,6 @@ class EditQuestion extends EditRecord
         return [
             ForceDeleteAction::make(),
             RestoreAction::make(),
-
-
             Action::make('Generate Voice')
                 ->color('info')
                 ->form([
@@ -42,11 +40,6 @@ class EditQuestion extends EditRecord
                             ->danger()
                             ->send();
                     }
-//                    Mail::to($this->client)
-//                        ->send(new GenericEmail(
-//                            subject: $data['subject'],
-//                            body: $data['body'],
-//                        ));
                 }),
 
             $this->getSaveFormAction()

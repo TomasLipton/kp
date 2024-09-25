@@ -33,6 +33,8 @@ use Filament\Tables\Actions\ForceDeleteBulkAction;
 use Filament\Tables\Actions\ReplicateAction;
 use Filament\Tables\Actions\RestoreAction;
 use Filament\Tables\Actions\RestoreBulkAction;
+use Filament\Tables\Columns\BooleanColumn;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
@@ -161,8 +163,13 @@ class QuestionResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('picture')->width('100px'),
-                TextColumn::make('question_pl'),
+                IconColumn::make('Picture')->boolean(fn() => true)->default(fn(Question $question) => $question->picture),
+                IconColumn::make('Voice')->boolean(fn() => true)->default(fn(Question $question) => $question->aiSpeach()->count() > 0),
+                TextColumn::make('question_pl')->extraAttributes([
+                    'style' => 'max-width:260px'
+                ])
+                    ->searchable()
+                    ->wrap(),
 
                 TextColumn::make('question_type'),
 

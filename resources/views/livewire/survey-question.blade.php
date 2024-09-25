@@ -21,6 +21,10 @@
                 $wire.nextQuestion();
             }
         });
+        document.getElementById('playAudio').addEventListener('click', function() {
+            var audio = document.getElementById('audioPlayer');
+            audio.play();
+        });
     });
 </script>
 @endscript
@@ -71,7 +75,8 @@
 
             <div class="question">
                 {{$question->question_pl}}
-                <img class="playAudio"  src="/assets/img.png" alt="" />
+                <img class="playAudio" id="playAudio"  src="/assets/img.png" alt="" />
+                <audio id="audioPlayer" src="{{Storage::temporaryUrl( $question->aiSpeach->last()->path_to_audio, now()->addMinutes(10) )}}"></audio>
             </div>
             <div class="answers" style="">
                 @if($question->picture)
