@@ -18,7 +18,7 @@ Artisan::command('a', function () {
         'xi-api-key' => config('app.elevenlabs_api_key')
 
     ])->post('https://api.elevenlabs.io/v1/text-to-speech/C1DBnkwmDIzoLOPlBvSg', [
-        'text' => 'asd',
+        'text' => 'Witam Witam Witam Witam Witam',
         'model_id' => 'eleven_multilingual_v2',
 //        'language_code' => 'pl_PL',
 //        'voice_settings' => [
@@ -34,7 +34,18 @@ Artisan::command('a', function () {
     } else {
         $fileName = 'speech/' . uniqid('', true) . '.mp3';
         Storage::put($fileName, $response->body());
-        echo "Audio saved successfully. \n";
+        (new \App\Models\AiSpeach([
+            'path_to_audio' => $fileName,
+            'type' => 'free-text',
+            'voice_id' => 'C1DBnkwmDIzoLOPlBvSg',
+            'text' => 'Witam',
+            'voice_settings' => [
+                'stability' => 13,
+                'similarity_boost' => 123,
+                'style' => 123,
+                'use_speaker_boost' => true,
+            ],
+        ]))->save();
         $url = Storage::temporaryUrl(
             $fileName, now()->addMinutes(5)
         );

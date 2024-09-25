@@ -18,6 +18,8 @@ class EditAiSpeach extends EditRecord
             DeleteAction::make(),
             ForceDeleteAction::make(),
             RestoreAction::make(),
+            $this->getSaveFormAction()
+                ->formId('form'),
         ];
     }
 }

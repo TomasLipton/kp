@@ -4,8 +4,11 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\AiSpeachResource\Pages;
 use App\Models\AiSpeach;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -22,6 +25,7 @@ use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Storage;
 
 class AiSpeachResource extends Resource
 {
@@ -35,48 +39,63 @@ class AiSpeachResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('path_to_audio'),
+                Grid::make(3) // Create a grid with 3 columns in total
+                ->schema([
+                    // First column with width of 2
+                    Grid::make(1)
+                        ->schema([
+                            FileUpload::make('path_to_audio')
+                                ->disk('local')
+                                ->visibility('private')
+                                ->directory('speech')
+                                ->acceptedFileTypes(['audio/*']),
 
-                TextInput::make('type')
-                    ->required(),
+                            MarkdownEditor::make('text')
+                                ->disabled()
+                                ->required(),
 
-                TextInput::make('question_id')
-                    ->integer(),
+                            Select::make('question_id')
+                                ->relationship('question', 'question_pl'),
 
-                TextInput::make('question_answer_id')
-                    ->integer(),
+                            Select::make('question_answer_id')
+                                ->relationship('questionAnswer', 'text', function (Builder $query) {
+                                    $query->where('question_answers.text', '!=', '')
+                                        ->where('question_answers.text', 'NOT REGEXP', '^[0-9]+\\.[0-9]+$')
+                                        ->where('question_answers.text', 'NOT REGEXP', '^[0-9]+$');
+                                }),
+                        ])
+                        ->columnSpan(2), // Span 2 out of 3 columns
 
-                TextInput::make('voice_id')
-                    ->required(),
+                    // Second column with width of 1
+                    Grid::make()
+                        ->schema([
+                            TextInput::make('voice_id')
+                                ->disabled()
+                                ->required(),
 
-                MarkdownEditor::make('text')
-                    ->required(),
+                            TextInput::make('type')
+                                ->disabled()
+                                ->required(),
 
-                Placeholder::make('created_at')
-                    ->label('Created Date')
-                    ->content(fn(?AiSpeach $record): string => $record?->created_at?->diffForHumans() ?? '-'),
+                            Placeholder::make('created_at')
+                                ->label('Created Date')
+                                ->content(fn(?AiSpeach $record): string => $record?->created_at?->diffForHumans() ?? '-'),
 
-                Placeholder::make('updated_at')
-                    ->label('Last Modified Date')
-                    ->content(fn(?AiSpeach $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
+                            Placeholder::make('updated_at')
+                                ->label('Last Modified Date')
+                                ->content(fn(?AiSpeach $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
+                        ])
+                        ->columnSpan(1), // Span 1 out of 3 columns
+                ]),
             ]);
     }
+
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                TextColumn::make('path_to_audio'),
-
-                TextColumn::make('type'),
-
-                TextColumn::make('question_id'),
-
-                TextColumn::make('question_answer_id'),
-
-                TextColumn::make('voice_id'),
-
-                TextColumn::make('voice_settings'),
+                TextColumn::make('text'),
             ])
             ->filters([
                 TrashedFilter::make(),
@@ -93,7 +112,9 @@ class AiSpeachResource extends Resource
                     RestoreBulkAction::make(),
                     ForceDeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->defaultSort('created_at', 'desc');
+
     }
 
     public static function getPages(): array

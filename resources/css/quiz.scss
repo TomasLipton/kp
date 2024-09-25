@@ -198,3 +198,13 @@ border-left: unset;
         font-size: 20px; /* Smaller font size for icon */
     }
 }
+
+.playAudio {
+    width: 40px;
+    float: right; cursor: pointer;
+    transition: transform 0.3s ease;
+    &:hover {
+        transform: scale3d(1.1, 1.1, 1.1);
+        transform: rotate3d(1, 1, 1, 10deg);
+    }
+}
