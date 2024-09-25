@@ -81,7 +81,7 @@ class SurveyQuestion extends Component
 
     public function submitYear($value)
     {
-        if ($this->chosenAnswer || strlen($value) !== 4) {
+        if ($this->chosenAnswer || strlen($value) < 3 || strlen($value) > 4) {
             return;
         }
         $this->chosenAnswer = $this->question->answers->where('text', $value)->first();

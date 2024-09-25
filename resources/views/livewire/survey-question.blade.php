@@ -76,15 +76,17 @@
             </div>
 
             <div class="question">
-                {{$question->question_pl}}
+               <div style="max-width: 88%"> {{$question->question_pl}}</div>
                 @if($question->aiSpeach()->count() > 0)
-                    <img class="playAudio" id="playAudio" src="/assets/img.png" alt=""/>
-                    <audio id="audioPlayer" src="{{Storage::temporaryUrl( $question->aiSpeach->last()->path_to_audio, now()->addMinutes(10) )}}"></audio>
+                  <div style="width: 10%">
+                      <img class="playAudio" id="playAudio" src="/assets/img.png" alt=""/>
+                      <audio id="audioPlayer" src="{{Storage::temporaryUrl( $question->aiSpeach->last()->path_to_audio, now()->addMinutes(10) )}}"></audio>
+                  </div>
                 @endif
             </div>
             <div class="answers" style="">
                 @if($question->picture)
-                    <div>
+                    <div style="margin: 0 auto;">
                         <img src="{{url('storage/' . $question->picture)}}" style=" max-width: 300px; border-radius: 8px;" alt="">
                     </div>
                 @endif
@@ -128,7 +130,7 @@
                                                                inputmode="numeric"
                                                                @if($chosenAnswer) readonly @endif
                                                                maxlength="4"/>
-                            <select x-model="month" @if($chosenAnswer) readonly @endif>
+                            <select x-model="month" @if($chosenAnswer) disabled @endif>
                                 <option value="1">Styczeń</option>
                                 <option value="2">Luty</option>
                                 <option value="3">Marzec</option>

@@ -23,7 +23,7 @@ class ListQuestions extends ListRecords
                 ])
                 ->action(function (array $data) {
                     try {
-                        $questions = Question::chunk(100, function ($questions) {
+                        $questions = Question::doesntHave('aiSpeach')->chunk(100, function ($questions) {
                             foreach ($questions as $question) {
                                 $question->generateVoice();
                             }
