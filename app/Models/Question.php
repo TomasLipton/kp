@@ -47,12 +47,12 @@ class Question extends Model
         ])->post('https://api.elevenlabs.io/v1/text-to-speech/C1DBnkwmDIzoLOPlBvSg', [
             'text' => $this->question_pl,
             'model_id' => 'eleven_multilingual_v2',
-//        'voice_settings' => [
-//            'stability' => 13,
-//            'similarity_boost' => 123,
-//            'style' => 123,
-//            'use_speaker_boost' => true,
-//        ],
+            'voice_settings' => [
+                'stability' => 60,
+                'similarity_boost' => 20,
+                'style' => 17,
+                'use_speaker_boost' => true,
+            ],
         ]);
 
         if ($response->failed()) {
