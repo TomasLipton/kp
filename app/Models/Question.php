@@ -66,6 +66,7 @@ class Question extends Model
                 'voice_id' => 'C1DBnkwmDIzoLOPlBvSg',
                 'text' => $this->question_pl,
                 'voice_settings' => null,
+                'question_id' => $this->id,
             ]))->save();
 
         }

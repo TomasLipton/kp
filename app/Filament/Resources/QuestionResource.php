@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\QuestionResource\Pages;
+use App\Filament\Resources\QuestionResource\RelationManagers\AiSpeachRelationManager;
 use App\Models\Question;
 use Closure;
 use Filament\Forms\Components\DatePicker;
@@ -243,6 +244,11 @@ class QuestionResource extends Resource
 
         return $details;
     }
-
+    public static function getRelations(): array
+    {
+        return [
+            AiSpeachRelationManager::class
+        ];
+    }
 
 }
