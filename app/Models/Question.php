@@ -48,9 +48,9 @@ class Question extends Model
             'text' => $this->question_pl,
             'model_id' => 'eleven_multilingual_v2',
             'voice_settings' => [
-                'stability' => 60,
-                'similarity_boost' => 20,
-                'style' => 17,
+                'stability' => 0.6,
+                'similarity_boost' => 0.2,
+                'style' => 0.17,
                 'use_speaker_boost' => true,
             ],
         ]);

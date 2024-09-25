@@ -33,7 +33,7 @@ class AiSpeachResource extends Resource
 
     protected static ?string $slug = 'ai-speaches';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-m-beaker';
 
     public static function form(Form $form): Form
     {
