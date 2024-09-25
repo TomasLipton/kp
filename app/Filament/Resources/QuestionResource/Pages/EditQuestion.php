@@ -4,10 +4,13 @@ namespace App\Filament\Resources\QuestionResource\Pages;
 
 use App\Filament\Resources\QuestionResource;
 use App\Models\Question;
+use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\ReplicateAction;
 use Filament\Actions\RestoreAction;
+use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 
 class EditQuestion extends EditRecord
@@ -17,12 +20,45 @@ class EditQuestion extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            DeleteAction::make(),
             ForceDeleteAction::make(),
             RestoreAction::make(),
             $this->getSaveFormAction()
                 ->formId('form'),
+
+            Action::make('Generate Voice')
+                ->color('info')
+                ->form([
+
+//                    TextInput::make('subject')->default(['Hello World']),
+
+
+//                    RichEditor::make('body')->required(),
+                ])
+                ->action(function (array $data) {
+       try {
+           $this->record->generateVoice();
+
+           Notification::make()
+               ->title('Voice generated')
+               ->success()
+               ->send();
+       } catch (\Exception $e) {
+           Notification::make()
+               ->title('Failed to generate voice: ' . $e->getMessage())
+               ->danger()
+               ->send();
+       }
+//                    Mail::to($this->client)
+//                        ->send(new GenericEmail(
+//                            subject: $data['subject'],
+//                            body: $data['body'],
+//                        ));
+                }),
+
+
+
             ReplicateAction::make()
+                ->color('gray')
                 ->record($this->record)
                 ->beforeReplicaSaved(function (Question $question, Question $replica) {
                     $replica->question_pl = $question->question_pl . ' (Copy)';
@@ -40,7 +76,10 @@ class EditQuestion extends EditRecord
                 })
                 ->successRedirectUrl(fn(Question $replica): string => route('filament.admin.resources.questions.edit', [
                     'record' => $replica,
-                ]))
+                ])),
+
+                        DeleteAction::make(),
+
         ];
     }
 

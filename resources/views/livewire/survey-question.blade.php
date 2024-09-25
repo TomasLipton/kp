@@ -69,10 +69,9 @@
                 </div>
             </div>
 
-
-
             <div class="question">
                 {{$question->question_pl}}
+                <img class="playAudio"  src="/assets/img.png" alt="" />
             </div>
             <div class="answers" style="">
                 @if($question->picture)
