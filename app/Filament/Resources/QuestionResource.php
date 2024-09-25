@@ -124,12 +124,12 @@ class QuestionResource extends Resource
                             ->default('single_text')
                             ->options([
                                 'single_text' => 'Single Text',
-                                'multi_text' => 'Multi Text',
                                 'date_month' => 'Date Month',
                                 'year' => 'Year',
+                                'multi_text' => 'Multi Text',
                                 'number' => 'Number',
                             ])->inline()->required()->reactive()
-                            ->afterStateUpdated(function ($state, callable $set) {
+                            ->disableOptionWhen(fn (string $value): bool => in_array($value, ['number', 'multi_text']))                            ->afterStateUpdated(function ($state, callable $set) {
                                 if (in_array($state, ['year', 'date_month', 'number'])) {
                                     // Clear the repeater items when question_type is 'year'
                                     $set('answers', []);

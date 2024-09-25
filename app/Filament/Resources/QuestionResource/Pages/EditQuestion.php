@@ -22,32 +22,26 @@ class EditQuestion extends EditRecord
         return [
             ForceDeleteAction::make(),
             RestoreAction::make(),
-            $this->getSaveFormAction()
-                ->formId('form'),
+
 
             Action::make('Generate Voice')
                 ->color('info')
                 ->form([
-
-//                    TextInput::make('subject')->default(['Hello World']),
-
-
-//                    RichEditor::make('body')->required(),
                 ])
                 ->action(function (array $data) {
-       try {
-           $this->record->generateVoice();
+                    try {
+                        $this->record->generateVoice();
 
-           Notification::make()
-               ->title('Voice generated')
-               ->success()
-               ->send();
-       } catch (\Exception $e) {
-           Notification::make()
-               ->title('Failed to generate voice: ' . $e->getMessage())
-               ->danger()
-               ->send();
-       }
+                        Notification::make()
+                            ->title('Voice generated')
+                            ->success()
+                            ->send();
+                    } catch (\Exception $e) {
+                        Notification::make()
+                            ->title('Failed to generate voice: ' . $e->getMessage())
+                            ->danger()
+                            ->send();
+                    }
 //                    Mail::to($this->client)
 //                        ->send(new GenericEmail(
 //                            subject: $data['subject'],
@@ -55,7 +49,9 @@ class EditQuestion extends EditRecord
 //                        ));
                 }),
 
-
+            $this->getSaveFormAction()
+                ->color('success')
+                ->formId('form'),
 
             ReplicateAction::make()
                 ->color('gray')
@@ -78,7 +74,7 @@ class EditQuestion extends EditRecord
                     'record' => $replica,
                 ])),
 
-                        DeleteAction::make(),
+            DeleteAction::make(),
 
         ];
     }
