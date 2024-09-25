@@ -176,7 +176,7 @@
 <div class="app_container shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)]">
     <nav class="navbar bg-body-tertiary">
         <div class="container-fluid">
-            <a href="/" class="navbar-brand mb-0 h1">Karta Polaka - Testy</a>
+            <a href="/" wire:navigate  class="navbar-brand mb-0 h1">Karta Polaka - Testy</a>
         </div>
     </nav>
     @yield('content')
