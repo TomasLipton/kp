@@ -75,8 +75,10 @@
 
             <div class="question">
                 {{$question->question_pl}}
-                <img class="playAudio" id="playAudio"  src="/assets/img.png" alt="" />
-                <audio id="audioPlayer" src="{{Storage::temporaryUrl( $question->aiSpeach->last()->path_to_audio, now()->addMinutes(10) )}}"></audio>
+                @if($question->aiSpeach()->count() > 0)
+                    <img class="playAudio" id="playAudio" src="/assets/img.png" alt=""/>
+                    <audio id="audioPlayer" src="{{Storage::temporaryUrl( $question->aiSpeach->last()->path_to_audio, now()->addMinutes(10) )}}"></audio>
+                @endif
             </div>
             <div class="answers" style="">
                 @if($question->picture)
