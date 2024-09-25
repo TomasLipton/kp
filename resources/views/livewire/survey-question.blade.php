@@ -21,10 +21,12 @@
                 $wire.nextQuestion();
             }
         });
-        document.getElementById('playAudio').addEventListener('click', function() {
-            var audio = document.getElementById('audioPlayer');
-            audio.play();
-        });
+        if (document.getElementById('playAudio')) {
+            document.getElementById('playAudio').addEventListener('click', function() {
+                var audio = document.getElementById('audioPlayer');
+                audio.play();
+            });
+        }
     });
 </script>
 @endscript
