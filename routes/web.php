@@ -2,12 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    $topics = \App\Models\Topics::all();
 
-    return view('bg', ['topics' => $topics]);
-});
-
+Route::get('/', \App\Livewire\Main::class);
 
 Route::get('/{topic:slug}', \App\Livewire\StartSurvey::class);
 
