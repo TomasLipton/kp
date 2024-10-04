@@ -7,18 +7,21 @@ use App\Models\QuestionAnswer;
 use App\Models\Quiz;
 use App\Models\QuizAnswer;
 use App\Models\Topics;
+use Illuminate\Support\Collection;
 use Livewire\Attributes\Layout;
-use Livewire\Attributes\Title;
 use Livewire\Component;
 
 class SurveyQuestion extends Component
 {
     public $title = 'Post title...';
+
     public Topics $topic;
 
     public Quiz $quiz;
 
     public Question $question;
+
+    public Collection $questionAnswers;
 
     public $questionsAnswered = 0;
 
@@ -35,9 +38,14 @@ class SurveyQuestion extends Component
     {
         $answeredQuestionIds = QuizAnswer::where('quiz_id', $this->quiz->id)->with('questionAnswer.question')->get()->pluck('questionAnswer.question.id')->toArray();
 
-        $nextQuestion = $this->topic->questions()
+        $nextQuestion =  $this->topic->questions()
             ->whereNotIn('id', $answeredQuestionIds)
             ->inRandomOrder()
+            ->with([
+                'answers' => function ($query) {
+                    $query->inRandomOrder();
+                }
+            ])
             ->first();
 
         $this->questionsAnswered = count($answeredQuestionIds);
@@ -52,6 +60,8 @@ class SurveyQuestion extends Component
         }
 
         $this->question = $nextQuestion;
+
+        $this->questionAnswers = $nextQuestion->answers;
     }
 
     public function testClick()
@@ -97,7 +107,6 @@ class SurveyQuestion extends Component
     }
     public function submitDateMonth($date, $month)
     {
-//        dd($date, $month);
 
         if ($this->chosenAnswer || strlen($date)  > 2 || strlen($date) < 1) {
             return;
@@ -152,6 +161,8 @@ class SurveyQuestion extends Component
         }
 
         $this->question = $nextQuestion;
+        $this->questionAnswers = $nextQuestion->answers;
+
         $this->chosenAnswer = null;
     }
 }

@@ -1,13 +1,8 @@
-@php
-    use Carbon\Carbon;
-    Carbon::setLocale('pl');
-@endphp
-
 @script
 <script>
     Livewire.hook('component.init', ({component, cleanup}) => {
+        console.log('component.init', component, cleanup);
         document.addEventListener('keydown', function (event) {
-            console.log(document.getElementById('submit').length)
             if (event.key === 'Enter' && document.getElementById('wrap').dataset.isAnswered === 'true') {
                 $wire.nextQuestion();
             }
@@ -15,7 +10,11 @@
                 return
             }
             if (['1', '2', '3', '4'].includes(event.key)) {
-                $wire.submitAnswerByOrder(event.key);
+                const answerElement = document.querySelector(`li[data-key="${event.key}"]`);
+                if (answerElement) {
+                    const answerId = answerElement.getAttribute('data-answer-id');
+                    $wire.submitAnswer(answerId);
+                }
             }
             if (event.key === 'Enter') {
                 $wire.nextQuestion();
@@ -93,24 +92,24 @@
                 <div style=" width: 100%; ">
                     @if($question->question_type === 'single_text')
                         <ol>
-                            @foreach($question->answers as $answer)
-                                <li wire:key="{{ $answer->id }}" wire:click.debounce="submitAnswer('{{$answer->id}}')" @if($chosenAnswer && $answer->id == $chosenAnswer->id) style="text-decoration: underline" @endif >  {{$answer->text}}</li>
+                            @foreach($questionAnswers as $answer)
+                                <li wire:key="{{ $answer->id }}" data-answer-id="{{$answer->id}}" data-key="{{$loop->index + 1}}"  wire:click.debounce="submitAnswer('{{$answer->id}}')" @if($chosenAnswer && $answer->id == $chosenAnswer->id) style="text-decoration: underline" @endif >  {{$answer->text}}</li>
                             @endforeach
                         </ol>
                     @endif
 
                     @if($question->question_type === 'year')
-                        <div class="answer-year-container" x-data="{ inputValue: '' }">
-                            <input autofocus class="year-answer" x-model="inputValue"
+                        <div class="answer-year-container" x-data="{ inputValue{{$question->id}}: '' }">
+                            <input autofocus class="year-answer" x-model="inputValue{{$question->id}}"
                                    wire:keydown.enter="submitYear($event.target.value)"
-                                   x-on:input="inputValue = inputValue.slice(0, 4).replace(/\D/g, '')"
+                                   x-on:input="inputValue{{$question->id}} = inputValue{{$question->id}}.slice(0, 4).replace(/\D/g, '')"
                                    type="text"
                                    pattern="[0-9]*"
                                    inputmode="numeric"
                                    placeholder="Rok"
                                    @if($chosenAnswer) readonly @endif
                                    maxlength="4"/>
-                            <button class="submit-button" @click="$wire.submitYear(inputValue)">
+                            <button class="submit-button" @click="$wire.submitYear(inputValue{{$question->id}})">
                                 <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="100" viewBox="0 0 40 40">
                                     <path fill="#bae0bd" d="M1.707 22.199L4.486 19.42 13.362 28.297 35.514 6.145 38.293 8.924 13.362 33.855z"></path>
                                     <path fill="#5e9c76" d="M35.514,6.852l2.072,2.072L13.363,33.148L2.414,22.199l2.072-2.072l8.169,8.169l0.707,0.707 l0.707-0.707L35.514,6.852 M35.514,5.438L13.363,27.59l-8.876-8.876L1,22.199l12.363,12.363L39,8.924L35.514,5.438L35.514,5.438z"></path>
@@ -175,6 +174,5 @@
             <livewire:survey-results :quiz="$quiz"/>
         @endif
     </div>
-
 
 </section>
