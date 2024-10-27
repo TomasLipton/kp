@@ -27,7 +27,7 @@ class SurveyQuestion extends Component
 
     public $chosenAnswer;
 
-    #[Layout('layouts.app')]
+    #[Layout('layouts.app-kp')]
     public function render()
     {
         return view('livewire.survey-question')

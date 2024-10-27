@@ -44,13 +44,12 @@ class User extends Authenticatable implements FilamentUser
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_admin' => 'boolean',
         ];
     }
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return true;
-
-        return str_ends_with($this->email, '@yourdomain.com') && $this->hasVerifiedEmail();
+        return $this->is_admin;
     }
 }

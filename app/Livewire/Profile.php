@@ -6,10 +6,11 @@ use Livewire\Attributes\Layout;
 use Livewire\Component;
 
 #[Layout('layouts.app-kp')]
-class Main extends Component
+
+class Profile extends Component
 {
     public function render()
     {
-        return view('livewire.main', ['topics' => \App\Models\Topics::all()]);
+        return view('livewire.profile');
     }
 }
