@@ -8,7 +8,9 @@
 
     <link rel="icon" type="image/png" href="/favicon.png"/>
 
-    <title>{{ $title ?? 'Karta Polaka - Testy' }}</title>
+    <title>{{ $title ?? 'Quiz Polaka - Testy przygotowujące do rozmowy na karcie Polaka' }}</title>
+
+    <meta name="description" content="Przygotuj się do egzaminu na Kartę Polaka z naszym interaktywnym testem! Sprawdź swoją wiedzę o polskiej historii, kulturze i języku. Rozwiązuj testy, aby zwiększyć swoje szanse na uzyskanie Karty Polaka." />
 
     {{--    <!-- Fonts -->--}}
     <link rel="preconnect" href="https://fonts.bunny.net">
