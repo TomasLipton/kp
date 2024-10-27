@@ -10,7 +10,7 @@
 
     <title>{{ $title ?? 'Karta Polaka - Testy' }}</title>
 
-    <!-- Fonts -->
+{{--    <!-- Fonts -->--}}
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet"/>
 
@@ -176,7 +176,7 @@
 <div class="app_container shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)]">
     <nav class="navbar bg-body-tertiary">
         <div class="container-fluid">
-            <a href="/" wire:navigate  class="navbar-brand mb-0 h1">Karta Polaka - Testy</a>
+            <span><a href="/" wire:navigate  class="navbar-brand mb-0 h1">QuizPolaka</a> Testy  rozmowy karty Polaka</span>
         </div>
     </nav>
     @yield('content')
@@ -184,7 +184,6 @@
         {{ $slot }}
     @endif
 </div>
-{{--@livewireScripts--}}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 </body>
