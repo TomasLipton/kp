@@ -4,6 +4,11 @@
     "src": "resources/css/app.css",
     "isEntry": true
   },
+  "resources/css/quiz.scss": {
+    "file": "assets/quiz-uCI9hL_G.css",
+    "src": "resources/css/quiz.scss",
+    "isEntry": true
+  },
   "resources/js/app.js": {
     "file": "assets/app-CEsE5a7F.js",
     "name": "app",
