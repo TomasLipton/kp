@@ -8,8 +8,6 @@ use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class AiSpeachRelationManager extends RelationManager
 {
@@ -26,9 +24,9 @@ class AiSpeachRelationManager extends RelationManager
                     ->directory('speech')
                     ->acceptedFileTypes(['audio/*']),
 
-//                Forms\Components\TextInput::make('text')
-//                    ->required()
-//                    ->maxLength(255),
+                //                Forms\Components\TextInput::make('text')
+                //                    ->required()
+                //                    ->maxLength(255),
             ])->columns(1);
     }
 

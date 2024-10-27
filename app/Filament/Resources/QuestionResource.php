@@ -6,10 +6,6 @@ use App\Filament\Resources\QuestionResource\Pages;
 use App\Filament\Resources\QuestionResource\RelationManagers\AiSpeachRelationManager;
 use App\Models\Question;
 use Closure;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\Field;
-use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Placeholder;
@@ -33,7 +29,6 @@ use Filament\Tables\Actions\ForceDeleteBulkAction;
 use Filament\Tables\Actions\ReplicateAction;
 use Filament\Tables\Actions\RestoreAction;
 use Filament\Tables\Actions\RestoreBulkAction;
-use Filament\Tables\Columns\BooleanColumn;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -60,7 +55,6 @@ class QuestionResource extends Resource
         return $form
             ->schema([
 
-
                 Group::make()
                     ->schema([
                         Section::make('Pytanie w języku polskim')
@@ -72,14 +66,14 @@ class QuestionResource extends Resource
                                 Textarea::make('explanation_pl'),
                             ]),
 
-//                        Section::make('Pytanie w języku rosyjskim')
-//                            ->collapsible()
-//                            ->collapsed()
-//                            ->schema([
-//                                TextInput::make('question_ru')
-//                                    ->label('Pytanie w języku rosyjskim'),
-//                                TextInput::make('explanation_ru'),
-//                            ]),
+                        //                        Section::make('Pytanie w języku rosyjskim')
+                        //                            ->collapsible()
+                        //                            ->collapsed()
+                        //                            ->schema([
+                        //                                TextInput::make('question_ru')
+                        //                                    ->label('Pytanie w języku rosyjskim'),
+                        //                                TextInput::make('explanation_ru'),
+                        //                            ]),
                         Repeater::make('answers')
                             ->reactive()
                             ->helperText("For date+month use format 'DD.MM' e.g. '01.01'. For year use format 'YYYY' e.g. '2022'. For year and date+month add 1 incorrect answer with any value.")
@@ -97,16 +91,16 @@ class QuestionResource extends Resource
                                 Textarea::make('text')
                                     ->label('Odpowiedź w języku polskim')
                                     ->required(),
-//                                FileUpload::make('picture')
-//                                    ->image()
-//                                    ->imageEditor()
-//                                    ->label('Zdjęcie'),
+                                //                                FileUpload::make('picture')
+                                //                                    ->image()
+                                //                                    ->imageEditor()
+                                //                                    ->label('Zdjęcie'),
                             ])
                             ->rules([
-                                fn(): Closure => function (string $attribute, $value, Closure $fail) {
+                                fn (): Closure => function (string $attribute, $value, Closure $fail) {
 
                                     // Check if at least one is_correct toggle is true
-                                    if (!collect($value)->contains('is_correct', true)) {
+                                    if (! collect($value)->contains('is_correct', true)) {
                                         $fail('At least one option must be set as correct.');
                                         Notification::make()
                                             ->title('At least one answer must be set as correct.')
@@ -117,7 +111,6 @@ class QuestionResource extends Resource
                             ]),
 
                     ])->columnSpan(['lg' => 2]),
-
 
                 Group::make()
                     ->schema([
@@ -131,7 +124,7 @@ class QuestionResource extends Resource
                                 'multi_text' => 'Multi Text',
                                 'number' => 'Number',
                             ])->inline()->required()->reactive()
-                            ->disableOptionWhen(fn (string $value): bool => in_array($value, ['number', 'multi_text']))                            ->afterStateUpdated(function ($state, callable $set) {
+                            ->disableOptionWhen(fn (string $value): bool => in_array($value, ['number', 'multi_text']))->afterStateUpdated(function ($state, callable $set) {
                                 if (in_array($state, ['year', 'date_month', 'number'])) {
                                     // Clear the repeater items when question_type is 'year'
                                     $set('answers', []);
@@ -149,12 +142,11 @@ class QuestionResource extends Resource
 
                 Placeholder::make('created_at')
                     ->label('Created Date')
-                    ->content(fn(?Question $record): string => $record?->created_at?->diffForHumans() ?? '-'),
+                    ->content(fn (?Question $record): string => $record?->created_at?->diffForHumans() ?? '-'),
 
                 Placeholder::make('updated_at')
                     ->label('Last Modified Date')
-                    ->content(fn(?Question $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
-
+                    ->content(fn (?Question $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
 
             ])->columns(3);
     }
@@ -163,10 +155,10 @@ class QuestionResource extends Resource
     {
         return $table
             ->columns([
-                IconColumn::make('Picture')->boolean(fn() => true)->default(fn(Question $question) => $question->picture),
-                IconColumn::make('Voice')->boolean(fn() => true)->default(fn(Question $question) => $question->aiSpeach()->count() > 0),
+                IconColumn::make('Picture')->boolean(fn () => true)->default(fn (Question $question) => $question->picture),
+                IconColumn::make('Voice')->boolean(fn () => true)->default(fn (Question $question) => $question->aiSpeach()->count() > 0),
                 TextColumn::make('question_pl')->extraAttributes([
-                    'style' => 'max-width:260px'
+                    'style' => 'max-width:260px',
                 ])
                     ->searchable()
                     ->wrap(),
@@ -196,7 +188,8 @@ class QuestionResource extends Resource
                         });
                     })
                     ->beforeReplicaSaved(function (Question $question, Question $replica) {
-                        $replica->question_pl = $question->question_pl . ' (Copy)';
+                        $replica->question_pl = $question->question_pl.' (Copy)';
+
                         return $replica;
                     }),
                 EditAction::make(),
@@ -251,11 +244,11 @@ class QuestionResource extends Resource
 
         return $details;
     }
+
     public static function getRelations(): array
     {
         return [
-            AiSpeachRelationManager::class
+            AiSpeachRelationManager::class,
         ];
     }
-
 }

@@ -1,21 +1,20 @@
 <?php
-namespace App\Filament\Resources;
 
+namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages\CreateUser;
 use App\Filament\Resources\UserResource\Pages\EditUser;
 use App\Filament\Resources\UserResource\Pages\ListUsers;
 use App\Models\User;
 use Closure;
-use Filament\Forms\Form;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables;
-use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\HtmlString;
 use Illuminate\Validation\Rules\Password;
@@ -24,9 +23,9 @@ class UserResource extends Resource
 {
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
-    protected static bool | Closure $enablePasswordUpdates = false;
+    protected static bool|Closure $enablePasswordUpdates = false;
 
-    protected static Closure | null $extendFormCallback = null;
+    protected static ?Closure $extendFormCallback = null;
 
     public static function extendForm(Closure $callback): void
     {
@@ -60,14 +59,14 @@ class UserResource extends Resource
                             'new_password_confirmation' => TextInput::make('new_password_confirmation')
                                 ->password()
                                 ->label('Confirm New Password')
-                                ->rule('required', fn ($get) => !! $get('new_password'))
+                                ->rule('required', fn ($get) => (bool) $get('new_password'))
                                 ->same('new_password')
                                 ->dehydrated(false),
-                        ])->visible(true)
+                        ])->visible(true),
                     ])->columnSpan(8),
                     'right' => Card::make([
                         'created_at' => Placeholder::make('created_at')
-                            ->content(fn ($record) => $record?->created_at?->diffForHumans() ?? new HtmlString('&mdash;'))
+                            ->content(fn ($record) => $record?->created_at?->diffForHumans() ?? new HtmlString('&mdash;')),
                     ])->columnSpan(4),
                 ];
 
@@ -95,15 +94,15 @@ class UserResource extends Resource
             ->defaultSort('created_at', 'desc');
     }
 
-    public static function enablePasswordUpdates(bool | Closure $condition = true): void
+    public static function enablePasswordUpdates(bool|Closure $condition = true): void
     {
         static::$enablePasswordUpdates = $condition;
     }
 
-//    public static function getModel(): string
-//    {
-//        return config('filament-user-resource.model');
-//    }
+    //    public static function getModel(): string
+    //    {
+    //        return config('filament-user-resource.model');
+    //    }
 
     public static function getRelations(): array
     {

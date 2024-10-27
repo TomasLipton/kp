@@ -123,6 +123,5 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
-
     'elevenlabs_api_key' => env('ELEVENLABS_API_KEY'),
 ];

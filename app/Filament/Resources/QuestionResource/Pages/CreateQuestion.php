@@ -13,7 +13,7 @@ class CreateQuestion extends CreateRecord
     protected function getHeaderActions(): array
     {
         return [
-//            CreateAction::make()->label('Dodaj pytanie'),
+            //            CreateAction::make()->label('Dodaj pytanie'),
 
         ];
     }

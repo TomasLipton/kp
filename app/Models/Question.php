@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 
 class Question extends Model
 {
-    use SoftDeletes, HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'question_pl',
@@ -42,7 +42,7 @@ class Question extends Model
     {
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
-            'xi-api-key' => config('app.elevenlabs_api_key')
+            'xi-api-key' => config('app.elevenlabs_api_key'),
 
         ])->post('https://api.elevenlabs.io/v1/text-to-speech/C1DBnkwmDIzoLOPlBvSg', [ //Pid5DJleNF2sxsuF6YKD
             'text' => $this->question_pl,
@@ -58,7 +58,7 @@ class Question extends Model
         if ($response->failed()) {
             throw new \Exception($response->body());
         } else {
-            $fileName = 'speech/' . uniqid('', true) . '.mp3';
+            $fileName = 'speech/'.uniqid('', true).'.mp3';
             Storage::put($fileName, $response->body());
             (new \App\Models\AiSpeach([
                 'path_to_audio' => $fileName,

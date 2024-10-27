@@ -15,7 +15,7 @@ class StartSurvey extends Component
 {
     public Topics $topic;
 
-    public string $surveyMode= 'Wszystkie pytania';
+    public string $surveyMode = 'Wszystkie pytania';
 
     public function render()
     {
@@ -26,7 +26,7 @@ class StartSurvey extends Component
     {
         $type = [
             'Wszystkie pytania' => 'all_questions',
-            '10 pytań' => '10_questions'
+            '10 pytań' => '10_questions',
         ];
 
         $quiz = new Quiz([
@@ -39,11 +39,11 @@ class StartSurvey extends Component
 
         $quiz->save();
 
-        return $this->redirect($this->topic->slug . '/' . $quiz->uuid, navigate: true);
+        return $this->redirect($this->topic->slug.'/'.$quiz->uuid, navigate: true);
 
     }
 
-    public function setMode( $mode)
+    public function setMode($mode)
     {
         $this->surveyMode = $mode;
     }

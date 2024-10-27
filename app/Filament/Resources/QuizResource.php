@@ -4,7 +4,6 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\QuizResource\Pages;
 use App\Models\Quiz;
-use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -57,11 +56,11 @@ class QuizResource extends Resource
 
                 Placeholder::make('created_at')
                     ->label('Created Date')
-                    ->content(fn(?Quiz $record): string => $record?->created_at?->diffForHumans() ?? '-'),
+                    ->content(fn (?Quiz $record): string => $record?->created_at?->diffForHumans() ?? '-'),
 
                 Placeholder::make('updated_at')
                     ->label('Last Modified Date')
-                    ->content(fn(?Quiz $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
+                    ->content(fn (?Quiz $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
             ]);
     }
 

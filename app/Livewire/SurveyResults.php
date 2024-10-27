@@ -7,12 +7,11 @@ use Livewire\Component;
 
 class SurveyResults extends Component
 {
-
-    public Quiz $quiz ;
+    public Quiz $quiz;
 
     public function mount()
     {
-//        $this->
+        //        $this->
     }
 
     public function render()

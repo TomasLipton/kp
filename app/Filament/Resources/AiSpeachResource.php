@@ -25,7 +25,6 @@ use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Facades\Storage;
 
 class AiSpeachResource extends Resource
 {
@@ -40,56 +39,55 @@ class AiSpeachResource extends Resource
         return $form
             ->schema([
                 Grid::make(3) // Create a grid with 3 columns in total
-                ->schema([
-                    // First column with width of 2
-                    Grid::make(1)
-                        ->schema([
-                            FileUpload::make('path_to_audio')
-                                ->disk('local')
-                                ->visibility('private')
-                                ->directory('speech')
-                                ->acceptedFileTypes(['audio/*']),
+                    ->schema([
+                        // First column with width of 2
+                        Grid::make(1)
+                            ->schema([
+                                FileUpload::make('path_to_audio')
+                                    ->disk('local')
+                                    ->visibility('private')
+                                    ->directory('speech')
+                                    ->acceptedFileTypes(['audio/*']),
 
-                            MarkdownEditor::make('text')
-                                ->disabled()
-                                ->required(),
+                                MarkdownEditor::make('text')
+                                    ->disabled()
+                                    ->required(),
 
-                            Select::make('question_id')
-                                ->relationship('question', 'question_pl'),
+                                Select::make('question_id')
+                                    ->relationship('question', 'question_pl'),
 
-                            Select::make('question_answer_id')
-                                ->relationship('questionAnswer', 'text', function (Builder $query) {
-                                    $query->where('question_answers.text', '!=', '')
-                                        ->where('question_answers.text', 'NOT REGEXP', '^[0-9]+\\.[0-9]+$')
-                                        ->where('question_answers.text', 'NOT REGEXP', '^[0-9]+$');
-                                }),
-                        ])
-                        ->columnSpan(2), // Span 2 out of 3 columns
+                                Select::make('question_answer_id')
+                                    ->relationship('questionAnswer', 'text', function (Builder $query) {
+                                        $query->where('question_answers.text', '!=', '')
+                                            ->where('question_answers.text', 'NOT REGEXP', '^[0-9]+\\.[0-9]+$')
+                                            ->where('question_answers.text', 'NOT REGEXP', '^[0-9]+$');
+                                    }),
+                            ])
+                            ->columnSpan(2), // Span 2 out of 3 columns
 
-                    // Second column with width of 1
-                    Grid::make()
-                        ->schema([
-                            TextInput::make('voice_id')
-                                ->disabled()
-                                ->required(),
+                        // Second column with width of 1
+                        Grid::make()
+                            ->schema([
+                                TextInput::make('voice_id')
+                                    ->disabled()
+                                    ->required(),
 
-                            TextInput::make('type')
-                                ->disabled()
-                                ->required(),
+                                TextInput::make('type')
+                                    ->disabled()
+                                    ->required(),
 
-                            Placeholder::make('created_at')
-                                ->label('Created Date')
-                                ->content(fn(?AiSpeach $record): string => $record?->created_at?->diffForHumans() ?? '-'),
+                                Placeholder::make('created_at')
+                                    ->label('Created Date')
+                                    ->content(fn (?AiSpeach $record): string => $record?->created_at?->diffForHumans() ?? '-'),
 
-                            Placeholder::make('updated_at')
-                                ->label('Last Modified Date')
-                                ->content(fn(?AiSpeach $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
-                        ])
-                        ->columnSpan(1), // Span 1 out of 3 columns
-                ]),
+                                Placeholder::make('updated_at')
+                                    ->label('Last Modified Date')
+                                    ->content(fn (?AiSpeach $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
+                            ])
+                            ->columnSpan(1), // Span 1 out of 3 columns
+                    ]),
             ]);
     }
-
 
     public static function table(Table $table): Table
     {

@@ -34,7 +34,7 @@ class ListQuestions extends ListRecords
                             ->send();
                     } catch (\Exception $e) {
                         Notification::make()
-                            ->title('Failed to generate voice: ' . $e->getMessage())
+                            ->title('Failed to generate voice: '.$e->getMessage())
                             ->danger()
                             ->send();
                     }

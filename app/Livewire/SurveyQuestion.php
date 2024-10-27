@@ -31,20 +31,20 @@ class SurveyQuestion extends Component
     public function render()
     {
         return view('livewire.survey-question')
-            ->title($this->topic->name_pl  . ($this->quiz->completed_at ? ' - Wyniki testu' : null));
+            ->title($this->topic->name_pl.($this->quiz->completed_at ? ' - Wyniki testu' : null));
     }
 
     public function mount()
     {
         $answeredQuestionIds = QuizAnswer::where('quiz_id', $this->quiz->id)->with('questionAnswer.question')->get()->pluck('questionAnswer.question.id')->toArray();
 
-        $nextQuestion =  $this->topic->questions()
+        $nextQuestion = $this->topic->questions()
             ->whereNotIn('id', $answeredQuestionIds)
             ->inRandomOrder()
             ->with([
                 'answers' => function ($query) {
                     $query->inRandomOrder();
-                }
+                },
             ])
             ->first();
 
@@ -54,8 +54,9 @@ class SurveyQuestion extends Component
             return;
         }
 
-        if (!$nextQuestion) {
+        if (! $nextQuestion) {
             $this->finish();
+
             return;
         }
 
@@ -96,8 +97,8 @@ class SurveyQuestion extends Component
         }
         $this->chosenAnswer = $this->question->answers->where('text', $value)->first();
 
-        if (!$this->chosenAnswer) {
-            $this->chosenAnswer =  $this->question->answers->where('is_correct', 0)->first();
+        if (! $this->chosenAnswer) {
+            $this->chosenAnswer = $this->question->answers->where('is_correct', 0)->first();
         }
 
         (new QuizAnswer([
@@ -105,16 +106,17 @@ class SurveyQuestion extends Component
             'question_answer_id' => $this->chosenAnswer->id,
         ]))->save();
     }
+
     public function submitDateMonth($date, $month)
     {
 
-        if ($this->chosenAnswer || strlen($date)  > 2 || strlen($date) < 1) {
+        if ($this->chosenAnswer || strlen($date) > 2 || strlen($date) < 1) {
             return;
         }
-        $this->chosenAnswer = $this->question->answers->where('text', $date. '.' . $month)->first();
+        $this->chosenAnswer = $this->question->answers->where('text', $date.'.'.$month)->first();
 
-        if (!$this->chosenAnswer) {
-            $this->chosenAnswer =  $this->question->answers->where('is_correct', 0)->first();
+        if (! $this->chosenAnswer) {
+            $this->chosenAnswer = $this->question->answers->where('is_correct', 0)->first();
         }
 
         (new QuizAnswer([
@@ -131,7 +133,7 @@ class SurveyQuestion extends Component
 
         $this->chosenAnswer = $this->question->answers->where('order', $number)->first();
 
-        if (!$this->chosenAnswer) {
+        if (! $this->chosenAnswer) {
             return;
         }
 
@@ -145,7 +147,9 @@ class SurveyQuestion extends Component
     public function nextQuestion()
     {
 
-        if (!$this->chosenAnswer) {return;}
+        if (! $this->chosenAnswer) {
+            return;
+        }
         $answeredQuestionIds = QuizAnswer::where('quiz_id', $this->quiz->id)->with('questionAnswer.question')->get()->pluck('questionAnswer.question.id')->toArray();
 
         $nextQuestion = $this->topic->questions()
@@ -155,8 +159,9 @@ class SurveyQuestion extends Component
 
         $this->questionsAnswered = count($answeredQuestionIds);
 
-        if (!$nextQuestion) {
+        if (! $nextQuestion) {
             $this->finish();
+
             return;
         }
 

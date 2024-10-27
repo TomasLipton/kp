@@ -9,7 +9,6 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\ReplicateAction;
 use Filament\Actions\RestoreAction;
-use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 
@@ -36,7 +35,7 @@ class EditQuestion extends EditRecord
                             ->send();
                     } catch (\Exception $e) {
                         Notification::make()
-                            ->title('Failed to generate voice: ' . $e->getMessage())
+                            ->title('Failed to generate voice: '.$e->getMessage())
                             ->danger()
                             ->send();
                     }
@@ -50,7 +49,8 @@ class EditQuestion extends EditRecord
                 ->color('gray')
                 ->record($this->record)
                 ->beforeReplicaSaved(function (Question $question, Question $replica) {
-                    $replica->question_pl = $question->question_pl . ' (Copy)';
+                    $replica->question_pl = $question->question_pl.' (Copy)';
+
                     return $replica;
                 })
                 ->after(function (Question $replica, Question $question) {
@@ -63,7 +63,7 @@ class EditQuestion extends EditRecord
                         ]);
                     });
                 })
-                ->successRedirectUrl(fn(Question $replica): string => route('filament.admin.resources.questions.edit', [
+                ->successRedirectUrl(fn (Question $replica): string => route('filament.admin.resources.questions.edit', [
                     'record' => $replica,
                 ])),
 
@@ -71,6 +71,4 @@ class EditQuestion extends EditRecord
 
         ];
     }
-
-
 }

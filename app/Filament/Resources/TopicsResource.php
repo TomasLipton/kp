@@ -3,9 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\TopicsResource\Pages;
-use App\Filament\Resources\TopicsResource\RelationManagers;
 use App\Models\Topics;
-use Closure;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
@@ -15,8 +13,6 @@ use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
 
 class TopicsResource extends Resource
@@ -62,8 +58,7 @@ class TopicsResource extends Resource
                             ->imageEditor()
                             ->directory('topics')
                             ->required(),
-                    ])
-
+                    ]),
 
             ]);
     }
