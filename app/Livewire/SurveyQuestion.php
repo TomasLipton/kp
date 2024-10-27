@@ -164,5 +164,7 @@ class SurveyQuestion extends Component
         $this->questionAnswers = $nextQuestion->answers;
 
         $this->chosenAnswer = null;
+
+        $this->dispatch('clear-input');
     }
 }
