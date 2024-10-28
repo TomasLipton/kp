@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-       \App\Models\User::whereEmail('tomaslipton@gmail.com')->update(['is_admin' => true]);
+        \App\Models\User::whereEmail('tomaslipton@gmail.com')->update(['is_admin' => true]);
     }
 
     /**

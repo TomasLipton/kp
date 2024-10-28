@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 class QuizAnswersChart extends ChartWidget
 {
     protected static ?string $heading = 'Poprawne i niepoprawne odpowiedzi';
+
     protected static ?string $maxHeight = '300px';
 
     protected function getData(): array
@@ -35,8 +36,8 @@ class QuizAnswersChart extends ChartWidget
 
         // Fill in missing months with 0 counts
         $months = range(1, 12);
-        $correctData = array_map(fn($month) => $correctAnswers[$month] ?? 0, $months);
-        $incorrectData = array_map(fn($month) => $incorrectAnswers[$month] ?? 0, $months);
+        $correctData = array_map(fn ($month) => $correctAnswers[$month] ?? 0, $months);
+        $incorrectData = array_map(fn ($month) => $incorrectAnswers[$month] ?? 0, $months);
 
         return [
             'datasets' => [
