@@ -19,12 +19,12 @@ new class extends Component
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-3">
-        <div class="flex justify-between h-16">
+        <div class="flex justify-between h-10">
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}" wire:navigate style="font-size: 1.25rem; font-weight: 500">
-                        QuizPolaka
+                        QuizPolaka <span style="font-size: 1rem; font-weight: 400" class="hidden md:inline">Testy  rozmowy karty Polaka</span>
 
 {{--                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />--}}
                     </a>

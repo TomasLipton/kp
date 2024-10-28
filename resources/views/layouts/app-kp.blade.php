@@ -23,7 +23,6 @@
     @vite('resources/css/quiz.scss')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-
     <style>
         body, html {
             margin: 0;

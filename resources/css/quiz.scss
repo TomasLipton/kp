@@ -46,7 +46,7 @@
     .question {
         display: flex;
         justify-content: space-between;
-        padding:  10px 10px;
+        padding: 10px 10px;
         min-height: 71px;
         border-top: 1px solid #fff;
         border-bottom: 1px solid #bfbfbf;
@@ -63,6 +63,11 @@
         border-top: 1px solid #fff;
         border-bottom: 1px solid #bfbfbf;
         min-height: 200px;
+
+        ol {
+            list-style: auto;
+            padding-left: 40px;
+        }
 
         li {
             cursor: pointer;
@@ -89,6 +94,7 @@
                     height: 40px;
                 }
             }
+
             @media screen and (max-width: 550px) {
                 .submit-button {
                     height: 40px;
@@ -114,21 +120,23 @@
                     height: 40px;
                 }
             }
-             select {
+
+            select {
                 outline: none;
                 border-radius: 0;
                 height: 70px;
                 text-align: center;
                 font-size: 20px;
-                 border: 1px solid black;
-border-left: unset;
-                 @media screen and (max-width: 550px) {
-                     //width: 60%;
-                     font-size: 25px;
-                     height: 40px;
-                 }
+                border: 1px solid black;
+                border-left: unset;
+                @media screen and (max-width: 550px) {
+                    //width: 60%;
+                    font-size: 25px;
+                    height: 40px;
+                }
 
-             }
+            }
+
             @media screen and (max-width: 550px) {
                 .submit-button {
                     height: 40px;
@@ -205,8 +213,10 @@ border-left: unset;
 
 .playAudio {
     width: 40px;
-    float: right; cursor: pointer;
+    float: right;
+    cursor: pointer;
     transition: transform 0.3s ease;
+
     &:hover {
         transform: scale3d(1.1, 1.1, 1.1);
         transform: rotate3d(1, 1, 1, 10deg);
