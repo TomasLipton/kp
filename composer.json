@@ -6,18 +6,18 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "filament/filament": "^3.2",
-        "filament/widgets": "^3.2",
-        "laravel/framework": "^11.39",
+        "filament/filament": "^3.3",
+        "filament/widgets": "^3.3",
+        "laravel/framework": "^12.19",
         "laravel/tinker": "^2.9",
-        "livewire/livewire": "^3.4",
-        "livewire/volt": "^1.0"
+        "livewire/livewire": "^3.6",
+        "livewire/volt": "^1.7"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
-        "laravel-lang/lang": "^15.8",
+        "laravel-lang/lang": "^15.22",
         "laravel/breeze": "^2.2",
-        "laravel/pint": "^1.13",
+        "laravel/pint": "^1.23",
         "laravel/sail": "^1.43",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.0",
