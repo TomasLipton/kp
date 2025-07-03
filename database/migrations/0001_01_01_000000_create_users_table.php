@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -35,6 +36,13 @@ return new class extends Migration
             $table->longText('payload');
             $table->integer('last_activity')->index();
         });
+
+        \App\Models\User::create([
+                'name' => 'admin',
+                'is_admin' => true,
+            'email' => 'tomaslipton@gmail.com',
+            'password' => Hash::make('password'),
+        ]);
     }
 
     /**

@@ -8,7 +8,7 @@
         "php": "^8.2",
         "filament/filament": "^3.2",
         "filament/widgets": "^3.2",
-        "laravel/framework": "^11.9",
+        "laravel/framework": "^11.39",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.4",
         "livewire/volt": "^1.0"
