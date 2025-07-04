@@ -44,7 +44,7 @@ class Question extends Model
             'Content-Type' => 'application/json',
             'xi-api-key' => config('app.elevenlabs_api_key'),
 
-        ])->post('https://api.elevenlabs.io/v1/text-to-speech/C1DBnkwmDIzoLOPlBvSg', [ //Pid5DJleNF2sxsuF6YKD
+        ])->post('https://api.elevenlabs.io/v1/text-to-speech/C1DBnkwmDIzoLOPlBvSg', [ // Pid5DJleNF2sxsuF6YKD
             'text' => $this->question_pl,
             'model_id' => 'eleven_multilingual_v2',
             'voice_settings' => [

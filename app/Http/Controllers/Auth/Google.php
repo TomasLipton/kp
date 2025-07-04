@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\SocialiteUser;
 use App\Models\User;
 use GuzzleHttp\Exception\ClientException;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
@@ -27,17 +26,17 @@ class Google extends Controller
 
         } catch (ClientException $exception) {
             return redirect('/login')->withErrors([
-                'login' => 'Uwierzytelnienie nie powiodło się: ' . $exception->getMessage(),
-                ]);
+                'login' => 'Uwierzytelnienie nie powiodło się: '.$exception->getMessage(),
+            ]);
         } catch (\Throwable $exception) {
             return redirect('/login')->withErrors([
-                'login' => 'Uwierzytelnienie nie powiodło się: ' . $exception->getMessage(),
+                'login' => 'Uwierzytelnienie nie powiodło się: '.$exception->getMessage(),
             ]);
         }
 
         $user = User::where('email', $googleUser->getEmail())->first();
 
-        if (!$user) {
+        if (! $user) {
             $user = User::create([
                 'name' => $googleUser->getName(),
                 'email' => $googleUser->getEmail(),
@@ -56,14 +55,13 @@ class Google extends Controller
             ]);
         }
 
-        if (!$socialiteUser) {
+        if (! $socialiteUser) {
             SocialiteUser::create([
                 'user_id' => $user->id,
                 'provider' => 'google',
                 'provider_id' => $googleUser->getId(),
             ]);
         }
-
 
         Auth::login($user);
 

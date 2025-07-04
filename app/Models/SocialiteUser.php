@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class SocialiteUser extends Model
 {
-
     protected $fillable = [
         'user_id',
         'provider',

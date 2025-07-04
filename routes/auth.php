@@ -23,7 +23,7 @@ Route::middleware('guest')->group(function () {
         return Socialite::driver('google')->redirect();
     })->name('auth.google.redirect');
 
-    Route::get('/auth/callback/google', [Google::class,'callback'])->name('auth.google.callback');
+    Route::get('/auth/callback/google', [Google::class, 'callback'])->name('auth.google.callback');
 });
 
 Route::middleware('auth')->group(function () {
@@ -37,5 +37,3 @@ Route::middleware('auth')->group(function () {
     Volt::route('confirm-password', 'pages.auth.confirm-password')
         ->name('password.confirm');
 });
-
-

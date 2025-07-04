@@ -38,8 +38,8 @@ return new class extends Migration
         });
 
         \App\Models\User::create([
-                'name' => 'admin',
-                'is_admin' => true,
+            'name' => 'admin',
+            'is_admin' => true,
             'email' => 'tomaslipton@gmail.com',
             'password' => Hash::make('password'),
         ]);
