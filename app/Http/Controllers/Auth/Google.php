@@ -16,14 +16,13 @@ class Google extends Controller
     public function redirect()
     {
         return Socialite::driver('google')
-//            ->setScopes(['openid', 'email'])
             ->stateless()
+//            ->redirectUrl(config('services.google.redirect'))
             ->redirect();
     }
 
     public function callback()
     {
-        dd(1);
         try {
             $googleUser = Socialite::driver('google')
                 ->stateless()
