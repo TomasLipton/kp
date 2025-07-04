@@ -31,6 +31,25 @@ new #[Layout('layouts.app-kp')] class extends Component
             <!-- Session Status -->
             <x-auth-session-status class="mb-4" :status="session('status')" />
 
+            @if ($errors->any())
+                <div class="mb-4 rounded-lg border-4 border-red-500 bg-red-100 p-4 text-sm text-red-800" style="border: 2px salmon solid">
+                    <div class="flex">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" stroke="#EF4444" stroke-width="2" fill="#FEE2E2"/>
+                            <line x1="12" y1="7" x2="12" y2="13" stroke="#B91C1C" stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="12" cy="17" r="1.5" fill="#B91C1C"/>
+                        </svg>
+
+                        <div>
+                            <ul class="mt-1 list-disc list-inside">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            @endif
             <form wire:submit="login">
                 <!-- Email Address -->
                 <div>
@@ -69,6 +88,20 @@ new #[Layout('layouts.app-kp')] class extends Component
                     <x-primary-button class="ms-3">
                         {{ __('Log in') }}
                     </x-primary-button>
+                </div>
+
+                <div class="mt-6 text-center">
+                    ---------------------------- or ----------------------------
+                </div>
+
+                <div class="mt-6">
+                    <a href="{{ route('auth.google.redirect') }}"
+                       class="w-full inline-flex justify-center items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition ease-in-out duration-150">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M21.35 11.1H12v2.8h5.3c-.2 1.4-1.6 4-5.3 4-3.2 0-5.9-2.6-5.9-5.9s2.6-5.9 5.9-5.9c1.8 0 3 .7 3.7 1.4l2.5-2.5C16.7 3.6 14.5 2.7 12 2.7 6.9 2.7 2.7 6.9 2.7 12S6.9 21.3 12 21.3c5.4 0 8.9-3.8 8.9-9 0-.6-.1-1.1-.2-1.5z"/>
+                        </svg>
+                        {{ __('Login with Google') }}
+                    </a>
                 </div>
             </form>
         </div>

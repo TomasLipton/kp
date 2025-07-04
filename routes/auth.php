@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Auth\Google;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
 use Livewire\Volt\Volt;
 
 Route::middleware('guest')->group(function () {
@@ -16,6 +18,12 @@ Route::middleware('guest')->group(function () {
 
     Volt::route('reset-password/{token}', 'pages.auth.reset-password')
         ->name('password.reset');
+
+    Route::get('/auth/redirect/google', function () {
+        return Socialite::driver('google')->redirect();
+    })->name('auth.google.redirect');
+
+//    Route::get('/auth/callback/google', [Google::class,'callback'])->name('auth.google.redirect');
 });
 
 Route::middleware('auth')->group(function () {
@@ -29,3 +37,5 @@ Route::middleware('auth')->group(function () {
     Volt::route('confirm-password', 'pages.auth.confirm-password')
         ->name('password.confirm');
 });
+
+
