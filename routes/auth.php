@@ -23,7 +23,7 @@ Route::middleware('guest')->group(function () {
         return Socialite::driver('google')->redirect();
     })->name('auth.google.redirect');
 
-//    Route::get('/auth/callback/google', [Google::class,'callback'])->name('auth.google.redirect');
+    Route::get('/auth/callback/google', [Google::class,'callback'])->name('auth.google.redirect');
 });
 
 Route::middleware('auth')->group(function () {
