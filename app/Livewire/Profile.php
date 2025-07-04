@@ -9,8 +9,14 @@ use Livewire\Component;
 
 class Profile extends Component
 {
+
+    public $socialiteUsers = [];
+
     public function render()
     {
+        $user = auth()->user();
+
+        $this->socialiteUsers = $user->socialiteUsers;
         return view('livewire.profile');
     }
 }

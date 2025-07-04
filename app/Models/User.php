@@ -57,4 +57,9 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->hasMany(Quiz::class);
     }
+
+    public function socialiteUsers()
+    {
+        return $this->hasMany(SocialiteUser::class);
+    }
 }
