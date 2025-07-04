@@ -1,6 +1,6 @@
 {
     "(and :count more error)": "(i jeszcze :count błąd)",
-    "(and :count more errors)": "(i jeszcze :count błąd)|(i jeszcze :count błędów)|(i jeszcze :count błędów)",
+    "(and :count more errors)": "(i jeszcze :count błąd)|(i jeszcze :count błędy)|(i jeszcze :count błędów)",
     "A decryption key is required.": "Wymagany jest klucz deszyfrujący.",
     "A new verification link has been sent to the email address you provided during registration.": "Nowy link weryfikacyjny został wysłany na adres e-mail podany podczas rejestracji.",
     "A new verification link has been sent to your email address.": "Nowy link weryfikacyjny został wysłany na Twój adres e-mail.",
@@ -15,6 +15,7 @@
     "Dashboard": "Panel",
     "Delete Account": "Usuń Konto",
     "Email": "E-mail",
+    "Login with Google": "Zaloguj się przez Google",
     "email": "Pole :attribute nie jest poprawnym adresem e-mail.",
     "Email Password Reset Link": "Wyślij Link Resetowania Hasła",
     "Encrypted environment file already exists.": "Zaszyfrowany plik konfiguracji środowiska już istnieje.",
@@ -62,7 +63,7 @@
     "Reset Password Notification": "Powiadomienie o Zresetowaniu Hasła",
     "results": "wyników",
     "Save": "Zapisz",
-    "Saved.": "Zapisane.",
+    "Saved.": "Zapisano.",
     "Server Error": "Błąd Serwera",
     "Service Unavailable": "Serwis Niedostępny",
     "Showing": "Wyświetlanie",
@@ -83,5 +84,5 @@
     "Whoops!": "Ups!",
     "You are receiving this email because we received a password reset request for your account.": "Otrzymujesz ten e-mail, ponieważ otrzymaliśmy prośbę o zresetowanie hasła dla Twojego konta.",
     "You're logged in!": "Jesteś zalogowany/a!",
-    "Your email address is unverified.": "Twój adres e-mail jest niezweryfikowany."
+    "Your email address is unverified.": "Adres e-mail nie został zweryfikowany."
 }

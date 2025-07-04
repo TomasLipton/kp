@@ -90,8 +90,10 @@ new #[Layout('layouts.app-kp')] class extends Component
                     </x-primary-button>
                 </div>
 
-                <div class="mt-6 text-center">
-                    ---------------------------- or ----------------------------
+                <div class="flex items-center justify-center my-4">
+                    <div class="border-t border-gray-300 flex-grow"></div>
+                    <span class="px-4 text-gray-500 text-sm">Lub</span>
+                    <div class="border-t border-gray-300 flex-grow"></div>
                 </div>
 
                 <div class="mt-6">
