@@ -16,8 +16,6 @@ class Google extends Controller
     public function redirect()
     {
         return Socialite::driver('google')
-            ->stateless()
-//            ->redirectUrl(config('services.google.redirect'))
             ->redirect();
     }
 
@@ -25,16 +23,15 @@ class Google extends Controller
     {
         try {
             $googleUser = Socialite::driver('google')
-                ->stateless()
                 ->user();
 
         } catch (ClientException $exception) {
             return redirect('/login')->withErrors([
-                'login' => 'Authentication failed: ' . $exception->getMessage(),
-            ]);
+                'login' => 'Uwierzytelnienie nie powiodło się: ' . $exception->getMessage(),
+                ]);
         } catch (\Throwable $exception) {
             return redirect('/login')->withErrors([
-                'login' => 'Authentication failed: ' . $exception->getMessage(),
+                'login' => 'Uwierzytelnienie nie powiodło się: ' . $exception->getMessage(),
             ]);
         }
 
@@ -48,11 +45,25 @@ class Google extends Controller
             ]);
         }
 
-        SocialiteUser::firstOrCreate([
-            'user_id' => $user->id,
-            'provider' => 'google',
-            'provider_id' => $googleUser->getId(),
-        ]);
+        $socialiteUser = SocialiteUser::where('provider', 'google')
+            ->where('provider_id', $googleUser->getId())
+            ->first();
+
+        if ($socialiteUser && $socialiteUser->user_id !== $user->id) {
+            // Ошибка — провайдер уже связан с другим пользователем
+            return redirect('/login')->withErrors([
+                'login' => 'To konto Google jest już powiązane z innym użytkownikiem.',
+            ]);
+        }
+
+        if (!$socialiteUser) {
+            SocialiteUser::create([
+                'user_id' => $user->id,
+                'provider' => 'google',
+                'provider_id' => $googleUser->getId(),
+            ]);
+        }
+
 
         Auth::login($user);
 
