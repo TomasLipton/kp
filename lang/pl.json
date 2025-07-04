@@ -16,6 +16,7 @@
     "Delete Account": "Usuń Konto",
     "Email": "E-mail",
     "Login with Google": "Zaloguj się przez Google",
+    "Register with Google": "Zarejestruj się przez Google",
     "email": "Pole :attribute nie jest poprawnym adresem e-mail.",
     "Email Password Reset Link": "Wyślij Link Resetowania Hasła",
     "Encrypted environment file already exists.": "Zaszyfrowany plik konfiguracji środowiska już istnieje.",

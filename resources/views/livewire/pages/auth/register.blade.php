@@ -88,6 +88,22 @@ new #[Layout('layouts.app-kp')] class extends Component
                 {{ __('Register') }}
             </x-primary-button>
         </div>
+
+        <div class="flex items-center justify-center my-4">
+            <div class="border-t border-gray-300 flex-grow"></div>
+            <span class="px-4 text-gray-500 text-sm">Lub</span>
+            <div class="border-t border-gray-300 flex-grow"></div>
+        </div>
+
+        <div class="mt-6">
+            <a href="{{ route('auth.google.redirect') }}"
+               class="w-full inline-flex justify-center items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition ease-in-out duration-150">
+                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M21.35 11.1H12v2.8h5.3c-.2 1.4-1.6 4-5.3 4-3.2 0-5.9-2.6-5.9-5.9s2.6-5.9 5.9-5.9c1.8 0 3 .7 3.7 1.4l2.5-2.5C16.7 3.6 14.5 2.7 12 2.7 6.9 2.7 2.7 6.9 2.7 12S6.9 21.3 12 21.3c5.4 0 8.9-3.8 8.9-9 0-.6-.1-1.1-.2-1.5z"/>
+                </svg>
+                {{ __('Register with Google') }}
+            </a>
+        </div>
     </form>
 </div>
         </div>
