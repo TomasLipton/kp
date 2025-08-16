@@ -21,6 +21,7 @@ class Question extends Model
         'explanation_pl',
         'explanation_ru',
         'topics_id',
+        'is_reviewed',
     ];
 
     public function topics(): BelongsTo

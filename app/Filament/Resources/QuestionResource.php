@@ -74,6 +74,7 @@ class QuestionResource extends Resource
                         //                                    ->label('Pytanie w języku rosyjskim'),
                         //                                TextInput::make('explanation_ru'),
                         //                            ]),
+
                         Repeater::make('answers')
                             ->reactive()
                             ->helperText("For date+month use format 'DD.MM' e.g. '01.01'. For year use format 'YYYY' e.g. '2022'. For year and date+month add 1 incorrect answer with any value.")
@@ -81,7 +82,7 @@ class QuestionResource extends Resource
                             ->orderColumn('order')
                             ->grid(2)
                             ->defaultItems(4)
-                            ->maxItems(fn (Get $get): int => in_array($get('question_type'), ['year', 'date_month', 'number']) ? 2 : 5)
+                            ->maxItems(fn(Get $get): int => in_array($get('question_type'), ['year', 'date_month', 'number']) ? 2 : 5)
                             ->reorderableWithButtons()
                             ->collapsible()
                             ->cloneable()
@@ -97,10 +98,10 @@ class QuestionResource extends Resource
                                 //                                    ->label('Zdjęcie'),
                             ])
                             ->rules([
-                                fn (): Closure => function (string $attribute, $value, Closure $fail) {
+                                fn(): Closure => function (string $attribute, $value, Closure $fail) {
 
                                     // Check if at least one is_correct toggle is true
-                                    if (! collect($value)->contains('is_correct', true)) {
+                                    if (!collect($value)->contains('is_correct', true)) {
                                         $fail('At least one option must be set as correct.');
                                         Notification::make()
                                             ->title('At least one answer must be set as correct.')
@@ -114,6 +115,13 @@ class QuestionResource extends Resource
 
                 Group::make()
                     ->schema([
+                        ToggleButtons::make('is_reviewed')
+                            ->options([
+                                '1' => '1',
+                                '0' => '0',
+                            ])->inline()->required()
+                           ,
+
                         ToggleButtons::make('question_type')
                             ->label('Typ pytania')
                             ->default('single_text')
@@ -124,7 +132,7 @@ class QuestionResource extends Resource
                                 'multi_text' => 'Multi Text',
                                 'number' => 'Number',
                             ])->inline()->required()->reactive()
-                            ->disableOptionWhen(fn (string $value): bool => in_array($value, ['number', 'multi_text']))->afterStateUpdated(function ($state, callable $set) {
+                            ->disableOptionWhen(fn(string $value): bool => in_array($value, ['number', 'multi_text']))->afterStateUpdated(function ($state, callable $set) {
                                 if (in_array($state, ['year', 'date_month', 'number'])) {
                                     // Clear the repeater items when question_type is 'year'
                                     $set('answers', []);
@@ -134,6 +142,7 @@ class QuestionResource extends Resource
                         Select::make('topics_id')
                             ->relationship('topics', 'name_pl')
                             ->required(),
+
                         FileUpload::make('picture')
                             ->image()
                             ->imageEditor()
@@ -142,28 +151,30 @@ class QuestionResource extends Resource
 
                 Placeholder::make('created_at')
                     ->label('Created Date')
-                    ->content(fn (?Question $record): string => $record?->created_at?->diffForHumans() ?? '-'),
+                    ->content(fn(?Question $record): string => $record?->created_at?->diffForHumans() ?? '-'),
 
                 Placeholder::make('updated_at')
                     ->label('Last Modified Date')
-                    ->content(fn (?Question $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
+                    ->content(fn(?Question $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
 
-            ])->columns(3);
+            ])->columns(3)
+            ;
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                IconColumn::make('Picture')->boolean(fn () => true)->default(fn (Question $question) => $question->picture),
-                IconColumn::make('Voice')->boolean(fn () => true)->default(fn (Question $question) => $question->aiSpeach()->count() > 0),
+                IconColumn::make('Picture')->boolean(fn() => true)->default(fn(Question $question) => $question->picture)->sortable(),
+                IconColumn::make('is_reviewed')->boolean()->sortable(),
+                IconColumn::make('Voice')->boolean(fn() => true)->default(fn(Question $question) => $question->aiSpeach()->count() > 0),
                 TextColumn::make('question_pl')->extraAttributes([
                     'style' => 'max-width:260px',
                 ])
                     ->searchable()
                     ->wrap(),
 
-                TextColumn::make('question_type'),
+                TextColumn::make('question_type')->sortable(),
 
                 TextColumn::make('topics.name_pl')
                     ->label('Topic')
@@ -188,7 +199,7 @@ class QuestionResource extends Resource
                         });
                     })
                     ->beforeReplicaSaved(function (Question $question, Question $replica) {
-                        $replica->question_pl = $question->question_pl.' (Copy)';
+                        $replica->question_pl = $question->question_pl . ' (Copy)';
 
                         return $replica;
                     }),
@@ -204,6 +215,8 @@ class QuestionResource extends Resource
                     ForceDeleteBulkAction::make(),
                 ]),
             ])
+            ->persistFiltersInSession()
+            ->poll('5s')
             ->defaultSort('created_at', 'desc');
     }
 
