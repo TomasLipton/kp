@@ -103,6 +103,14 @@ class QuestionResource extends Resource
                             ])
                             ->rules([
                                 fn(): Closure => function (string $attribute, $value, Closure $fail) {
+                                    // Check if at least 2 answers exist
+                                    if (count($value) < 2) {
+                                        $fail('Należy podać co najmniej 2 odpowiedzi.');
+                                        Notification::make()
+                                            ->title('Należy podać co najmniej 2 odpowiedzi.')
+                                            ->danger()
+                                            ->send();
+                                    }
 
                                     // Check if at least one is_correct toggle is true
                                     if (!collect($value)->contains('is_correct', true)) {
