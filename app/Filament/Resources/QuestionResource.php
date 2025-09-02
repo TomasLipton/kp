@@ -192,7 +192,9 @@ class QuestionResource extends Resource
             ])
             ->filters([
                 TrashedFilter::make(),
-                SelectFilter::make('topics_id')->relationship('topics', 'name_pl'),
+                SelectFilter::make('topics_id')
+                    ->relationship('topics', 'name_pl')
+                    ->label('Temat'),
 
             ])
             ->actions([

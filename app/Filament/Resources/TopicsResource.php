@@ -19,7 +19,7 @@ class TopicsResource extends Resource
 {
     protected static ?string $model = Topics::class;
 
-    protected static ?string $navigationIcon = 'heroicon-s-rectangle-group';
+    protected static ?string $navigationIcon = 'heroicon-s-book-open';
 
     protected static ?string $navigationGroup = 'Quiz';
 

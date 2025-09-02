@@ -13,6 +13,7 @@ class AiSpeachRelationManager extends RelationManager
 {
     protected static string $relationship = 'aiSpeach';
 
+
     public function form(Form $form): Form
     {
         return $form
