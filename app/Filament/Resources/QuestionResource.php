@@ -169,19 +169,24 @@ class QuestionResource extends Resource
     {
         return $table
             ->columns([
-                IconColumn::make('Picture')->boolean(fn() => true)->default(fn(Question $question) => $question->picture)->sortable(),
-                IconColumn::make('is_reviewed')->boolean()->sortable(),
+                IconColumn::make('Picture')->label('Zdjęcie')->boolean(fn() => true)->default(fn(Question $question) => $question->picture)->sortable(),
+                IconColumn::make('is_reviewed')
+                    ->label('Zweryfikowano')
+                    ->boolean()->sortable(),
                 IconColumn::make('Voice')->boolean(fn() => true)->default(fn(Question $question) => $question->aiSpeach()->count() > 0),
-                TextColumn::make('question_pl')->extraAttributes([
+                TextColumn::make('question_pl' )
+                ->label('Pytanie (PL)')
+               ->extraAttributes([
                     'style' => 'max-width:260px',
                 ])
                     ->searchable()
                     ->wrap(),
 
-                TextColumn::make('question_type')->sortable(),
+                TextColumn::make('question_type')
+                    ->label('Typ')->sortable(),
 
                 TextColumn::make('topics.name_pl')
-                    ->label('Topic')
+                    ->label('Temat')
                     ->searchable()
                     ->sortable(),
             ])
