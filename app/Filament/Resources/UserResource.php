@@ -90,13 +90,21 @@ class UserResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
+                    ->label('Imię')
                     ->searchable(),
                 TextColumn::make('email')
+                    ->label('Email')
                     ->searchable(),
+                TextColumn::make('quizzes_count')
+                    ->label('Liczba quizów')
+                    ->counts('quizzes')
+                    ->sortable(),
                 TextColumn::make('created_at')
+                    ->label('Data utworzenia')
                     ->dateTime()
                     ->sortable(),
                 ToggleColumn::make('is_admin')
+                    ->label('Administrator')
             ])
             ->defaultSort('created_at', 'desc');
     }
