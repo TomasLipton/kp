@@ -14,6 +14,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\HtmlString;
@@ -90,6 +91,7 @@ class UserResource extends Resource
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable(),
+                ToggleColumn::make('is_admin')
             ])
             ->defaultSort('created_at', 'desc');
     }
