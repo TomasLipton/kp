@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\UserResource\Pages\CreateUser;
 use App\Filament\Resources\UserResource\Pages\EditUser;
 use App\Filament\Resources\UserResource\Pages\ListUsers;
+use App\Filament\Resources\UserResource\RelationManagers\SocialiteUsersRelationManager;
 use App\Models\User;
 use Closure;
 use Filament\Forms\Components\Card;
@@ -109,7 +110,7 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            SocialiteUsersRelationManager::class,
         ];
     }
 

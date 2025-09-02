@@ -11,7 +11,6 @@ use Filament\Resources\Resource;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
-use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -22,6 +21,8 @@ class SocialiteUserResource extends Resource
     protected static ?string $slug = 'socialite-users';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function form(Form $form): Form
     {
@@ -61,7 +62,6 @@ class SocialiteUserResource extends Resource
                 //
             ])
             ->actions([
-                EditAction::make(),
                 DeleteAction::make(),
             ])
             ->bulkActions([
@@ -75,8 +75,6 @@ class SocialiteUserResource extends Resource
     {
         return [
             'index' => Pages\ListSocialiteUsers::route('/'),
-            'create' => Pages\CreateSocialiteUser::route('/create'),
-            'edit' => Pages\EditSocialiteUser::route('/{record}/edit'),
         ];
     }
 
