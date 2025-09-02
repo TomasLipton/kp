@@ -121,10 +121,15 @@ class QuestionResource extends Resource
                     ->schema([
                         ToggleButtons::make('is_reviewed')
                             ->options([
-                                '1' => '1',
-                                '0' => '0',
-                            ])->inline()->required()
-                           ,
+                                '1' => 'Tak',
+                                '0' => 'Nie',
+                            ])
+                            ->colors([
+                                '1' => 'success',
+                                '0' => 'danger',
+                            ])
+                            ->inline()
+                            ->default(1)->required(),
 
                         ToggleButtons::make('question_type')
                             ->label('Typ pytania')
@@ -135,7 +140,10 @@ class QuestionResource extends Resource
                                 'year' => 'Year',
                                 'multi_text' => 'Multi Text',
                                 'number' => 'Number',
-                            ])->inline()->required()->reactive()
+                            ])
+                            ->inline()
+                            ->required()
+                            ->reactive()
                             ->disableOptionWhen(fn(string $value): bool => in_array($value, ['number', 'multi_text']))->afterStateUpdated(function ($state, callable $set) {
                                 if (in_array($state, ['year', 'date_month', 'number'])) {
                                     // Clear the repeater items when question_type is 'year'
@@ -173,7 +181,7 @@ class QuestionResource extends Resource
                 IconColumn::make('is_reviewed')
                     ->label('Zweryfikowano')
                     ->boolean()->sortable(),
-                IconColumn::make('Voice')->boolean(fn() => true)->default(fn(Question $question) => $question->aiSpeach()->count() > 0),
+                IconColumn::make('Voice')->label('Audio')->boolean(fn() => true)->default(fn(Question $question) => $question->aiSpeach()->count() > 0),
                 TextColumn::make('question_pl' )
                 ->label('Pytanie (PL)')
                ->extraAttributes([
