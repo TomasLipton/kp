@@ -113,7 +113,10 @@ class SurveyQuestion extends Component
         if ($this->chosenAnswer || strlen($date) > 2 || strlen($date) < 1) {
             return;
         }
-        $this->chosenAnswer = $this->question->answers->where('text', $date.'.'.$month)->first();
+
+        $formattedMonth = str_pad($month, 2, '0', STR_PAD_LEFT);
+
+        $this->chosenAnswer = $this->question->answers->where('text', $date.'.'.$formattedMonth)->first();
 
         if (! $this->chosenAnswer) {
             $this->chosenAnswer = $this->question->answers->where('is_correct', 0)->first();
