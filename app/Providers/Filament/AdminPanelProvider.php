@@ -55,6 +55,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->plugins([
                 FilamentLaravelLogPlugin::make()
+                ->navigationSort(3)
             ])
             ->authMiddleware([
                 Authenticate::class,

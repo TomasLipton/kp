@@ -34,6 +34,10 @@ class AiSpeachResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-m-beaker';
 
+    protected static ?string $navigationGroup = 'System';
+
+    protected static ?int $navigationSort = 30;
+
     public static function form(Form $form): Form
     {
         return $form

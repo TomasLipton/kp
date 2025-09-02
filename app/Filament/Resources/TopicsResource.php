@@ -21,6 +21,15 @@ class TopicsResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-s-rectangle-group';
 
+    protected static ?string $navigationGroup = 'Quiz';
+
+    protected static ?string $label = 'Temat';
+
+    protected static ?string $pluralLabel = 'Tematy';
+
+
+    protected static ?int $navigationSort = 1;
+
     public static function form(Form $form): Form
     {
         return $form

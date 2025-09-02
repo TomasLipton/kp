@@ -25,6 +25,10 @@ class UserResource extends Resource
 {
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
+    protected static ?string $navigationGroup = 'Users';
+
+    protected static ?int $navigationSort = 2;
+
     protected static bool|Closure $enablePasswordUpdates = false;
 
     protected static ?Closure $extendFormCallback = null;
