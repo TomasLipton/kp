@@ -154,8 +154,11 @@ class QuestionResource extends Resource
                             ->reactive()
                             ->disableOptionWhen(fn(string $value): bool => in_array($value, ['number', 'multi_text']))->afterStateUpdated(function ($state, callable $set) {
                                 if (in_array($state, ['year', 'date_month', 'number'])) {
-                                    // Clear the repeater items when question_type is 'year'
-                                    $set('answers', []);
+                                    // Create 2 default answer items
+                                    $set('answers', [
+                                        ['text' => '', 'is_correct' => true, 'order' => 1],
+                                        ['text' => '', 'is_correct' => false, 'order' => 2],
+                                    ]);
                                 }
                             }),
 
