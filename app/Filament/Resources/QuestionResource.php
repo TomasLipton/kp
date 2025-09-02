@@ -152,6 +152,7 @@ class QuestionResource extends Resource
                             }),
 
                         Select::make('topics_id')
+                            ->label('Tematy')
                             ->relationship('topics', 'name_pl')
                             ->required(),
 
@@ -191,6 +192,23 @@ class QuestionResource extends Resource
                     ->wrap(),
 
                 TextColumn::make('question_type')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'single_text' => 'info',
+                        'date_month' => 'warning',
+                        'year' => 'success',
+                        'multi_text' => 'danger',
+                        'number' => 'primary',
+                        default => 'gray',
+                    })
+                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                        'single_text' => 'Single Text',
+                        'date_month' => 'Date Month',
+                        'year' => 'Year',
+                        'multi_text' => 'Multi Text',
+                        'number' => 'Number',
+                        default => $state,
+                    })
                     ->label('Typ')->sortable(),
 
                 TextColumn::make('topics.name_pl')
