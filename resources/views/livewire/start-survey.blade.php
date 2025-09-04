@@ -275,7 +275,7 @@
                 <div class="relative h-48 overflow-hidden">
                     <img
                         id="quiz-image"
-                        src="{{$topic->picture}}"
+                        src="{{url('storage/' . $topic->picture)}}"
                         alt="Quiz Title"
                         class="w-full h-full object-cover"
                     />
@@ -284,7 +284,7 @@
                             id="difficulty-badge"
                             class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-500/90 text-white border-0 backdrop-blur-sm"
                         >
-                            Medium
+                            Średni
                         </span>
                     </div>
                 </div>
@@ -325,28 +325,28 @@
 
                     <!-- Mode Selector -->
                     <div class="mb-6">
-                        <h3 class="text-sm font-semibold text-foreground mb-3">Choose Mode:</h3>
+                        <h3 class="text-sm font-semibold text-foreground mb-3">Wybierz tryb:</h3>
                         <div class="grid grid-cols-1 gap-2">
                             <button
                                 data-mode="all"
                                 class="mode-button p-3 rounded-lg border-2 text-left transition-all border-primary bg-primary/5 text-foreground"
                             >
-                                <div class="font-medium">All Questions</div>
-                                <div class="text-sm opacity-75">Complete quiz with all questions</div>
+                                <div class="font-medium">Wszystkie pytania</div>
+                                <div class="text-sm opacity-75">Ukończ quiz ze wszystkimi pytaniami</div>
                             </button>
                             <button
                                 data-mode="timed"
                                 class="mode-button p-3 rounded-lg border-2 text-left transition-all border-border bg-secondary/30 text-muted-foreground hover:border-primary/50"
                             >
-                                <div class="font-medium">Timed Mode</div>
-                                <div class="text-sm opacity-75">Race against the clock</div>
+                                <div class="font-medium">Tryb czasowy</div>
+                                <div class="text-sm opacity-75">Wyścig z czasem</div>
                             </button>
                             <button
                                 data-mode="practice"
                                 class="mode-button p-3 rounded-lg border-2 text-left transition-all border-border bg-secondary/30 text-muted-foreground hover:border-primary/50"
                             >
-                                <div class="font-medium">Practice Mode</div>
-                                <div class="text-sm opacity-75">No time limit, learn at your pace</div>
+                                <div class="font-medium">Tryb ćwiczeń</div>
+                                <div class="text-sm opacity-75">Bez limitu czasu, ucz się we własnym tempie</div>
                             </button>
                         </div>
                     </div>
@@ -356,11 +356,11 @@
                         <div class="flex items-center gap-2 text-sm">
                             <i data-lucide="book-open" class="w-4 h-4 text-primary"></i>
                             <span id="current-mode-questions" class="font-medium text-foreground">
-                                25 Questions
+                                25 Pytań
                             </span>
                             <span class="text-muted-foreground">•</span>
                             <span id="current-mode-desc" class="text-muted-foreground">
-                                Complete quiz with all questions
+                                Ukończ quiz ze wszystkimi pytaniami
                             </span>
                         </div>
                     </div>
@@ -375,7 +375,7 @@
                         "
                     >
                         <i data-lucide="play" class="w-5 h-5 mr-2 fill-current inline"></i>
-                        Start All Questions
+                        Rozpocznij wszystkie pytania
                     </button>
                 </div>
             </div>
