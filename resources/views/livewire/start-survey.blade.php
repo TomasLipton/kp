@@ -115,7 +115,12 @@
         }
     </style>
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+@script
+<script>
+    lucide.createIcons();
+</script>
 
+@endscript
 
 <style>
 
@@ -231,12 +236,7 @@
     }
 </style>
 @endassets
-@script
-<script>
-    lucide.createIcons();
-</script>
 
-@endscript
 <div>
 {{--    <div class="quiz-container">--}}
 {{--        <h1 class="quiz-title">{{$topic->name_pl}}</h1>--}}
