@@ -305,12 +305,13 @@
                         <div class="flex items-center gap-1">
                             <i data-lucide="book-open" class="w-4 h-4"></i>
                             <span id="quiz-questions">
-
+     {{$topic->questions->count()}}
                                 @php
          $count = $topic->questions()->count();
                                                 @endphp
-                                                @if($count == 1) pytanie: @elseif($count % 10 >= 2 && $count % 10 <= 4 && ($count % 100 < 10 || $count % 100 >= 20)) pytania: @else pytań: @endif
-                                {{$topic->questions->count()}}
+
+                                                @if($count == 1) pytanie @elseif($count % 10 >= 2 && $count % 10 <= 4 && ($count % 100 < 10 || $count % 100 >= 20)) pytania @else pytań @endif
+
                             </span>
                         </div>
                         <div class="flex items-center gap-1">
