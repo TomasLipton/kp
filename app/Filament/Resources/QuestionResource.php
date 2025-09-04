@@ -11,11 +11,11 @@ use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\ToggleButtons;
+use App\Models\Topics;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Notifications\Notification;
@@ -162,9 +162,9 @@ class QuestionResource extends Resource
                                 }
                             }),
 
-                        Select::make('topics_id')
+                        ToggleButtons::make('topics_id')
                             ->label('Tematy')
-                            ->relationship('topics', 'name_pl')
+                            ->options(Topics::all()->pluck('name_pl', 'id'))
                             ->required(),
 
                         FileUpload::make('picture')
@@ -236,6 +236,8 @@ class QuestionResource extends Resource
             ])
             ->actions([
                 ReplicateAction::make()
+                    ->color('warning')
+                    ->iconButton()
                     ->after(function (Question $replica, Question $question) {
                         $question->answers()->each(function ($answer) use ($replica) {
                             $replica->answers()->create([
@@ -251,8 +253,10 @@ class QuestionResource extends Resource
 
                         return $replica;
                     }),
-                EditAction::make(),
-                DeleteAction::make(),
+                EditAction::make()
+                    ->color('info')
+                    ->iconButton(),
+                DeleteAction::make()->iconButton(),
                 RestoreAction::make(),
                 ForceDeleteAction::make(),
             ])

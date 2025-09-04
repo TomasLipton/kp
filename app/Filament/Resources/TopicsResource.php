@@ -82,7 +82,12 @@ class TopicsResource extends Resource
                 Tables\Columns\TextColumn::make('name_pl')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name_ru')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('questions_count')
+                    ->label('Questions')
+                    ->counts('questions')
+                    ->badge(),
             ])
             ->filters([
                 //
