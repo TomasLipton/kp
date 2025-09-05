@@ -107,6 +107,24 @@ class SurveyQuestion extends Component
         ]))->save();
     }
 
+    public function submitNumber($value)
+    {
+        if ($this->chosenAnswer) {
+            return;
+        }
+
+        $this->chosenAnswer = $this->question->answers->where('text', $value)->first();
+
+        if (! $this->chosenAnswer) {
+            $this->chosenAnswer = $this->question->answers->where('is_correct', 0)->first();
+        }
+
+        (new QuizAnswer([
+            'quiz_id' => $this->quiz->id,
+            'question_answer_id' => $this->chosenAnswer->id,
+        ]))->save();
+    }
+
     public function submitDateMonth($date, $month)
     {
 

@@ -127,17 +127,17 @@ class QuestionResource extends Resource
 
                 Group::make()
                     ->schema([
-                        ToggleButtons::make('is_reviewed')
-                            ->options([
-                                '1' => 'Tak',
-                                '0' => 'Nie',
-                            ])
-                            ->colors([
-                                '1' => 'success',
-                                '0' => 'danger',
-                            ])
-                            ->inline()
-                            ->default(1)->required(),
+//                        ToggleButtons::make('is_reviewed')
+//                            ->options([
+//                                '1' => 'Tak',
+//                                '0' => 'Nie',
+//                            ])
+//                            ->colors([
+//                                '1' => 'success',
+//                                '0' => 'danger',
+//                            ])
+//                            ->inline()
+//                            ->default(1)->required(),
 
                         ToggleButtons::make('question_type')
                             ->label('Typ pytania')
@@ -146,13 +146,13 @@ class QuestionResource extends Resource
                                 'single_text' => 'Single Text',
                                 'date_month' => 'Date Month',
                                 'year' => 'Year',
-                                'multi_text' => 'Multi Text',
                                 'number' => 'Number',
+                                'multi_text' => 'Multi Text',
                             ])
                             ->inline()
                             ->required()
                             ->reactive()
-                            ->disableOptionWhen(fn(string $value): bool => in_array($value, ['number', 'multi_text']))->afterStateUpdated(function ($state, callable $set) {
+                            ->disableOptionWhen(fn(string $value): bool => in_array($value,  ['multi_text']))->afterStateUpdated(function ($state, callable $set) {
                                 if (in_array($state, ['year', 'date_month', 'number'])) {
                                     // Create 2 default answer items
                                     $set('answers', [
