@@ -268,7 +268,7 @@
 {{--        <button class="start-button" wire:click="startSurvey">Rozpocznij Quiz</button>--}}
 {{--        <br>--}}
 {{--    </div>--}}
-    <div class="min-h-screen bg-background py-8 px-4">
+    <div class="min-h-screen  py-8 px-4">
         <div class="container max-w-[1200px] mx-auto">
             <div class="overflow-hidden bg-card shadow-card border border-border/50 rounded-lg">
                 <!-- Quiz Image -->

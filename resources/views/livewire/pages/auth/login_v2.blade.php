@@ -1,0 +1,294 @@
+<?php
+
+use App\Livewire\Forms\LoginForm;
+use Illuminate\Support\Facades\Session;
+use Livewire\Attributes\Layout;
+use Livewire\Volt\Component;
+
+new #[Layout('layouts.app-kp')] class extends Component
+{
+    public LoginForm $form;
+
+    /**
+     * Handle an incoming authentication request.
+     */
+    public function login(): void
+    {
+        $this->validate();
+
+        $this->form->authenticate();
+
+        Session::regenerate();
+
+        $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
+    }
+}; ?>
+
+@assets
+<style>
+    @layer base {
+        :root {
+            /* Polish flag inspired theme - light and modern */
+            --background: 0 0% 99%;
+            --foreground: 0 0% 12%;
+
+            --card: 0 0% 100%;
+            --card-foreground: 0 0% 12%;
+
+            --popover: 0 0% 100%;
+            --popover-foreground: 0 0% 12%;
+
+            /* Polish red as primary - modern and elegant */
+            --primary: 348 75% 60%;
+            --primary-foreground: 0 0% 100%;
+
+            --secondary: 0 0% 96%;
+            --secondary-foreground: 0 0% 20%;
+
+            --muted: 0 0% 97%;
+            --muted-foreground: 0 0% 45%;
+
+            /* Light red accent for Polish theme */
+            --accent: 348 50% 95%;
+            --accent-foreground: 348 75% 60%;
+
+            --destructive: 0 84% 60%;
+            --destructive-foreground: 0 0% 98%;
+
+            --border: 0 0% 90%;
+            --input: 0 0% 90%;
+            --ring: 348 75% 60%;
+
+            --radius: 0.75rem;
+
+            /* Polish theme design tokens */
+            --gradient-primary: linear-gradient(135deg, hsl(348 75% 60%), hsl(348 65% 70%));
+            --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(348 20% 97%));
+            --quiz-success: 145 65% 50%;
+            --quiz-warning: 35 85% 55%;
+            --quiz-info: 348 40% 70%;
+            --shadow-glow: 0 10px 40px -10px hsl(348 75% 60% / 0.25);
+            --shadow-card: 0 4px 20px -4px hsl(0 0% 0% / 0.08);
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+            --sidebar-background: 0 0% 98%;
+
+            --sidebar-foreground: 240 5.3% 26.1%;
+
+            --sidebar-primary: 240 5.9% 10%;
+
+            --sidebar-primary-foreground: 0 0% 98%;
+
+            --sidebar-accent: 240 4.8% 95.9%;
+
+            --sidebar-accent-foreground: 240 5.9% 10%;
+
+            --sidebar-border: 220 13% 91%;
+
+            --sidebar-ring: 217.2 91.2% 59.8%;
+        }
+
+        .dark {
+            --background: 222.2 84% 4.9%;
+            --foreground: 210 40% 98%;
+
+            --card: 222.2 84% 4.9%;
+            --card-foreground: 210 40% 98%;
+
+            --popover: 222.2 84% 4.9%;
+            --popover-foreground: 210 40% 98%;
+
+            --primary: 210 40% 98%;
+            --primary-foreground: 222.2 47.4% 11.2%;
+
+            --secondary: 217.2 32.6% 17.5%;
+            --secondary-foreground: 210 40% 98%;
+
+            --muted: 217.2 32.6% 17.5%;
+            --muted-foreground: 215 20.2% 65.1%;
+
+            --accent: 217.2 32.6% 17.5%;
+            --accent-foreground: 210 40% 98%;
+
+            --destructive: 0 62.8% 30.6%;
+            --destructive-foreground: 210 40% 98%;
+
+            --border: 217.2 32.6% 17.5%;
+            --input: 217.2 32.6% 17.5%;
+            --ring: 212.7 26.8% 83.9%;
+            --sidebar-background: 240 5.9% 10%;
+            --sidebar-foreground: 240 4.8% 95.9%;
+            --sidebar-primary: 224.3 76.3% 48%;
+            --sidebar-primary-foreground: 0 0% 100%;
+            --sidebar-accent: 240 3.7% 15.9%;
+            --sidebar-accent-foreground: 240 4.8% 95.9%;
+            --sidebar-border: 240 3.7% 15.9%;
+            --sidebar-ring: 217.2 91.2% 59.8%;
+        }
+    }
+
+    @layer base {
+        * {
+            @apply border-border;
+        }
+
+        body {
+            @apply bg-background text-foreground;
+            min-height: 100vh;
+        }
+    }
+</style>
+@endassets
+
+<script>
+    function updateButtonStates() {
+        const privacyChecked = document.getElementById('privacy').checked;
+        const rulesChecked = document.getElementById('rules').checked;
+        const isValid = privacyChecked && rulesChecked;
+
+        const buttons = document.querySelectorAll('button[name="provider"]');
+        buttons.forEach(button => {
+            // button.disabled = !isValid;
+        });
+
+        // Pokaż/ukryj przypomnienie o warunkach
+        const reminder = document.querySelector('p.text-muted-foreground');
+        if (reminder) {
+            // reminder.style.display = isValid ? 'none' : 'block';
+        }
+    }
+
+    // Inicjalizacja po załadowaniu strony
+    document.addEventListener('DOMContentLoaded', updateButtonStates);
+</script>
+
+{{--<div class="font-sans text-gray-900 antialiased">--}}
+    <div class="min-h-screen">
+
+        <main class="px-4 py-16">
+            <div class="max-w-md mx-auto">
+                <div class="p-8 bg-gradient-card shadow-card border-0 rounded-lg">
+                    <div class="text-center mb-8">
+                        <h1 class="text-2xl font-bold mb-2">
+                            Zaloguj się do konta
+                        </h1>
+                        <p class="text-muted-foreground">
+                            Wybierz sposób logowania
+                        </p>
+                    </div>
+
+                    <form method="GET" action="{{ route('auth.google.redirect') }}">
+                        @csrf
+
+                        <!-- Ukryte pola do śledzenia stanu pól wyboru -->
+                        <input type="hidden" name="privacy_accepted" value="{{ old('privacy_accepted', '0') }}">
+                        <input type="hidden" name="rules_accepted" value="{{ old('rules_accepted', '0') }}">
+
+                        <!-- Przyciski logowania społecznościowego -->
+                        <div class="space-y-3 mb-8">
+                            <button
+                                type="submit"
+                                name="provider"
+                                value="google"
+                                class="
+                                w-full py-3 text-base border border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed
+                                hover:text-accent-foreground hover:bg-accent
+
+
+                                "
+{{--                                @if(!old('privacy_accepted') || !old('rules_accepted')) disabled @endif--}}
+                            >
+                                <svg class="w-5 h-5 mr-3" viewBox="0 0 24 24">
+                                    <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                    <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                    <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                                    <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                                </svg>
+                                Zaloguj się przez Google
+                            </button>
+
+{{--                            <button--}}
+{{--                                type="submit"--}}
+{{--                                name="provider"--}}
+{{--                                value="apple"--}}
+{{--                                class="w-full py-6 text-base border border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"--}}
+{{--                                @if(!old('privacy_accepted') || !old('rules_accepted')) disabled @endif--}}
+{{--                            >--}}
+{{--                                <svg class="w-5 h-5 mr-3" viewBox="0 0 24 24" fill="currentColor">--}}
+{{--                                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>--}}
+{{--                                </svg>--}}
+{{--                                Zaloguj się przez Apple--}}
+{{--                            </button>--}}
+
+{{--                            <button--}}
+{{--                                type="submit"--}}
+{{--                                name="provider"--}}
+{{--                                value="facebook"--}}
+{{--                                class="w-full py-6 text-base border border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"--}}
+{{--                                @if(!old('privacy_accepted') || !old('rules_accepted')) disabled @endif--}}
+{{--                            >--}}
+{{--                                <svg class="w-5 h-5 mr-3" viewBox="0 0 24 24" fill="currentColor">--}}
+{{--                                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>--}}
+{{--                                </svg>--}}
+{{--                                Zaloguj się przez Facebook--}}
+{{--                            </button>--}}
+                        </div>
+
+                        <!-- Pola wyboru -->
+                        <div class="space-y-4 mb-6">
+                            <div class="flex items-start space-x-3">
+                                <input
+                                    type="checkbox"
+                                    id="privacy"
+                                    name="privacy_accepted"
+                                    value="1"
+                                    class="mt-1 rounded border-gray-300 text-primary focus:border-primary focus:ring-primary"
+                                    {{ old('privacy_accepted') ? 'checked' : '' }}
+                                    onchange="this.form.querySelector('input[name=privacy_accepted][type=hidden]').value = this.checked ? '1' : '0'; updateButtonStates()"
+                                >
+                                <label
+                                    for="privacy"
+                                    class="text-sm leading-5 cursor-pointer"
+                                >
+                                    Akceptuję
+                                    <a href="#" class="text-primary hover:underline">
+                                        politykę prywatności
+                                    </a>
+                                </label>
+                            </div>
+
+                            <div class="flex items-start space-x-3">
+                                <input
+                                    type="checkbox"
+                                    id="rules"
+                                    name="rules_accepted"
+                                    value="1"
+                                    class="mt-1 rounded border-gray-300 text-primary focus:border-primary focus:ring-primary"
+                                    {{ old('rules_accepted') ? 'checked' : '' }}
+                                    onchange="this.form.querySelector('input[name=rules_accepted][type=hidden]').value = this.checked ? '1' : '0'; updateButtonStates()"
+                                >
+                                <label
+                                    for="rules"
+                                    class="text-sm leading-5 cursor-pointer"
+                                >
+                                    Akceptuję
+                                    <a href="#" class="text-primary hover:underline">
+                                        regulamin
+                                    </a>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Przypomnienie o warunkach -->
+                        @if(!old('privacy_accepted') || !old('rules_accepted'))
+                            <p class="text-sm text-muted-foreground text-center">
+                                Musisz zaakceptować wszystkie warunki, aby kontynuować
+                            </p>
+                        @endif
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+{{--</div>--}}
+
