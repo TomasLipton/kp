@@ -14,10 +14,15 @@ export default {
     ],
 
     theme: {
+        // container: {
+        //     center: true,
+        //     padding: '2rem',
+        //     screens: {
+        //         'lg': '1200px',
+        //         '2xl': '1200px'
+        //     }
+        // },
         extend: {
-            fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
-            },
             colors: {
                 border: 'hsl(var(--border))',
                 input: 'hsl(var(--input))',
@@ -109,5 +114,5 @@ export default {
         },
     },
 
-    plugins: [forms],
+    plugins: [forms, require("tailwindcss-animate")],
 };

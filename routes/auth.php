@@ -7,7 +7,7 @@ use Laravel\Socialite\Facades\Socialite;
 use Livewire\Volt\Volt;
 
 Route::middleware('guest')->group(function () {
-    Volt::route('register', 'pages.auth.register')
+    Volt::route('register', 'pages.auth.register_v2')
         ->name('register');
 
     Volt::route('login', 'pages.auth.login_v2')

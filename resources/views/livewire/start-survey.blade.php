@@ -238,37 +238,7 @@
 @endassets
 
 <div>
-{{--    <div class="quiz-container">--}}
-{{--        <h1 class="quiz-title">{{$topic->name_pl}}</h1>--}}
-{{--        <p class="quiz-description">{{$topic->description_pl}}</p>--}}
-{{--        <div class="quiz-info">--}}
-{{--            <p class="questions-available">--}}
-{{--                Dostępne   @php--}}
-{{--                    $count = $topic->questions()->count();--}}
-{{--                @endphp--}}
-{{--                @if($count == 1) pytanie: @elseif($count % 10 >= 2 && $count % 10 <= 4 && ($count % 100 < 10 || $count % 100 >= 20)) pytania: @else pytań: @endif--}}
-{{--                <b class="number">{{$topic->questions->count()}}</b></p>--}}
-{{--            <p class="mode-label">Wybierz tryb:</p>--}}
-{{--            <div class="mode-options">--}}
-{{--                <label class="mode-option" wire:click="setMode('Wszystkie pytania')">--}}
-{{--                    <input type="radio" name="mode" value="easy"  checked>--}}
-{{--                    <span class="radio-custom"></span>--}}
-{{--                    Wszystkie pytania--}}
-{{--                </label>--}}
-{{--                <label class="mode-option"--}}
-{{--                       wire:click="setMode('10 pytań')"--}}
-{{--style="color: #9ca3af"--}}
-{{--                >--}}
-{{--                    <input type="radio" name="mode"  disabled>--}}
-{{--                    <span class="radio-custom" ></span>--}}
-{{--                    10 pytań (wkrótce)--}}
-{{--                </label>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--        <button class="start-button" wire:click="startSurvey">Rozpocznij Quiz</button>--}}
-{{--        <br>--}}
-{{--    </div>--}}
-    <div class="min-h-screen  py-8 px-4">
+    <div class="min-h-screen_  py-8 px-4">
         <div class="container max-w-[1200px] mx-auto">
             <div class="overflow-hidden bg-card shadow-card border border-border/50 rounded-lg">
                 <!-- Quiz Image -->
