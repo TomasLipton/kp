@@ -305,20 +305,20 @@
                                 <div class="font-medium">Wszystkie pytania</div>
                                 <div class="text-sm opacity-75">Ukończ quiz ze wszystkimi pytaniami</div>
                             </button>
-                            <button
-                                data-mode="timed"
-                                class="mode-button p-3 rounded-lg border-2 text-left transition-all border-border bg-secondary/30 text-muted-foreground hover:border-primary/50"
-                            >
-                                <div class="font-medium">Tryb czasowy</div>
-                                <div class="text-sm opacity-75">Wyścig z czasem</div>
-                            </button>
-                            <button
-                                data-mode="practice"
-                                class="mode-button p-3 rounded-lg border-2 text-left transition-all border-border bg-secondary/30 text-muted-foreground hover:border-primary/50"
-                            >
-                                <div class="font-medium">Tryb ćwiczeń</div>
-                                <div class="text-sm opacity-75">Bez limitu czasu, ucz się we własnym tempie</div>
-                            </button>
+{{--                            <button--}}
+{{--                                data-mode="timed"--}}
+{{--                                class="mode-button p-3 rounded-lg border-2 text-left transition-all border-border bg-secondary/30 text-muted-foreground hover:border-primary/50"--}}
+{{--                            >--}}
+{{--                                <div class="font-medium">Tryb czasowy</div>--}}
+{{--                                <div class="text-sm opacity-75">Wyścig z czasem</div>--}}
+{{--                            </button>--}}
+{{--                            <button--}}
+{{--                                data-mode="practice"--}}
+{{--                                class="mode-button p-3 rounded-lg border-2 text-left transition-all border-border bg-secondary/30 text-muted-foreground hover:border-primary/50"--}}
+{{--                            >--}}
+{{--                                <div class="font-medium">Tryb ćwiczeń</div>--}}
+{{--                                <div class="text-sm opacity-75">Bez limitu czasu, ucz się we własnym tempie</div>--}}
+{{--                            </button>--}}
                         </div>
                     </div>
 
@@ -327,7 +327,7 @@
                         <div class="flex items-center gap-2 text-sm">
                             <i data-lucide="book-open" class="w-4 h-4 text-primary"></i>
                             <span id="current-mode-questions" class="font-medium text-foreground">
-                                25 Pytań
+                               {{$topic->questions->count()}}  @if($count == 1) pytanie @elseif($count % 10 >= 2 && $count % 10 <= 4 && ($count % 100 < 10 || $count % 100 >= 20)) pytania @else pytań @endif
                             </span>
                             <span class="text-muted-foreground">•</span>
                             <span id="current-mode-desc" class="text-muted-foreground">
