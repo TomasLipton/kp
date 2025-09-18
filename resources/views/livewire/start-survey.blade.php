@@ -121,121 +121,22 @@
         .start-button {
             font-size: 16px; /* Smaller font size for button */
         }
+
+        /* Force text wrapping on mobile */
+        .mode-button div {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+
+        #current-mode-desc {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
     }
 </style>
 <style>
-
-    @layer base {
-        :root {
-            /* Polish flag inspired theme - light and modern */
-            --background: 0 0% 99%;
-            --foreground: 0 0% 12%;
-
-            --card: 0 0% 100%;
-            --card-foreground: 0 0% 12%;
-
-            --popover: 0 0% 100%;
-            --popover-foreground: 0 0% 12%;
-
-            /* Polish red as primary - modern and elegant */
-            --primary: 348 75% 60%;
-            --primary-foreground: 0 0% 100%;
-
-            --secondary: 0 0% 96%;
-            --secondary-foreground: 0 0% 20%;
-
-            --muted: 0 0% 97%;
-            --muted-foreground: 0 0% 45%;
-
-            /* Light red accent for Polish theme */
-            --accent: 348 50% 95%;
-            --accent-foreground: 348 75% 60%;
-
-            --destructive: 0 84% 60%;
-            --destructive-foreground: 0 0% 98%;
-
-            --border: 0 0% 90%;
-            --input: 0 0% 90%;
-            --ring: 348 75% 60%;
-
-            --radius: 0.75rem;
-
-            /* Polish theme design tokens */
-            --gradient-primary: linear-gradient(135deg, hsl(348 75% 60%), hsl(348 65% 70%));
-            --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(348 20% 97%));
-            --quiz-success: 145 65% 50%;
-            --quiz-warning: 35 85% 55%;
-            --quiz-info: 348 40% 70%;
-            --shadow-glow: 0 10px 40px -10px hsl(348 75% 60% / 0.25);
-            --shadow-card: 0 4px 20px -4px hsl(0 0% 0% / 0.08);
-            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-            --sidebar-background: 0 0% 98%;
-
-            --sidebar-foreground: 240 5.3% 26.1%;
-
-            --sidebar-primary: 240 5.9% 10%;
-
-            --sidebar-primary-foreground: 0 0% 98%;
-
-            --sidebar-accent: 240 4.8% 95.9%;
-
-            --sidebar-accent-foreground: 240 5.9% 10%;
-
-            --sidebar-border: 220 13% 91%;
-
-            --sidebar-ring: 217.2 91.2% 59.8%;
-        }
-
-        .dark {
-            --background: 222.2 84% 4.9%;
-            --foreground: 210 40% 98%;
-
-            --card: 222.2 84% 4.9%;
-            --card-foreground: 210 40% 98%;
-
-            --popover: 222.2 84% 4.9%;
-            --popover-foreground: 210 40% 98%;
-
-            --primary: 210 40% 98%;
-            --primary-foreground: 222.2 47.4% 11.2%;
-
-            --secondary: 217.2 32.6% 17.5%;
-            --secondary-foreground: 210 40% 98%;
-
-            --muted: 217.2 32.6% 17.5%;
-            --muted-foreground: 215 20.2% 65.1%;
-
-            --accent: 217.2 32.6% 17.5%;
-            --accent-foreground: 210 40% 98%;
-
-            --destructive: 0 62.8% 30.6%;
-            --destructive-foreground: 210 40% 98%;
-
-            --border: 217.2 32.6% 17.5%;
-            --input: 217.2 32.6% 17.5%;
-            --ring: 212.7 26.8% 83.9%;
-            --sidebar-background: 240 5.9% 10%;
-            --sidebar-foreground: 240 4.8% 95.9%;
-            --sidebar-primary: 224.3 76.3% 48%;
-            --sidebar-primary-foreground: 0 0% 100%;
-            --sidebar-accent: 240 3.7% 15.9%;
-            --sidebar-accent-foreground: 240 4.8% 95.9%;
-            --sidebar-border: 240 3.7% 15.9%;
-            --sidebar-ring: 217.2 91.2% 59.8%;
-        }
-    }
-
-    @layer base {
-        * {
-            @apply border-border;
-        }
-
-        body {
-            @apply bg-background text-foreground;
-        }
-    }
-
     .app_container {
         /*background: unset;*/
         /*box-shadow: unset;*/
@@ -358,14 +259,15 @@
                     <button
                         id="start-button"
                         wire:click="startSurvey"
-                        class="w-full bg-gradient-primary hover:shadow-glow transition-all duration-300 text-lg l text-white font-medium
-
-                        h-11 rounded-md px-8
-                        "
+                        class="w-full bg-gradient-primary hover:shadow-glow transition-all duration-300 text-lg text-white font-medium
+           whitespace-nowrap h-11 rounded-md px-8 flex items-center justify-center"
                     >
-                        <i data-lucide="play" class="w-5 h-5 mr-2 fill-current inline"></i>
-                        Rozpocznij wszystkie pytania
+                        <i data-lucide="play" class="w-5 h-5 mr-2 fill-current"></i>
+
+                        <span class="block sm:hidden">Rozpocznij</span>
+                        <span class="hidden sm:block">Rozpocznij wszystkie pytania</span>
                     </button>
+
                 </div>
             </div>
         </div>
