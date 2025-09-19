@@ -1,12 +1,17 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-BvZYbEij.css",
+    "file": "assets/app-DqsfWFUa.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/css/quiz.scss": {
     "file": "assets/quiz-Ci48c19_.css",
     "src": "resources/css/quiz.scss",
+    "isEntry": true
+  },
+  "resources/css/start-survey.scss": {
+    "file": "assets/start-survey-oP3xMs_1.css",
+    "src": "resources/css/start-survey.scss",
     "isEntry": true
   },
   "resources/js/app.js": {
