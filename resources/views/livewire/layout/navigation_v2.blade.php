@@ -28,10 +28,12 @@ new class extends Component
         <!-- Language toggle and auth buttons on the right -->
         <div class="hidden sm:flex sm:items-center sm:gap-4">
             <!-- Language Dropdown -->
-            <div x-data="{ open: false }" class="relative">
+            <div x-data="{ open: false, currentLang: 'PL' }" class="relative">
                 <button @click="open = !open"
                         class="flex items-center gap-2 text-muted-foreground hover:text-foreground text-sm font-medium">
-                    🌐 <span x-text="currentLang || 'PL'">PL</span> ▾
+                    <i data-lucide="globe" class="w-4 h-4"></i>
+                    <span x-text="currentLang || 'PL'">PL</span>                     <i data-lucide="chevron-down" class="w-3 h-3"></i>
+
                 </button>
                 <div x-show="open" @click.outside="open = false"
                      class="absolute right-0 mt-2 w-40 bg-popover border border-border shadow-lg z-50 rounded">
@@ -78,8 +80,10 @@ new class extends Component
                 <x-nav-link :href="route('login')" :active="request()->routeIs('login')" wire:navigate>
                     {{ __('Login') }}
                 </x-nav-link>
-                <x-nav-link :href="route('register')" :active="request()->routeIs('register')" wire:navigate>
-                    {{ __('Register') }}
+                <x-nav-link :href="route('register')" :active="request()->routeIs('register')" wire:navigate class="text-white">
+                    <button class="bg-gradient-primary hover:shadow-glow transition-all duration-300 px-4 py-2  rounded-md">
+                        {{ __('Register') }}
+                    </button>
                 </x-nav-link>
             @endif
         </div>
@@ -120,6 +124,7 @@ new class extends Component
             <x-responsive-nav-link :href="route('register')" :active="request()->routeIs('register')" wire:navigate>
                 {{ __('Register') }}
             </x-responsive-nav-link>
+
         @endif
     </div>
 </header>
