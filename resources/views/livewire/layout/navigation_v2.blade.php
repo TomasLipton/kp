@@ -16,7 +16,7 @@ new class extends Component
     }
 }; ?>
 
-<header class="w-full bg-card/80 backdrop-blur-sm border-b border-border sticky top-0 z-50">
+<header class="w-full bg-card/80 backdrop-blur-sm border-b border-border sticky top-0 z-50" x-data="{ mobileOpen: false }">
     <div class="container mx-auto px-4 h-16 flex items-center justify-between">
         <!-- App name on the left -->
         <a href="{{ route('dashboard') }}" wire:navigate class="flex items-center">
@@ -90,17 +90,17 @@ new class extends Component
 
         <!-- Hamburger for mobile -->
         <div class="-me-2 flex items-center sm:hidden">
-            <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none transition duration-150 ease-in-out">
+            <button @click="mobileOpen = ! mobileOpen" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none transition duration-150 ease-in-out">
                 <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                    <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                    <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    <path :class="{'hidden': mobileOpen, 'inline-flex': ! mobileOpen }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    <path :class="{'hidden': ! mobileOpen, 'inline-flex': mobileOpen }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
         </div>
     </div>
 
     <!-- Responsive menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden pt-4 pb-1 border-t border-gray-200">
+    <div :class="{'block': mobileOpen, 'hidden': ! mobileOpen}" class="hidden sm:hidden pt-4 pb-1 border-t border-gray-200">
         @if(Auth::check())
             <div class="px-4">
                 <div class="font-medium text-base text-gray-800" x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name"></div>
