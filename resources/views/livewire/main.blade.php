@@ -1,10 +1,15 @@
+@assets
+@vite(['resources/css/main.scss'])
+
+@endassets
+
 <div>
     <div class="text-center mb-8 mt-8">
         <h1 class="text-3xl md:text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-4">
-            Quiz Topics
+            {{ __('Quiz Topics') }}
         </h1>
         <p class="text-lg text-muted-foreground">
-            Choose a topic to start your journey through Polish history
+            {{ __('Choose a topic to start your journey through Polish history and culture') }}
         </p>
     </div>
 

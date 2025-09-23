@@ -7,6 +7,7 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/css/layout.scss',
+                'resources/css/main.scss',
                 'resources/css/quiz.scss',
                 'resources/css/survey-results.scss',
                 'resources/css/start-survey.scss',
