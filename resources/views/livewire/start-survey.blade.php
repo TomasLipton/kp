@@ -3,7 +3,23 @@
 @endassets
 
 <div>
-    <div class="min-h-screen_  py-8 ">
+    <div class="m-2">
+        <a
+            href="{{ route('dashboard') }}"
+            wire:navigate
+            class="inline-flex items-center justify-center gap-2
+                whitespace-nowrap rounded-md text-sm font-medium ring-offset-background
+                transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring
+                focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50
+                bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+        >
+            <i data-lucide="arrow-left " class="4-5 h-4"></i>
+            Back to Topics
+        </a>
+    </div>
+
+    <div class="min-h-screen_   ">
+
         <div class="container_ max-w-[1200px]_ mx-auto">
             <div class="overflow-hidden bg-card shadow-card border border-border/50 rounded-lg">
                 <!-- Quiz Image -->
