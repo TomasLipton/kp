@@ -47,10 +47,9 @@ new #[Layout('layouts.app-kp')] class extends Component
     document.addEventListener('DOMContentLoaded', updateButtonStates);
 </script>
 
-{{--<div class="font-sans text-gray-900 antialiased">--}}
-    <div class="min-h-scree_n">
+    <div class="min-h-[calc(100vh-4rem)] flex items-center justify-center">
 
-        <main class="px-4 py-16">
+        <main class="px-4 w-full">
             <div class="max-w-md mx-auto">
                 <div class="p-8 bg-gradient-card shadow-card border-0 rounded-lg">
                     <div class="text-center mb-8">
