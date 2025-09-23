@@ -1,13 +1,6 @@
 @assets
 @vite('resources/css/start-survey.scss')
-<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 @endassets
-
-@script
-<script>
-    lucide.createIcons();
-</script>
-@endscript
 
 <div>
     <div class="min-h-screen_  py-8 ">

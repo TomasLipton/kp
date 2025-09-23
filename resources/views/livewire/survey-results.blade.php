@@ -186,12 +186,6 @@
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 
 @endassets
-@script
-<script>
-    lucide.createIcons();
-</script>
-
-@endscript
 <div style="padding: 15px 10px">
     <div class="results-container">
         <h1>Wyniki testu</h1>
