@@ -1,7 +1,17 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-DqsfWFUa.css",
+    "file": "assets/app-Dq01zehS.css",
     "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/css/layout.scss": {
+    "file": "assets/layout-ByjOadum.css",
+    "src": "resources/css/layout.scss",
+    "isEntry": true
+  },
+  "resources/css/main.scss": {
+    "file": "assets/main-DIZtbNEL.css",
+    "src": "resources/css/main.scss",
     "isEntry": true
   },
   "resources/css/quiz.scss": {
@@ -10,8 +20,14 @@
     "isEntry": true
   },
   "resources/css/start-survey.scss": {
-    "file": "assets/start-survey-oP3xMs_1.css",
+    "file": "assets/start-survey-C5pU8IWN.css",
     "src": "resources/css/start-survey.scss",
+    "isEntry": true
+  },
+  "resources/css/survey-results.scss": {
+    "file": "assets/survey-results-l0sNRNKZ.js",
+    "name": "survey-results",
+    "src": "resources/css/survey-results.scss",
     "isEntry": true
   },
   "resources/js/app.js": {
