@@ -5,7 +5,7 @@
 
 <div>
 
-    <div class=" mt-10 overflow-hidden bg-card shadow-card border border-border/50 rounded-lg pb-32">
+    <div class=" mt-14 overflow-hidden bg-card shadow-card border border-border/50 rounded-lg pb-32">
         <div class="text-center mb-8 mt-8">
             <h1 class="text-3xl md:text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-4">
                 {{ __('Quiz Topics') }}

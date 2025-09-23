@@ -34,7 +34,9 @@
     @if($question)  data-question-type="{{$question->question_type}}" @endif
 @if($question)  data-is-answered="{!! $chosenAnswer ? 'true' : 'false' !!}" @endif
     id="wrap">
-    <div class="survey-question">
+{{--    <div class="survey-question">--}}
+        <div class="survey-question mt-14 overflow-hidden bg-ca_rd shadow-card border border-border/50 rounded-lg pb-32" @if(!$quiz->completed_at) style="background-color: rgb(235, 235, 235);" @endif>
+
         @if(!$quiz->completed_at)
             <div class="header">
                 <div class="timer" x-data="{
