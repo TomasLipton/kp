@@ -16,8 +16,8 @@ new class extends Component
     }
 }; ?>
 
-<header class="w-full bg-card/80 backdrop-blur-sm border-b border-border sticky top-0 z-50" x-data="{ mobileOpen: false }">
-    <div class="container mx-auto px-4 h-16 flex items-center justify-between">
+<header class="w-full bg-card/80 backdrop-blur-sm border-b border-border sticky top-0 z-50 rounded-b-lg" x-data="{ mobileOpen: false }">
+    <div class="container mx-auto px-4 h-16 flex items-center justify-between ">
         <!-- App name on the left -->
         <a href="{{ route('dashboard') }}" wire:navigate class="flex items-center">
             <h1 class="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">

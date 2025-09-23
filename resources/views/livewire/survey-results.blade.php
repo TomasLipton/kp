@@ -1,8 +1,8 @@
 @assets
     <style>
         .results-container {
-            max-width: 600px;
-            margin: 20px auto;
+            /*max-width: 600px;*/
+            /*margin: 20px auto;*/
             padding: 20px;
             background-color: #fff;
             border-radius: 8px;
@@ -37,27 +37,6 @@
             color: #333;
         }
 
-        /* Button Styles */
-        .retry-button {
-            display: block;
-            width: 50%;
-            padding: 10px;
-            margin-top: 20px;
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s ease;
-            text-align: center;
-            text-decoration: none;
-        }
-
-        .retry-button:hover {
-            background-color: #0056b3;
-            /*text-decoration: underline;*/
-        }
 
         /* Responsive Styles */
         @media (max-width: 600px) {
@@ -74,9 +53,6 @@
                 margin-bottom: 5px; /* Add space between label and value */
             }
 
-            .retry-button {
-                font-size: 14px; /* Smaller button text on small screens */
-            }
         }
 
 
@@ -183,12 +159,10 @@
             }
         }
     </style>
-<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-
 @endassets
-<div style="padding: 15px 10px">
+<div class="py-10">
     <div class="results-container">
-        <h1>Wyniki testu</h1>
+        <h1 class="text-2xl md:text-3xl font-bold text-foreground mb-3">Wyniki testu</h1>
         <div class="result-item">
             <span class="label">Czas zajęty:</span>
             <span class="value">{{$quiz->created_at->diff($quiz->completed_at)}}</span>
@@ -211,7 +185,7 @@
         </div>
         <div style="display: flex; gap: 10px;">
             <button
-                class="retry-button_ mt-5 bg-primary-500 hover:shadow-glow transition-all duration-300 text-lg text-white font-medium
+                class=" mt-5 bg-primary-500 hover:shadow-glow transition-all duration-300 text-lg text-white font-medium
            h-11 rounded-md px-8 w-full flex items-center justify-center"
                 style="background: #2657b2"
                 wire:navigate wire:navigate.hover
@@ -221,7 +195,7 @@
             </button>
 
             <button
-                class="retry-button_ mt-5 hover:shadow-glow transition-all duration-300 text-lg text-white font-medium
+                class=" mt-5 hover:shadow-glow transition-all duration-300 text-lg text-white font-medium
            h-11 rounded-md px-8 w-full flex items-center justify-center"
                 style="background: #2e7d32"
                 wire:navigate wire:navigate.hover
