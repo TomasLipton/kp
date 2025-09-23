@@ -6,7 +6,9 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/css/app.css',
+                'resources/css/layout.scss',
                 'resources/css/quiz.scss',
+                'resources/css/survey-results.scss',
                 'resources/css/start-survey.scss',
                 'resources/js/app.js',
             ],
