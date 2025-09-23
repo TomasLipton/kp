@@ -14,7 +14,7 @@
                 bg-accent hover:text-accent-foreground h-10 px-4 py-2"
         >
             <i data-lucide="arrow-left " class="4-5 h-4"></i>
-            Back to Topics
+            {{ __('Back to Topics') }}
         </a>
     </div>
 
