@@ -41,9 +41,9 @@
         <div>
             <div class="m-2 flex justify-end items-center">
                 <a
-                    href="{{ route('dashboard') }}"
-                    wire:navigate
+                    wire:click="finish"
                     class="inline-flex items-center justify-center gap-1
+                    cursor-pointer
                     hover:bg-primary/10
                 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background
                 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring
