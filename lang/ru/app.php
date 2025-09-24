@@ -56,5 +56,5 @@ return [
     'register_with_google' => 'Зарегистрироваться через Google',
 
     // Navigation
-    'polish_card_tests' => 'Тесты собеседования польской карты',
+    'polish_card_tests' => 'Тесты для подготовки на карту поляка',
 ];
