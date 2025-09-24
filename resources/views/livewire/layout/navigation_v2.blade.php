@@ -30,7 +30,7 @@ new class extends Component
             <!-- Language Dropdown -->
             <div x-data="{ open: false, currentLang: 'PL' }" class="relative">
                 <button @click="open = !open"
-                        class="flex items-center gap-2 text-muted-foreground hover:text-foreground text-sm font-medium">
+                        class="flex items-center gap-2 text-muted-foreground hover:text-foreground text-sm font-medium hidden">
                     <i data-lucide="globe" class="w-4 h-4"></i>
                     <span x-text="currentLang || 'PL'">PL</span>                     <i data-lucide="chevron-down" class="w-3 h-3"></i>
 
