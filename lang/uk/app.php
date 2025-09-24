@@ -49,4 +49,12 @@ return [
     'privacy_policy' => 'політику конфіденційності',
     'terms_of_service' => 'умови використання',
     'must_accept_conditions' => 'Ви повинні прийняти всі умови для продовження',
+
+    // Register form translations
+    'create_new_account' => 'Створити новий акаунт',
+    'choose_registration_method' => 'Оберіть спосіб реєстрації',
+    'register_with_google' => 'Зареєструватися через Google',
+
+    // Navigation
+    'polish_card_tests' => 'Тести співбесіди польської карти',
 ];

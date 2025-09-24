@@ -49,4 +49,12 @@ return [
     'privacy_policy' => 'politykę prywatności',
     'terms_of_service' => 'regulamin',
     'must_accept_conditions' => 'Musisz zaakceptować wszystkie warunki, aby kontynuować',
+
+    // Register form translations
+    'create_new_account' => 'Utwórz nowe konto',
+    'choose_registration_method' => 'Wybierz sposób rejestracji',
+    'register_with_google' => 'Zarejestruj się przez Google',
+
+    // Navigation
+    'polish_card_tests' => 'Testy rozmowy karty Polaka',
 ];
