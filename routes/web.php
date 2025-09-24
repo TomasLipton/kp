@@ -8,6 +8,10 @@ Route::group([
     'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
 ], function () {
 
+    Livewire::setUpdateRoute(function ($handle) {
+        return Route::post('/livewire/update', $handle);
+    });
+
     Route::get('/', \App\Livewire\Main::class)->name('dashboard');
 
     Route::get('profile', \App\Livewire\Profile::class)
