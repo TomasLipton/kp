@@ -65,6 +65,6 @@ return [
     'correct_answers' => 'Correct answers:',
     'incorrect_answers' => 'Incorrect answers:',
     'date' => 'Date:',
-    'all_tests' => 'All tests',
+    'all_tests' => 'All topics',
     'repeat_test' => 'Repeat test',
 ];

@@ -57,4 +57,14 @@ return [
 
     // Navigation
     'polish_card_tests' => 'Тэсты для падрыхтоўкі на карту поляка',
+
+    // Survey Results translations
+    'survey_results' => 'Вынікі тэсту',
+    'time_taken' => 'Потрачаны час:',
+    'total_questions' => 'Усяго пытанняў:',
+    'correct_answers' => 'Правільныя адказы:',
+    'incorrect_answers' => 'Няправільныя адказы:',
+    'date' => 'Дата:',
+    'all_tests' => 'Усе тэмы',
+    'repeat_test' => 'Паўтарыць тэст',
 ];
