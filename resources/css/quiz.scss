@@ -6,7 +6,7 @@
         justify-content: space-between;
         min-height: 41px;
         background-color: #e0e0e0;
-        padding: 0 10px;
+        padding: 0 1rem;
 
         //border-top: 1px solid #fff;
         border-bottom: 1px solid #bfbfbf;
@@ -46,7 +46,7 @@
     .question {
         display: flex;
         justify-content: space-between;
-        padding: 10px 10px;
+        padding: 10px 1rem;
         min-height: 71px;
         border-top: 1px solid #fff;
         border-bottom: 1px solid #bfbfbf;
@@ -105,37 +105,44 @@
         .answer-date_month-container {
             justify-content: center;
             display: flex;
+padding-top: 50px;
+            outline: none;
+            border-color: unset;
+
+            input,
+            select {
+                outline: none;
+                font-size: 25px;
+                font-family: inherit;
+                line-height: 1.2;
+                width: 190px;
+                &:focus {
+                    outline: none;
+                }
+            }
 
             input {
-                outline: none;
                 border-radius: 8px 0 0 8px;
                 height: 70px;
-                width: 300px;
                 text-align: center;
-                font-size: 50px;
                 border: 1px solid black;
                 @media screen and (max-width: 550px) {
                     width: 60%;
-                    font-size: 25px;
                     height: 40px;
                 }
             }
 
             select {
-                outline: none;
                 border-radius: 0;
                 height: 70px;
                 text-align: center;
-                font-size: 20px;
                 border: 1px solid black;
                 border-left: unset;
                 @media screen and (max-width: 550px) {
-                    //width: 60%;
-                    font-size: 25px;
                     height: 40px;
                 }
-
             }
+
 
             @media screen and (max-width: 550px) {
                 .submit-button {
@@ -185,7 +192,8 @@
 
     background-color: #007BFF; /* Blue background */
     color: #fff; /* White icon color */
-    border: none; /* No border */
+    border: 1px solid black; /* No border */
+    border-left: none;
     //border-radius: 5px; /* Rounded corners */
     border-radius: 0 8px 8px 0;
 
@@ -198,10 +206,10 @@
     justify-content: center; /* Center icon horizontally */
 }
 
-.submit-button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-    transform: translateX(-1px); /* Lift effect on hover */
-}
+//.submit-button:hover {
+//    background-color: #007BFF99; /* Darker blue on hover */
+//    transform: scale(1.05); /* Lift effect on hover */
+//}
 
 /* Responsive Styles */
 @media (max-width: 600px) {

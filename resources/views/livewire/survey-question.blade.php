@@ -31,11 +31,13 @@
 @endscript
 
 <section
+
     @if($question)  data-question-type="{{$question->question_type}}" @endif
 @if($question)  data-is-answered="{!! $chosenAnswer ? 'true' : 'false' !!}" @endif
     id="wrap">
-{{--    <div class="survey-question">--}}
-        <div class="survey-question mt-14 overflow-hidden bg-ca_rd @if(!$quiz->completed_at) shadow-card border @endif  border-border/50 rounded-lg pb-32" @if(!$quiz->completed_at) style="background-color: rgb(235, 235, 235);" @endif>
+
+    {{--    <div class="survey-question">--}}
+    <div class="survey-question mt-14 overflow-hidden bg-ca_rd @if(!$quiz->completed_at) shadow-card border @endif  border-border/50 rounded-lg pb-32" @if(!$quiz->completed_at) style="background-color: rgb(235, 235, 235);" @endif>
 
         @if(!$quiz->completed_at)
             <div class="header">
@@ -146,41 +148,7 @@
                     @endif
 
                     @if($question->question_type === 'date_month')
-                        <div class="answer-date_month-container" x-data="{ date: '', month: '1' }">
-                            <input autofocus class="year-answer" x-model="date"
-                                   wire:keydown.enter="submitYear($event.target.value)"
-                                   x-on:input="date = date.slice(0, 2).replace(/\D/g, '')"
-                                   x-on:clear-input.window="date = ''; month = '1'"
-                                   type="text"
-                                   placeholder="Data"
-                                   pattern="[0-9]*"
-                                   inputmode="numeric"
-                                   @if($chosenAnswer) readonly @endif
-                                   maxlength="4"/>
-                            <select x-model="month" @if($chosenAnswer) disabled @endif>
-                                <option value="1">Styczeń</option>
-                                <option value="2">Luty</option>
-                                <option value="3">Marzec</option>
-                                <option value="4">Kwiecień</option>
-                                <option value="5">Maj</option>
-                                <option value="6">Czerwiec</option>
-                                <option value="7">Lipiec</option>
-                                <option value="8">Sierpień</option>
-                                <option value="9">Wrzesień</option>
-                                <option value="10">Październik</option>
-                                <option value="11">Listopad</option>
-                                <option value="12">Grudzień</option>
-                            </select>
-
-                            <button class="submit-button" @click="$wire.submitDateMonth(date, month)">
-                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="100" viewBox="0 0 40 40">
-                                    <path fill="#bae0bd" d="M1.707 22.199L4.486 19.42 13.362 28.297 35.514 6.145 38.293 8.924 13.362 33.855z"></path>
-                                    <path fill="#5e9c76" d="M35.514,6.852l2.072,2.072L13.363,33.148L2.414,22.199l2.072-2.072l8.169,8.169l0.707,0.707 l0.707-0.707L35.514,6.852 M35.514,5.438L13.363,27.59l-8.876-8.876L1,22.199l12.363,12.363L39,8.924L35.514,5.438L35.514,5.438z"></path>
-                                </svg>
-                            </button>
-
-                        </div>
-
+                        <x-date-month-input :chosenAnswer="$chosenAnswer" />
                     @endif
                 </div>
             </div>
@@ -189,7 +157,9 @@
                     <div class="enter">Kontynuować <span class="d-none d-sm-inline">[Enter]</span></div>
                 @endif
                 <p style="@if($chosenAnswer) margin-top: -25px @endif">
-                    @if($question->question_type === 'single_text' || !$chosenAnswer) Odpowiedź: @endif
+                    @if($question->question_type === 'single_text' || !$chosenAnswer)
+                        Odpowiedź:
+                    @endif
 
                     @if(!$chosenAnswer)
                         __
@@ -209,4 +179,12 @@
         @endif
     </div>
 
+    @if(!$quiz->completed_at)
+        <div class="flex justify-between items-center mt-5">
+            <x-button variant="destructive" size="sm">
+                Skończyć
+            </x-button>
+
+        </div>
+    @endif
 </section>

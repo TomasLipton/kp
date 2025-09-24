@@ -33,9 +33,9 @@ new class extends Component
                 $currentLocale = LaravelLocalization::getCurrentLocale();
                 $localeNames = [
                     'pl' => ['name' => 'Polski', 'flag' => '🇵🇱', 'short' => 'PL'],
-                    'ru' => ['name' => 'Русский', 'flag' => '🇷🇺', 'short' => 'RU'],
-                    'uk' => ['name' => 'Українська', 'flag' => '🇺🇦', 'short' => 'UA'],
-                    'be' => ['name' => 'Беларуская', 'flag' => '🇧🇾', 'short' => 'BY'],
+                          'uk' => ['name' => 'Українська', 'flag' => '🇺🇦', 'short' => 'UA'],
+                    'be' => ['name' => 'Беларуская','short' => 'BY'],
+                    'ru' => ['name' => 'Русский', 'short' => 'RU'],
                 ];
             @endphp
             <div x-data="{ open: false }" class="relative">
