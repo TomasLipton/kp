@@ -167,25 +167,25 @@
 @endscript
 <div class="py-10">
     <div class="results-container">
-        <h1 class="text-2xl md:text-3xl font-bold text-foreground mb-3">Wyniki testu</h1>
+        <h1 class="text-2xl md:text-3xl font-bold text-foreground mb-3">{{ __('app.survey_results') }}</h1>
         <div class="result-item">
-            <span class="label">Czas zajęty:</span>
+            <span class="label">{{ __('app.time_taken') }}</span>
             <span class="value">{{$quiz->created_at->diff($quiz->completed_at)}}</span>
         </div>
         <div class="result-item">
-            <span class="label">Razem pytania:</span>
+            <span class="label">{{ __('app.total_questions') }}</span>
             <span class="value">{{$quiz->answers->count()}}</span>
         </div>
         <div class="result-item">
-            <span class="label">Prawidłowe odpowiedzi:</span>
+            <span class="label">{{ __('app.correct_answers') }}</span>
             <span class="value" style="color: #00bb00">{{$quiz->answers->filter(function ($answer) { return $answer->questionAnswer->is_correct; })->count()}}</span>
         </div>
         <div class="result-item">
-            <span class="label">Błędne odpowiedzi:</span>
+            <span class="label">{{ __('app.incorrect_answers') }}</span>
             <span class="value" style="color: #dd4444">{{$quiz->answers->filter(function ($answer) { return !$answer->questionAnswer->is_correct; })->count()}}</span>
         </div>
         <div class="result-item">
-            <span class="label">Data:</span>
+            <span class="label">{{ __('app.date') }}</span>
             <span class="value">{{$quiz->created_at->translatedFormat('F j, H:i') }}</span>
         </div>
         <div class="flex flex-col sm:flex-row lg:gap-3">
@@ -196,7 +196,7 @@
                 wire:navigate wire:navigate.hover
             >
                 <i data-lucide="list" class="w-5 h-5 mr-2 inline"></i>
-                Wszystkie testy
+                {{ __('app.all_tests') }}
             </button>
 
             <button
@@ -207,7 +207,7 @@
                 href="/{{$quiz->topics->slug}}"
             >
                 <i data-lucide="refresh-cw" class="w-5 h-5 mr-2 inline"></i>
-                Powtórz test
+                {{ __('app.repeat_test') }}
             </button>
 
         </div>
