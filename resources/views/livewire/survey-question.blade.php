@@ -41,7 +41,7 @@
         <div>
             <div class="m-2 flex justify-end items-center">
                 <a
-                    wire:click="finish"
+                    @click="if(confirm('Czy na pewno chcesz zakończyć quiz? Nie będziesz mógł wrócić do pytań.')) { $wire.finish() }"
                     class="inline-flex items-center justify-center gap-1
                     cursor-pointer
                     hover:bg-primary/10
