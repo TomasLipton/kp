@@ -1,3 +1,7 @@
+@php
+    use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+@endphp
+
 @assets
 @vite(['resources/css/main.scss'])
 
@@ -29,14 +33,28 @@
                                     $count = $topic->questions()->count();
                                 @endphp
                                 @if($count == 1)
-                                    Pytanie
+                                    {{ __('app.question') }}
                                 @elseif($count % 10 >= 2 && $count % 10 <= 4 && ($count % 100 < 10 || $count % 100 >= 20))
-                                    Pytania
+                                    {{ __('app.questions_few') }}
                                 @else
-                                    Pytań
+                                    {{ __('app.questions_many') }}
                                 @endif
                             </p>
-                            <h3 class="card__heading">{{trim($topic->name_pl)}}</h3>
+                            <h3 class="card__heading">
+                                @switch(LaravelLocalization::getCurrentLocale())
+                                    @case('ru')
+                                        {{trim($topic->name_ru ?? $topic->name_pl)}}
+                                        @break
+                                    @case('uk')
+                                        {{trim($topic->name_uk ?? $topic->name_pl)}}
+                                        @break
+                                    @case('be')
+                                        {{trim($topic->name_be ?? $topic->name_pl)}}
+                                        @break
+                                    @default
+                                        {{trim($topic->name_pl)}}
+                                @endswitch
+                            </h3>
 
                         </div>
                         <div class="absolute inset-0 border-2 scale-105 border-primary/0 hover:border-primary/50 transition-colors duration-300 rounded-lg"></div>

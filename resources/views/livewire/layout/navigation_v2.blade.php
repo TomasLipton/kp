@@ -2,6 +2,7 @@
 
 use App\Livewire\Actions\Logout;
 use Livewire\Volt\Component;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 new class extends Component
 {
@@ -28,27 +29,30 @@ new class extends Component
         <!-- Language toggle and auth buttons on the right -->
         <div class="hidden sm:flex sm:items-center sm:gap-4">
             <!-- Language Dropdown -->
-            <div x-data="{ open: false, currentLang: 'PL' }" class="relative">
+            @php
+                $currentLocale = LaravelLocalization::getCurrentLocale();
+                $localeNames = [
+                    'pl' => ['name' => 'Polski', 'flag' => '🇵🇱', 'short' => 'PL'],
+                    'ru' => ['name' => 'Русский', 'flag' => '🇷🇺', 'short' => 'RU'],
+                    'uk' => ['name' => 'Українська', 'flag' => '🇺🇦', 'short' => 'UA'],
+                    'be' => ['name' => 'Беларуская', 'flag' => '🇧🇾', 'short' => 'BY'],
+                ];
+            @endphp
+            <div x-data="{ open: false }" class="relative">
                 <button @click="open = !open"
-                        class="flex items-center gap-2 text-muted-foreground hover:text-foreground text-sm font-medium hidden">
+                        class="flex items-center gap-2 text-muted-foreground hover:text-foreground text-sm font-medium">
                     <i data-lucide="globe" class="w-4 h-4"></i>
-                    <span x-text="currentLang || 'PL'">PL</span>                     <i data-lucide="chevron-down" class="w-3 h-3"></i>
-
+                    <span>{{ $localeNames[$currentLocale]['short'] ?? 'PL' }}</span>
+                    <i data-lucide="chevron-down" class="w-3 h-3"></i>
                 </button>
                 <div x-show="open" @click.outside="open = false"
                      class="absolute right-0 mt-2 w-40 bg-popover border border-border shadow-lg z-50 rounded">
-                    <button @click="currentLang = 'PL'" class="flex items-center gap-2 px-4 py-2 hover:bg-accent w-full">
-                        🇵🇱 Polski
-                    </button>
-                    <button @click="currentLang = 'RU'" class="flex items-center gap-2 px-4 py-2 hover:bg-accent w-full">
-                        🇷🇺 Русский
-                    </button>
-                    <button @click="currentLang = 'UA'" class="flex items-center gap-2 px-4 py-2 hover:bg-accent w-full">
-                        🇺🇦 Українська
-                    </button>
-                    <button @click="currentLang = 'BY'" class="flex items-center gap-2 px-4 py-2 hover:bg-accent w-full">
-                        🇧🇾 Беларуская
-                    </button>
+                    @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                        <a href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}"
+                           class="flex items-center gap-2 px-4 py-2 hover:bg-accent w-full text-left {{ $currentLocale == $localeCode ? 'bg-accent' : '' }}">
+                            {{ $localeNames[$localeCode]['flag'] ?? '🏳️' }} {{ $localeNames[$localeCode]['name'] ?? $properties['native'] }}
+                        </a>
+                    @endforeach
                 </div>
             </div>
 
