@@ -1,11 +1,11 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-DkJ1ckJT.css",
+    "file": "assets/app-DN7leL3I.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/css/layout.scss": {
-    "file": "assets/layout-raVMVNKV.css",
+    "file": "assets/layout-BxwV3rFS.css",
     "src": "resources/css/layout.scss",
     "isEntry": true
   },
@@ -15,7 +15,7 @@
     "isEntry": true
   },
   "resources/css/quiz.scss": {
-    "file": "assets/quiz-Ci48c19_.css",
+    "file": "assets/quiz-CiZ5P-YC.css",
     "src": "resources/css/quiz.scss",
     "isEntry": true
   },
