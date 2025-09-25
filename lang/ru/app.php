@@ -83,4 +83,3 @@ return [
     'start' => 'Начать',
     'start_all_questions' => 'Начать все вопросы',
 ];
-

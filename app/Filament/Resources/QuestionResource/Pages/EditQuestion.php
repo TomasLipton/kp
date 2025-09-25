@@ -60,6 +60,7 @@ class EditQuestion extends EditRecord
                 ->modalDescription('Czy na pewno chcesz utworzyć kopię tego pytania? Wszystkie odpowiedzi również zostaną zduplikowane.')
                 ->beforeReplicaSaved(function (Question $question, Question $replica) {
                     $replica->question_pl = $question->question_pl.' (Kopia)';
+
                     return $replica;
                 })
                 ->after(function (Question $replica, Question $question) {
@@ -93,11 +94,11 @@ class EditQuestion extends EditRecord
                     ->modalDescription('Czy na pewno chcesz trwale usunąć to pytanie? Ta akcja nie może zostać cofnięta i usunie wszystkie powiązane dane.')
                     ->requiresConfirmation(),
             ])
-            ->label('Więcej Akcji')
-            ->icon('heroicon-m-ellipsis-vertical')
-            ->size('sm')
-            ->color('gray')
-            ->tooltip('Dodatkowe akcje'),
+                ->label('Więcej Akcji')
+                ->icon('heroicon-m-ellipsis-vertical')
+                ->size('sm')
+                ->color('gray')
+                ->tooltip('Dodatkowe akcje'),
         ];
     }
 }

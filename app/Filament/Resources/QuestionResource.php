@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\QuestionResource\Pages;
 use App\Filament\Resources\QuestionResource\RelationManagers\AiSpeachRelationManager;
 use App\Models\Question;
+use App\Models\Topics;
 use Closure;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Group;
@@ -15,7 +16,6 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\ToggleButtons;
-use App\Models\Topics;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Notifications\Notification;
@@ -86,7 +86,7 @@ class QuestionResource extends Resource
                             ->orderColumn('order')
                             ->grid(2)
                             ->defaultItems(4)
-                            ->maxItems(fn(Get $get): int => in_array($get('question_type'), ['year', 'date_month', 'number']) ? 2 : 5)
+                            ->maxItems(fn (Get $get): int => in_array($get('question_type'), ['year', 'date_month', 'number']) ? 2 : 5)
                             ->reorderableWithButtons()
                             ->collapsible()
                             ->cloneable()
@@ -102,7 +102,7 @@ class QuestionResource extends Resource
                                 //                                    ->label('Zdjęcie'),
                             ])
                             ->rules([
-                                fn(): Closure => function (string $attribute, $value, Closure $fail) {
+                                fn (): Closure => function (string $attribute, $value, Closure $fail) {
                                     // Check if at least 2 answers exist
                                     if (count($value) < 2) {
                                         $fail('Należy podać co najmniej 2 odpowiedzi.');
@@ -113,7 +113,7 @@ class QuestionResource extends Resource
                                     }
 
                                     // Check if at least one is_correct toggle is true
-                                    if (!collect($value)->contains('is_correct', true)) {
+                                    if (! collect($value)->contains('is_correct', true)) {
                                         $fail('At least one option must be set as correct.');
                                         Notification::make()
                                             ->title('At least one answer must be set as correct.')
@@ -127,17 +127,17 @@ class QuestionResource extends Resource
 
                 Group::make()
                     ->schema([
-//                        ToggleButtons::make('is_reviewed')
-//                            ->options([
-//                                '1' => 'Tak',
-//                                '0' => 'Nie',
-//                            ])
-//                            ->colors([
-//                                '1' => 'success',
-//                                '0' => 'danger',
-//                            ])
-//                            ->inline()
-//                            ->default(1)->required(),
+                        //                        ToggleButtons::make('is_reviewed')
+                        //                            ->options([
+                        //                                '1' => 'Tak',
+                        //                                '0' => 'Nie',
+                        //                            ])
+                        //                            ->colors([
+                        //                                '1' => 'success',
+                        //                                '0' => 'danger',
+                        //                            ])
+                        //                            ->inline()
+                        //                            ->default(1)->required(),
 
                         ToggleButtons::make('question_type')
                             ->label('Typ pytania')
@@ -152,7 +152,7 @@ class QuestionResource extends Resource
                             ->inline()
                             ->required()
                             ->reactive()
-                            ->disableOptionWhen(fn(string $value): bool => in_array($value,  ['multi_text']))->afterStateUpdated(function ($state, callable $set) {
+                            ->disableOptionWhen(fn (string $value): bool => in_array($value, ['multi_text']))->afterStateUpdated(function ($state, callable $set) {
                                 if (in_array($state, ['year', 'date_month', 'number'])) {
                                     // Create 2 default answer items
                                     $set('answers', [
@@ -175,30 +175,29 @@ class QuestionResource extends Resource
 
                 Placeholder::make('created_at')
                     ->label('Created Date')
-                    ->content(fn(?Question $record): string => $record?->created_at?->diffForHumans() ?? '-'),
+                    ->content(fn (?Question $record): string => $record?->created_at?->diffForHumans() ?? '-'),
 
                 Placeholder::make('updated_at')
                     ->label('Last Modified Date')
-                    ->content(fn(?Question $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
+                    ->content(fn (?Question $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
 
-            ])->columns(3)
-            ;
+            ])->columns(3);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                IconColumn::make('Picture')->label('Zdjęcie')->boolean(fn() => true)->default(fn(Question $question) => $question->picture)->sortable(),
+                IconColumn::make('Picture')->label('Zdjęcie')->boolean(fn () => true)->default(fn (Question $question) => $question->picture)->sortable(),
                 IconColumn::make('is_reviewed')
                     ->label('Zweryfikowano')
                     ->boolean()->sortable(),
-                IconColumn::make('Voice')->label('Audio')->boolean(fn() => true)->default(fn(Question $question) => $question->aiSpeach()->count() > 0),
-                TextColumn::make('question_pl' )
-                ->label('Pytanie (PL)')
-               ->extraAttributes([
-                    'style' => 'max-width:260px',
-                ])
+                IconColumn::make('Voice')->label('Audio')->boolean(fn () => true)->default(fn (Question $question) => $question->aiSpeach()->count() > 0),
+                TextColumn::make('question_pl')
+                    ->label('Pytanie (PL)')
+                    ->extraAttributes([
+                        'style' => 'max-width:260px',
+                    ])
                     ->searchable()
                     ->wrap(),
 
@@ -249,7 +248,7 @@ class QuestionResource extends Resource
                         });
                     })
                     ->beforeReplicaSaved(function (Question $question, Question $replica) {
-                        $replica->question_pl = $question->question_pl . ' (Copy)';
+                        $replica->question_pl = $question->question_pl.' (Copy)';
 
                         return $replica;
                     }),

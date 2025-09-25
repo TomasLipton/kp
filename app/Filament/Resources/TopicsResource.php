@@ -27,7 +27,6 @@ class TopicsResource extends Resource
 
     protected static ?string $pluralLabel = 'Tematy';
 
-
     protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form

@@ -2,6 +2,8 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Widgets\QuestionStatsWidget;
+use App\Filament\Widgets\QuizStatsWidget;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -10,8 +12,6 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Filament\Widgets;
-use App\Filament\Widgets\QuizStatsWidget;
-use App\Filament\Widgets\QuestionStatsWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -43,10 +43,10 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-//                Widgets\AccountWidget::class,
+                //                Widgets\AccountWidget::class,
                 QuizStatsWidget::class,
                 QuestionStatsWidget::class,
-//                Widgets\FilamentInfoWidget::class,
+                //                Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -61,7 +61,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->plugins([
                 FilamentLaravelLogPlugin::make()
-                ->navigationSort(3)
+                    ->navigationSort(3),
             ])
             ->authMiddleware([
                 Authenticate::class,

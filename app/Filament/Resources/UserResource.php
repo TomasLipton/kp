@@ -104,7 +104,7 @@ class UserResource extends Resource
                     ->dateTime()
                     ->sortable(),
                 ToggleColumn::make('is_admin')
-                    ->label('Administrator')
+                    ->label('Administrator'),
             ])
             ->defaultSort('created_at', 'desc');
     }
