@@ -13,6 +13,7 @@
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.6",
         "livewire/volt": "^1.7",
+        "mallardduck/blade-lucide-icons": "^1.23",
         "marcelweidum/filament-expiration-notice": "^1.0",
         "mcamara/laravel-localization": "^2.3",
         "saade/filament-laravel-log": "^3.0",

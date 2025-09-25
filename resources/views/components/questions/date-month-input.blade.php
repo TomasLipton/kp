@@ -30,5 +30,6 @@
     bg-gradient-primary hover:shadow-glow transition-all duration-300 text-lg text-white font-medium
     " @click="$wire.submitDateMonth(date, month)">
         <i data-lucide="check" class="w-10 h-10"></i>
+        <x-lucide-album class="w-6 h-6 text-gray-500"/>
     </button>
 </div>
