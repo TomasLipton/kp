@@ -67,4 +67,20 @@ return [
     'date' => 'Data:',
     'all_tests' => 'Wszystkie tematy',
     'repeat_test' => 'Powtórz test',
+
+    // Start Survey translations
+    'back_to_topics' => 'Powrót do Tematów',
+    'quiz_title_alt' => 'Tytuł Quiz',
+    'difficulty_medium' => 'Średni',
+    'duration_30min' => '30 min',
+    'choose_mode' => 'Wybierz tryb:',
+    'all_questions_mode' => 'Wszystkie pytania',
+    'complete_quiz_with_all_questions' => 'Ukończ quiz ze wszystkimi pytaniami',
+    'timed_mode' => 'Tryb czasowy',
+    'race_against_time' => 'Wyścig z czasem',
+    'practice_mode' => 'Tryb ćwiczeń',
+    'no_time_limit_learn_at_your_pace' => 'Bez limitu czasu, ucz się we własnym tempie',
+    'start' => 'Rozpocznij',
+    'start_all_questions' => 'Rozpocznij wszystkie pytania',
 ];
+

@@ -67,4 +67,19 @@ return [
     'date' => 'Date:',
     'all_tests' => 'All topics',
     'repeat_test' => 'Repeat test',
+
+    // Start Survey translations
+    'back_to_topics' => 'Back to Topics',
+    'quiz_title_alt' => 'Quiz Title',
+    'difficulty_medium' => 'Medium',
+    'duration_30min' => '30 min',
+    'choose_mode' => 'Choose mode:',
+    'all_questions_mode' => 'All questions',
+    'complete_quiz_with_all_questions' => 'Complete quiz with all questions',
+    'timed_mode' => 'Timed mode',
+    'race_against_time' => 'Race against time',
+    'practice_mode' => 'Practice mode',
+    'no_time_limit_learn_at_your_pace' => 'No time limit, learn at your own pace',
+    'start' => 'Start',
+    'start_all_questions' => 'Start all questions',
 ];

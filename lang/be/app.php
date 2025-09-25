@@ -67,4 +67,19 @@ return [
     'date' => 'Дата:',
     'all_tests' => 'Усе тэмы',
     'repeat_test' => 'Паўтарыць тэст',
+
+    // Start Survey translations
+    'back_to_topics' => 'Назад да Тэм',
+    'quiz_title_alt' => 'Назва Віктарыны',
+    'difficulty_medium' => 'Серадні',
+    'duration_30min' => '30 хв',
+    'choose_mode' => 'Абярыце рэжым:',
+    'all_questions_mode' => 'Усе пытанні',
+    'complete_quiz_with_all_questions' => 'Завяршыце віктарыну з усімі пытаннямі',
+    'timed_mode' => 'Часовы рэжым',
+    'race_against_time' => 'Гонка з часам',
+    'practice_mode' => 'Рэжым практыкі',
+    'no_time_limit_learn_at_your_pace' => 'Без ліміту часу, вучыце ў своім тэмпе',
+    'start' => 'Пачні',
+    'start_all_questions' => 'Пачні усе пытанні',
 ];

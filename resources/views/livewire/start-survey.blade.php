@@ -14,7 +14,7 @@
                 bg-accent hover:text-accent-foreground h-10 px-4 py-2"
         >
             <i data-lucide="arrow-left " class="4-5 h-4"></i>
-            {{ __('Back to Topics') }}
+            {{ __('app.back_to_topics') }}
         </a>
     </div>
 
@@ -27,7 +27,7 @@
                     <img
                         id="quiz-image"
                         src="{{url('storage/' . $topic->picture)}}"
-                        alt="Quiz Title"
+                        alt="{{ __('app.quiz_title_alt') }}"
                         class="w-full h-full object-cover"
                     />
                     <div class="absolute top-4 right-4">
@@ -35,7 +35,7 @@
                             id="difficulty-badge"
                             class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-500/90 text-white border-0 backdrop-blur-sm"
                         >
-                            Średni
+                            {{ __('app.difficulty_medium') }}
                         </span>
                     </div>
                 </div>
@@ -56,24 +56,17 @@
                         <div class="flex items-center gap-1">
                             <i data-lucide="book-open" class="w-4 h-4"></i>
                             <span id="quiz-questions">
-     {{$topic->questions->count()}}
                                 @php
                                     $count = $topic->questions()->count();
+                                    $questionText = $count == 1 ? __('app.question') :
+                                        (($count % 10 >= 2 && $count % 10 <= 4 && ($count % 100 < 10 || $count % 100 >= 20)) ? __('app.questions_few') : __('app.questions_many'));
                                 @endphp
-
-                                @if($count == 1)
-                                    pytanie
-                                @elseif($count % 10 >= 2 && $count % 10 <= 4 && ($count % 100 < 10 || $count % 100 >= 20))
-                                    pytania
-                                @else
-                                    pytań
-                                @endif
-
+                                {{ $count }} {{ $questionText }}
                             </span>
                         </div>
                         <div class="flex items-center gap-1">
                             <i data-lucide="clock" class="w-4 h-4"></i>
-                            <span id="quiz-duration">30 min</span>
+                            <span id="quiz-duration">{{ __('app.duration_30min') }}</span>
                         </div>
                         <div class="flex items-center gap-1">
                             <i data-lucide="star" class="w-4 h-4 text-quiz-warning fill-current"></i>
@@ -83,14 +76,14 @@
 
                     <!-- Mode Selector -->
                     <div class="mb-6">
-                        <h3 class="text-sm font-semibold text-foreground mb-3">Wybierz tryb:</h3>
+                        <h3 class="text-sm font-semibold text-foreground mb-3">{{ __('app.choose_mode') }}</h3>
                         <div class="grid grid-cols-1 gap-2">
                             <button
                                 data-mode="all"
                                 class="mode-button p-3 rounded-lg border-2 text-left transition-all border-primary bg-primary/5 text-foreground"
                             >
-                                <div class="font-medium">Wszystkie pytania</div>
-                                <div class="text-sm opacity-75">Ukończ quiz ze wszystkimi pytaniami</div>
+                                <div class="font-medium">{{ __('app.all_questions_mode') }}</div>
+                                <div class="text-sm opacity-75">{{ __('app.complete_quiz_with_all_questions') }}</div>
                             </button>
                             {{--                            <button--}}
                             {{--                                data-mode="timed"--}}
@@ -114,17 +107,16 @@
                         <div class="flex items-center gap-2 text-sm">
                             <i data-lucide="book-open" class="w-4 h-4 text-primary"></i>
                             <span id="current-mode-questions" class="font-medium text-foreground">
-                               {{$topic->questions->count()}}  @if($count == 1)
-                                    pytanie
-                                @elseif($count % 10 >= 2 && $count % 10 <= 4 && ($count % 100 < 10 || $count % 100 >= 20))
-                                    pytania
-                                @else
-                                    pytań
-                                @endif
+                                @php
+                                    $count = $topic->questions()->count();
+                                    $questionText = $count == 1 ? __('app.question') :
+                                        (($count % 10 >= 2 && $count % 10 <= 4 && ($count % 100 < 10 || $count % 100 >= 20)) ? __('app.questions_few') : __('app.questions_many'));
+                                @endphp
+                                {{ $count }} {{ $questionText }}
                             </span>
                             <span class="text-muted-foreground">•</span>
                             <span id="current-mode-desc" class="text-muted-foreground">
-                                Ukończ quiz ze wszystkimi pytaniami
+                                {{ __('app.complete_quiz_with_all_questions') }}
                             </span>
                         </div>
                     </div>
@@ -138,8 +130,8 @@
                     >
                         <i data-lucide="play" class="w-5 h-5 mr-2 fill-current"></i>
 
-                        <span class="block sm:hidden">Rozpocznij</span>
-                        <span class="hidden sm:block">Rozpocznij wszystkie pytania</span>
+                        <span class="block sm:hidden">{{ __('app.start') }}</span>
+                        <span class="hidden sm:block">{{ __('app.start_all_questions') }}</span>
                     </button>
 
                 </div>

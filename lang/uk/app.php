@@ -67,4 +67,19 @@ return [
     'date' => 'Дата:',
     'all_tests' => 'Усі теми',
     'repeat_test' => 'Повторити тест',
+
+    // Start Survey translations
+    'back_to_topics' => 'Назад до Тем',
+    'quiz_title_alt' => 'Заголовок Вікторини',
+    'difficulty_medium' => 'Середній',
+    'duration_30min' => '30 хв',
+    'choose_mode' => 'Оберіть режим:',
+    'all_questions_mode' => 'Усі питання',
+    'complete_quiz_with_all_questions' => 'Завершіть вікторину з усіма питаннями',
+    'timed_mode' => 'Режим на час',
+    'race_against_time' => 'Перегони з часом',
+    'practice_mode' => 'Режим практики',
+    'no_time_limit_learn_at_your_pace' => 'Без обмеження часу, вчіться у своєму темпі',
+    'start' => 'Почати',
+    'start_all_questions' => 'Почати всі питання',
 ];
