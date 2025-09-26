@@ -27,6 +27,8 @@ class SurveyQuestion extends Component
 
     public $chosenAnswer;
 
+    public $showKeyboardHelp = true;
+
     #[Layout('layouts.app-kp')]
     public function render()
     {
@@ -36,6 +38,8 @@ class SurveyQuestion extends Component
 
     public function mount()
     {
+        $this->checkKeyboardHelpState();
+
         $answeredQuestionIds = QuizAnswer::where('quiz_id', $this->quiz->id)->with('questionAnswer.question')->get()->pluck('questionAnswer.question.id')->toArray();
 
         $nextQuestion = $this->topic->questions()
@@ -192,5 +196,22 @@ class SurveyQuestion extends Component
         $this->chosenAnswer = null;
 
         $this->dispatch('clear-input');
+    }
+
+    public function hideKeyboardHelp()
+    {
+        $this->showKeyboardHelp = false;
+        session(['keyboard_help_hidden_until' => now()->addDay()]);
+    }
+
+    private function checkKeyboardHelpState()
+    {
+        $hiddenUntil = session('keyboard_help_hidden_until');
+        if ($hiddenUntil && now()->lt($hiddenUntil)) {
+            $this->showKeyboardHelp = false;
+        } else {
+            session()->forget('keyboard_help_hidden_until');
+            $this->showKeyboardHelp = true;
+        }
     }
 }
