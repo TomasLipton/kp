@@ -10,7 +10,7 @@
                 return
             }
             if (['1', '2', '3', '4'].includes(event.key)) {
-                const answerElement = document.querySelector(`li[data-key="${event.key}"]`);
+                const answerElement = document.querySelector(`button[data-key="${event.key}"]`);
                 if (answerElement) {
                     const answerId = answerElement.getAttribute('data-answer-id');
                     $wire.submitAnswer(answerId);
@@ -50,13 +50,13 @@
                 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50
                 bg-accent text-accent-foreground h-10 px-2 py-2"
                 >
-                    <i data-lucide="x " class="w-5 h-4"></i>
+                    @svg('lucide-x', 'w-5 h-4')
                     {{ __('Skończyć') }}
                 </a>
             </div>
             @endif
 
-            <div class="survey-question mt-14_ overflow-hidden bg-ca_rd @if(!$quiz->completed_at) shadow-card border @endif  border-border/50 rounded-lg pb-32" @if(!$quiz->completed_at) style="background-color: rgb(235, 235, 235);" @endif>
+            <div class="survey-question mt-14_ overflow-hidden bg-ca_rd @if(!$quiz->completed_at) shadow-card border @endif  border-border/50 rounded-lg" @if(!$quiz->completed_at) style="background-color: rgb(235, 235, 235);" @endif>
 
                 @if(!$quiz->completed_at)
                     <div class="header">
@@ -111,17 +111,45 @@
                                 @if($showKeyboardHelp)
                                     <x-keyboard-help :answersCount="count($questionAnswers)" />
                                 @endif
-                                <ol>
-                                    @foreach($questionAnswers as $answer)
-                                        <li wire:key="{{ $answer->id }}" data-answer-id="{{$answer->id}}" data-key="{{$loop->index + 1}}" wire:click.debounce="submitAnswer('{{$answer->id}}')"
+{{--                                <ol>--}}
+                                    @foreach($questionAnswers as $index => $answer)
+{{--                                        <li wire:key="{{ $answer->id }}" data-answer-id="{{$answer->id}}" data-key="{{$loop->index + 1}}" wire:click.debounce="submitAnswer('{{$answer->id}}')"--}}
+{{--                                            @style([--}}
+{{--                'color: #00bb00' => $answer->is_correct && $chosenAnswer,--}}
+{{--                'color: #dd4444' => $answer->id === $chosenAnswer?->id && !$answer->is_correct,--}}
+{{--                'text-decoration: underline; font-weight: bold;' => $chosenAnswer && $answer->id == $chosenAnswer->id--}}
+{{--            ])--}}
+{{--                                        > {{$answer->text}}</li>--}}
+
+                                        <x-button
                                             @style([
-                'color: #00bb00' => $answer->is_correct && $chosenAnswer,
-                'color: #dd4444' => $answer->id === $chosenAnswer?->id && !$answer->is_correct,
-                'text-decoration: underline; font-weight: bold;' => $chosenAnswer && $answer->id == $chosenAnswer->id
-            ])
-                                        > {{$answer->text}}</li>
+              'color: #00bb00;' => $answer->is_correct && $chosenAnswer,
+              'color: #dd4444;' => $answer->id === $chosenAnswer?->id && !$answer->is_correct,
+
+              'background: #50ff503d;' => $answer->id === $chosenAnswer?->id  && $answer->is_correct && $chosenAnswer,
+              'background: #dd444420;' => $answer->id === $chosenAnswer?->id && !$answer->is_correct,
+
+          'font-weight: bold;' => $chosenAnswer && $answer->id == $chosenAnswer->id
+           ])
+                                            wire:key="{{ $answer->id }}" data-answer-id="{{$answer->id}}" data-key="{{$loop->index + 1}}" wire:click.debounce="submitAnswer('{{$answer->id}}')"
+                                            variant="outline"
+                                            onclick="handleAnswerSelect({{ $index }})"
+                                            class="w-full text-left justify-start p-4 h-auto min-h-12 relative transition-all duration-200
+                                            mb-2 max-w-2xl
+           {{ $chosenAnswer && $answer->id == $chosenAnswer->id ? '' : 'border border-input bg-background hover:bg-accent hover:text-accent-foreground' }}"
+                                        >
+                                            <div class="flex items-center gap-3 w-full">
+        <span class="min-w-6 h-6 flex items-center justify-center text-xs font-bold rounded-md px-2.5 py-0.5
+                     {{ $chosenAnswer && $answer->id == $chosenAnswer->id  ? 'bg-secondary text-secondary-foreground' : 'border border-input bg-background' }}"
+        >
+            {{ $index + 1 }}
+        </span>
+                                                <span class="flex-1">{{$answer->text}}</span>
+                                            </div>
+                                        </x-button>
+
                                     @endforeach
-                                </ol>
+{{--                                </ol>--}}
                             @endif
 
                             @if($question->question_type === 'year')
