@@ -90,13 +90,32 @@
                     </div>
 
                     <div class="question">
-                        <div style="max-width: 88%"> {{$question->question_pl}}</div>
-                        @if($question->aiSpeach()->count() > 0)
-                            <div style="width: 10%">
-                                <img class="playAudio" id="playAudio" src="/assets/img.png" alt=""/>
-                                <audio id="audioPlayer" src="{{Storage::temporaryUrl( $question->aiSpeach->last()->path_to_audio, now()->addMinutes(10) )}}"></audio>
+
+                            <div class="mb-4 p-3 bg-muted/50 rounded-lg border max-w-3xl m-auto">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-2 text-sm text-muted-foreground">
+                                        @svg('lucide-keyboard', 'w-4 h-4')
+                                        <span>
+        Use keyboard: Press <kbd class="px-2 py-1 text-xs bg-background border rounded">1-{{ count($questionAnswers) }}</kbd> to select answers,
+        <kbd class="px-2 py-1 text-xs bg-background border rounded">Enter</kbd> to continue
+      </span>
+                                    </div>
+                                    <button type="button" class="text-muted-foreground hover:text-foreground transition-colors" onclick="this.closest('div[class*=mb-4]').style.display='none'">
+                                        @svg('lucide-x', 'w-4 h-4')
+                                    </button>
+                                </div>
                             </div>
-                        @endif
+
+
+                        <div class="question_container">
+                            <div style="max-width: 88%"> {{$question->question_pl}}</div>
+                            @if($question->aiSpeach()->count() > 0)
+                                <div style="width: 10%">
+                                    <img class="playAudio" id="playAudio" src="/assets/img.png" alt=""/>
+                                    <audio id="audioPlayer" src="{{Storage::temporaryUrl( $question->aiSpeach->last()->path_to_audio, now()->addMinutes(10) )}}"></audio>
+                                </div>
+                            @endif
+                        </div>
                     </div>
                     <div class="answers" style="">
                         @if($question->picture)

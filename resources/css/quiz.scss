@@ -17,7 +17,8 @@
         .timer {
             width: 33%;
             @media screen and (max-width: 768px) {
-                width: 45%;
+                width: 100%;
+                padding-top: 5px;
             }
             white-space: nowrap;
         }
@@ -27,7 +28,7 @@
             width: 15%;
             white-space: nowrap;
             @media screen and (max-width: 768px) {
-                width: 45%;
+                width: auto;
                 text-align: right;
             }
         }
@@ -36,7 +37,7 @@
             text-align: right;
             width: 33%;
             @media screen and (max-width: 768px) {
-                width: 100%;
+                width: auto;
                 text-align: center;
                 margin-bottom: 3px;
             }
@@ -44,13 +45,16 @@
     }
 
     .question {
-        display: flex;
-        justify-content: space-between;
-        padding: 10px 1rem;
-        min-height: 71px;
         border-top: 1px solid #fff;
+        padding: 10px 1rem;
         border-bottom: 1px solid #bfbfbf;
-        font-weight: bold;
+        min-height: 71px;
+
+        .question_container {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+        }
     }
 
     .answers {
