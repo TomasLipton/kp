@@ -90,25 +90,6 @@
                     </div>
 
                     <div class="question">
-
-                            @if($showKeyboardHelp)
-                            <div class="mb-4 p-3 bg-muted/50 rounded-lg border max-w-3xl m-auto">
-                                <div class="flex items-center justify-between">
-                                    <div class="flex items-center gap-2 text-sm text-muted-foreground">
-                                        @svg('lucide-keyboard', 'w-4 h-4')
-                                        <span>
-        Use keyboard: Press <kbd class="px-2 py-1 text-xs bg-background border rounded">1-{{ count($questionAnswers) }}</kbd> to select answers,
-        <kbd class="px-2 py-1 text-xs bg-background border rounded">Enter</kbd> to continue
-      </span>
-                                    </div>
-                                    <button type="button" class="text-muted-foreground hover:text-foreground transition-colors" wire:click="hideKeyboardHelp">
-                                        @svg('lucide-x', 'w-4 h-4')
-                                    </button>
-                                </div>
-                            </div>
-                            @endif
-
-
                         <div class="question_container">
                             <div style="max-width: 88%"> {{$question->question_pl}}</div>
                             @if($question->aiSpeach()->count() > 0)
@@ -127,6 +108,9 @@
                         @endif
                         <div style=" width: 100%; ">
                             @if($question->question_type === 'single_text')
+                                @if($showKeyboardHelp)
+                                    <x-keyboard-help :answersCount="count($questionAnswers)" />
+                                @endif
                                 <ol>
                                     @foreach($questionAnswers as $answer)
                                         <li wire:key="{{ $answer->id }}" data-answer-id="{{$answer->id}}" data-key="{{$loop->index + 1}}" wire:click.debounce="submitAnswer('{{$answer->id}}')"
