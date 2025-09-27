@@ -56,7 +56,7 @@ return [
     'register_with_google' => 'Zarejestruj się przez Google',
 
     // Navigation
-    'polish_card_tests' => 'Testy do przygotowania na kartę Polaka',
+    'polish_card_tests' => 'Testy do Karty Polaka',
 
     // Survey Results translations
     'survey_results' => 'Wyniki testu',

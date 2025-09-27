@@ -9,12 +9,17 @@
 
 <div>
 
-    <div class=" mt-14 overflow-hidden bg-card shadow-card border border-border/50 rounded-lg pb-32">
-        <div class="text-center mb-8 mt-8">
-            <h1 class="text-3xl md:text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-4">
+    <div class=" mt-14 overflow-hidden  shadow-card border border-border/50 rounded-lg pb-32
+    bg-card/80 backdrop-blur-sm border-b
+    ">
+        <div class="text-center mb-8 mt-8 bg-gradient-primary bg-clip-text text-transparent">
+            <h1 class="text-3xl md:text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-4
+
+            ">
                 {{ __('Quiz Topics') }}
             </h1>
-            <p class="text-lg text-muted-foreground">
+            <h2 class="text-xl text-muted-foreground">Testy do przygotowania na kartę Polaka</h2>
+            <p class="text-md text-muted-foreground">
                 {{ __('Choose a topic to start your journey through Polish history and culture') }}
             </p>
         </div>

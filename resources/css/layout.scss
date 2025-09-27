@@ -35,6 +35,10 @@ body {
             rgba(255, 0, 0, 0.2) 53%,
     );
 
+    // good option
+    //background-color: rgb(249 248 255 / var(--tw-bg-opacity, 1));
+    //https://minimomnts.com/settings nice colore pallete
+
     min-height: 100dvh;
     margin: 0;
     backdrop-filter: blur(30px);

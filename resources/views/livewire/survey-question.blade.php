@@ -48,7 +48,7 @@
                 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background
                 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring
                 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50
-                bg-accent text-accent-foreground h-10 px-2 py-2"
+                 bg-primary/10 text-primary-foreground h-10 px-2 py-2"
                 >
                     @svg('lucide-x', 'w-5 h-4')
                     {{ __('Skończyć') }}
@@ -140,7 +140,7 @@
                                         >
                                             <div class="flex items-center gap-3 w-full">
         <span class="min-w-6 h-6 flex items-center justify-center text-xs font-bold rounded-md px-2.5 py-0.5
-                     {{ $chosenAnswer && $answer->id == $chosenAnswer->id  ? 'bg-secondary text-secondary-foreground' : 'border border-input bg-background' }}"
+                     {{ $chosenAnswer && $answer->id == $chosenAnswer->id  ? 'bg-secondary text-secondary-foreground' : 'border border-input bg-background_' }}"
         >
             {{ $index + 1 }}
         </span>

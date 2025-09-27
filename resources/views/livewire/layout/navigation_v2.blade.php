@@ -22,7 +22,8 @@ new class extends Component
         <!-- App name on the left -->
         <a href="{{ route('dashboard') }}" wire:navigate class="flex items-center">
             <h1 class="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-                QuizPolaka <span style="font-size: 1rem; font-weight: 400" class="hidden md:inline">{{ __('app.polish_card_tests') }}</span>
+                QuizPolaka |
+                <span style="font-size: 1rem; font-weight: 400" class="hidden md:inline">{{ __('app.polish_card_tests') }}</span>
             </h1>
         </a>
 
