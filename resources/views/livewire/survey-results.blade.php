@@ -160,11 +160,6 @@
     }
 </style>
 @endassets
-@script
-<script>
-    lucide.createIcons();
-</script>
-@endscript
 <div class="py-10">
     <div class="results-container">
         <h1 class="text-2xl md:text-3xl font-bold text-foreground mb-3">{{ __('app.survey_results') }}</h1>
@@ -195,7 +190,7 @@
                 style="background: #2657b2"
                 wire:navigate wire:navigate.hover
             >
-                <i data-lucide="list" class="w-5 h-5 mr-2 inline"></i>
+                @svg('lucide-list', 'w-5 h-5 mr-2 inline')
                 {{ __('app.all_tests') }}
             </button>
 
@@ -206,7 +201,7 @@
                 wire:navigate wire:navigate.hover
                 href="/{{$quiz->topics->slug}}"
             >
-                <i data-lucide="refresh-cw" class="w-5 h-5 mr-2 inline"></i>
+                @svg('lucide-refresh-cw', 'w-5 h-5 mr-2 inline')
                 {{ __('app.repeat_test') }}
             </button>
 

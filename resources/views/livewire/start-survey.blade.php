@@ -13,7 +13,7 @@
                 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50
                 bg-accent hover:text-accent-foreground h-10 px-4 py-2"
         >
-            <i data-lucide="arrow-left " class="4-5 h-4"></i>
+            @svg('lucide-arrow-left', 'w-4 h-4')
             {{ __('app.back_to_topics') }}
         </a>
     </div>
@@ -54,7 +54,7 @@
                     <!-- Stats Row -->
                     <div class="flex items-center gap-4 mb-6 text-sm text-muted-foreground">
                         <div class="flex items-center gap-1">
-                            <i data-lucide="book-open" class="w-4 h-4"></i>
+                            @svg('lucide-book-open', 'w-4 h-4')
                             <span id="quiz-questions">
                                 @php
                                     $count = $topic->questions()->count();
@@ -65,11 +65,11 @@
                             </span>
                         </div>
                         <div class="flex items-center gap-1">
-                            <i data-lucide="clock" class="w-4 h-4"></i>
+                            @svg('lucide-clock', 'w-4 h-4')
                             <span id="quiz-duration">{{ __('app.duration_30min') }}</span>
                         </div>
                         <div class="flex items-center gap-1">
-                            <i data-lucide="star" class="w-4 h-4 text-quiz-warning fill-current"></i>
+                            @svg('lucide-star', 'w-4 h-4 text-quiz-warning fill-current')
                             <span id="quiz-rating">4.5</span>
                         </div>
                     </div>
@@ -105,7 +105,7 @@
                     <!-- Selected Mode Info -->
                     <div class="bg-primary/5 border border-primary/20 rounded-lg p-4 mb-6">
                         <div class="flex items-center gap-2 text-sm">
-                            <i data-lucide="book-open" class="w-4 h-4 text-primary"></i>
+                            @svg('lucide-book-open', 'w-4 h-4 text-primary')
                             <span id="current-mode-questions" class="font-medium text-foreground">
                                 @php
                                     $count = $topic->questions()->count();
@@ -128,7 +128,7 @@
                         class="w-full bg-gradient-primary hover:shadow-glow transition-all duration-300 text-lg text-white font-medium
            whitespace-nowrap h-11 rounded-md px-8 flex items-center justify-center"
                     >
-                        <i data-lucide="play" class="w-5 h-5 mr-2 fill-current"></i>
+                        @svg('lucide-play', 'w-5 h-5 mr-2 fill-current')
 
                         <span class="block sm:hidden">{{ __('app.start') }}</span>
                         <span class="hidden sm:block">{{ __('app.start_all_questions') }}</span>

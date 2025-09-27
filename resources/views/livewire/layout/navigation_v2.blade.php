@@ -41,9 +41,9 @@ new class extends Component
             <div x-data="{ open: false }" class="relative">
                 <button @click="open = !open"
                         class="flex items-center gap-2 text-muted-foreground hover:text-foreground text-sm font-medium">
-                    <i data-lucide="globe" class="w-4 h-4"></i>
+                    @svg('lucide-globe', 'w-4 h-4')
                     <span>{{ $localeNames[$currentLocale]['short'] ?? 'PL' }}</span>
-                    <i data-lucide="chevron-down" class="w-3 h-3"></i>
+                    @svg('lucide-chevron-down', 'w-3 h-3')
                 </button>
                 <div x-show="open" @click.outside="open = false"
                      class="absolute right-0 mt-2 w-40 bg-popover border border-border shadow-lg z-50 rounded">

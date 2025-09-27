@@ -83,7 +83,7 @@
         this.timeElapsed = `${minutes}:${seconds}`;
     }
 }" x-init="setInterval(() => updateSecondsElapsed(), 1000)">
-                                <i data-lucide="timer " class="w-4"></i>
+                                @svg('lucide-timer', 'w-4')
                                 <span x-text="timeElapsed"></span>
                             </small>
                         </div>
