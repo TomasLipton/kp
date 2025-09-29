@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="{{ LaravelLocalization::getCurrentLocale() }}">
 <head>
 {{--    <script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/b2e695576b04046a5a433e90/script.js"></script>--}}
 
@@ -16,12 +16,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#e9e8e7">
 
+{{--    <!-- Canonical URL -->--}}
+    <link rel="canonical" href="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale()) }}">
+
+{{--    <!-- Hreflang tags for multilingual SEO -->--}}
+    @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+        <link rel="alternate" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL($localeCode) }}" />
+    @endforeach
+    <link rel="alternate" hreflang="x-default" href="{{ LaravelLocalization::getLocalizedURL('pl') }}" />
 
     <link rel="icon" type="image/png" href="/favicon.png"/>
 
-    <title>{{ $title ?? 'Quiz Polaka - Testy przygotowujące do rozmowy na karcie Polaka' }}</title>
+    <title>{{ $title ?? __('Quiz Polaka - Testy przygotowujące do rozmowy na karcie Polaka') }}</title>
 
-    <meta name="description" content="Przygotuj się do egzaminu na Kartę Polaka z naszym interaktywnym testem! Sprawdź swoją wiedzę o polskiej historii, kulturze i języku. Rozwiązuj testy, aby zwiększyć swoje szanse na uzyskanie Karty Polaka." />
+    <meta name="description" content="{{ $description ?? __('Przygotuj się do egzaminu na Kartę Polaka z naszym interaktywnym testem! Sprawdź swoją wiedzę o polskiej historii, kulturze i języku. Rozwiązuj testy, aby zwiększyć swoje szanse na uzyskanie Karty Polaka.') }}" />
+
+{{--    <!-- Open Graph tags -->--}}
+    <meta property="og:title" content="{{ $title ?? __('Quiz Polaka - Testy przygotowujące do rozmowy na karcie Polaka') }}">
+    <meta property="og:description" content="{{ $description ?? __('Przygotuj się do egzaminu na Kartę Polaka z naszym interaktywnym testem! Sprawdź swoją wiedzę o polskiej historii, kulturze i języku. Rozwiązuj testy, aby zwiększyć swoje szanse na uzyskanie Karty Polaka.') }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale()) }}">
+    <meta property="og:locale" content="{{ str_replace('_', '-', LaravelLocalization::getSupportedLocales()[LaravelLocalization::getCurrentLocale()]['regional']) }}">
+    @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+        @if($localeCode !== LaravelLocalization::getCurrentLocale())
+            <meta property="og:locale:alternate" content="{{ str_replace('_', '-', $properties['regional']) }}">
+        @endif
+    @endforeach
+    <meta property="og:site_name" content="{{ __('Quiz Polaka') }}">
+
+{{--    <!-- Twitter Card tags -->--}}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $title ?? __('Quiz Polaka - Testy przygotowujące do rozmowy na karcie Polaka') }}">
+    <meta name="twitter:description" content="{{ $description ?? __('Przygotuj się do egzaminu na Kartę Polaka z naszym interaktywnym testem! Sprawdź swoją wiedzę o polskiej historii, kulturze i języku. Rozwiązuj testy, aby zwiększyć swoje szanse na uzyskanie Karty Polaka.') }}">
+
+{{--    <!-- Language and content locale -->--}}
+    <meta http-equiv="Content-Language" content="{{ LaravelLocalization::getCurrentLocale() }}"  />
 
     {{--    <!-- Fonts -->--}}
     <link rel="preconnect" href="https://fonts.bunny.net">
