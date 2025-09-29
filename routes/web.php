@@ -18,6 +18,8 @@ Route::group([
         ->middleware(['auth'])
         ->name('profile');
 
+    Route::get('ai', \App\Livewire\AiPage::class)->name('ai');
+
     require __DIR__.'/auth.php';
 
     Route::get('/{topic:slug}', \App\Livewire\StartSurvey::class);
