@@ -1,212 +1,204 @@
-@assets
-<style>
-    .results-container {
-        /*max-width: 600px;*/
-        /*margin: 20px auto;*/
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
+<section class="min-h-screen py-8">
+    <div class="mx-auto max-w-3xl">
+        {{-- Results Header Card --}}
+        <div class="overflow-hidden bg-gradient-card backdrop-blur-sm shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)]
+                    border border-white/40 rounded-2xl relative mb-6
+                    before:absolute before:inset-0 before:rounded-2xl before:p-[1px]
+                    before:bg-gradient-to-br before:from-white/50 before:via-white/20 before:to-transparent before:-z-10">
 
-    /* Title Styles */
-    .results-container h1 {
-        text-align: center;
-        color: #333;
-        margin-bottom: 20px;
-    }
+            {{-- Success Banner --}}
+            <div class="bg-gradient-to-r from-green-50 via-green-100 to-green-50 border-b border-green-200 p-6 text-center">
+                <div class="flex flex-col items-center gap-3">
+                    <div class="w-16 h-16 rounded-full bg-green-500 flex items-center justify-center shadow-lg">
+                        @svg('lucide-trophy', 'w-8 h-8 text-white')
+                    </div>
+                    <div>
+                        <h1 class="text-3xl font-bold text-green-900">{{ __('app.survey_results') }}</h1>
+                        <p class="text-sm text-green-700 mt-1">Quiz zakończony pomyślnie!</p>
+                        @if($quiz->type)
+                            <span class="inline-block mt-2 px-3 py-1 bg-green-200 text-green-800 text-xs font-semibold rounded-full">
+                                {{ ucfirst($quiz->type) }}
+                            </span>
+                        @endif
+                    </div>
+                </div>
+            </div>
 
-    /* Result Item Styles */
-    .result-item {
-        display: flex;
-        justify-content: space-between;
-        padding: 10px 0;
-        border-bottom: 1px solid #e0e0e0;
-    }
+            {{-- Score Overview --}}
+            <div class="p-6 bg-white">
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    {{-- Correct Answers --}}
+                    <div class="bg-green-50 border-2 border-green-200 rounded-xl p-4 text-center">
+                        <div class="flex items-center justify-center gap-2 mb-2">
+                            @svg('lucide-check-circle', 'w-5 h-5 text-green-600')
+                            <span class="text-sm font-medium text-green-700">Poprawne</span>
+                        </div>
+                        <div class="text-3xl font-bold text-green-900">
+                            {{$quiz->answers->filter(function ($answer) { return $answer->questionAnswer->is_correct; })->count()}}
+                        </div>
+                    </div>
 
-    .result-item:last-child {
-        border-bottom: none; /* Remove border from last item */
-    }
+                    {{-- Incorrect Answers --}}
+                    <div class="bg-red-50 border-2 border-red-200 rounded-xl p-4 text-center">
+                        <div class="flex items-center justify-center gap-2 mb-2">
+                            @svg('lucide-x-circle', 'w-5 h-5 text-red-600')
+                            <span class="text-sm font-medium text-red-700">Błędne</span>
+                        </div>
+                        <div class="text-3xl font-bold text-red-900">
+                            {{$quiz->answers->filter(function ($answer) { return !$answer->questionAnswer->is_correct; })->count()}}
+                        </div>
+                    </div>
+                </div>
 
-    .label {
-        font-weight: bold;
-        color: #555;
-    }
+                {{-- Progress Bar --}}
+                @php
+                    $correctCount = $quiz->answers->filter(function ($answer) { return $answer->questionAnswer->is_correct; })->count();
+                    $totalCount = $quiz->answers->count();
+                    $percentage = $totalCount > 0 ? round(($correctCount / $totalCount) * 100) : 0;
+                @endphp
+                <div class="mb-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm font-medium text-foreground">Wynik końcowy</span>
+                        <span class="text-sm font-bold text-primary">{{ $percentage }}%</span>
+                    </div>
+                    <div class="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+                        <div class="h-full bg-gradient-to-r from-green-500 to-green-600 rounded-full transition-all duration-500"
+                             style="width: {{ $percentage }}%"></div>
+                    </div>
+                </div>
 
-    .value {
-        color: #333;
-    }
+                {{-- Stats Grid --}}
+                <div class="space-y-3">
+                    {{-- Total Questions --}}
+                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200">
+                        <div class="flex items-center gap-3">
+                            @svg('lucide-list-checks', 'w-5 h-5 text-primary')
+                            <span class="font-medium text-foreground">{{ __('app.total_questions') }}</span>
+                        </div>
+                        <span class="text-lg font-bold text-foreground">{{$totalCount}}</span>
+                    </div>
 
+                    {{-- Time Taken --}}
+                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200">
+                        <div class="flex items-center gap-3">
+                            @svg('lucide-timer', 'w-5 h-5 text-primary')
+                            <span class="font-medium text-foreground">{{ __('app.time_taken') }}</span>
+                        </div>
+                        <span class="text-lg font-bold text-foreground">
+                            @php
+                                $diff = $quiz->created_at->diff($quiz->completed_at);
+                                $minutes = $diff->i;
+                                $seconds = $diff->s;
+                            @endphp
+                            {{ $minutes }}m {{ $seconds }}s
+                        </span>
+                    </div>
 
-    /* Responsive Styles */
-    @media (max-width: 600px) {
-        .results-container {
-            padding: 15px;
-        }
+                    {{-- Date --}}
+                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200">
+                        <div class="flex items-center gap-3">
+                            @svg('lucide-calendar', 'w-5 h-5 text-primary')
+                            <span class="font-medium text-foreground">{{ __('app.date') }}</span>
+                        </div>
+                        <span class="text-lg font-bold text-foreground">{{$quiz->created_at->translatedFormat('F j, H:i') }}</span>
+                    </div>
+                </div>
+            </div>
 
-        .result-item {
-            flex-direction: column;
-            align-items: flex-start;
-        }
+            {{-- Action Buttons --}}
+            <div class="p-6 bg-gray-50 border-t border-border/30">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+                    <a
+                        href="/topics"
+                        wire:navigate
+                        class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold
+                               bg-white hover:bg-gray-50 border-2 border-primary/30 hover:border-primary/50
+                               text-primary transition-all duration-300 hover:scale-105"
+                    >
+                        @svg('lucide-list', 'w-5 h-5')
+                        <span>{{ __('app.all_tests') }}</span>
+                    </a>
 
-        .result-item .label {
-            margin-bottom: 5px; /* Add space between label and value */
-        }
+                    <a
+                        href="/{{$quiz->topics->slug}}"
+                        wire:navigate
+                        class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold
+                               bg-gradient-primary text-white shadow-glow
+                               hover:shadow-[0_15px_50px_-15px_hsl(var(--primary))]
+                               transition-all duration-300 hover:scale-105"
+                    >
+                        @svg('lucide-refresh-cw', 'w-5 h-5')
+                        <span>{{ __('app.repeat_test') }}</span>
+                    </a>
+                </div>
 
-    }
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {{-- Share Button --}}
+                    <button
+                        x-data="{
+                            copied: false,
+                            copyLink() {
+                                navigator.clipboard.writeText(window.location.href);
+                                this.copied = true;
+                                setTimeout(() => this.copied = false, 2000);
+                            }
+                        }"
+                        @click="copyLink()"
+                        class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold
+                               bg-blue-50 hover:bg-blue-100 border-2 border-blue-200 hover:border-blue-300
+                               text-blue-700 transition-all duration-300"
+                    >
+                        <template x-if="!copied">
+                            <div class="flex items-center gap-2">
+                                @svg('lucide-share-2', 'w-5 h-5')
+                                <span>Udostępnij wyniki</span>
+                            </div>
+                        </template>
+                        <template x-if="copied">
+                            <div class="flex items-center gap-2">
+                                @svg('lucide-check', 'w-5 h-5')
+                                <span>Skopiowano link!</span>
+                            </div>
+                        </template>
+                    </button>
 
-
-    @layer base {
-        :root {
-            /* Polish flag inspired theme - light and modern */
-            --background: 0 0% 99%;
-            --foreground: 0 0% 12%;
-
-            --card: 0 0% 100%;
-            --card-foreground: 0 0% 12%;
-
-            --popover: 0 0% 100%;
-            --popover-foreground: 0 0% 12%;
-
-            /* Polish red as primary - modern and elegant */
-            /*--primary: 348 75% 60%;*/
-            /*--primary-foreground: 0 0% 100%;*/
-
-            --secondary: 0 0% 96%;
-            --secondary-foreground: 0 0% 20%;
-
-            --muted: 0 0% 97%;
-            --muted-foreground: 0 0% 45%;
-
-            /* Light red accent for Polish theme */
-            --accent: 348 50% 95%;
-            --accent-foreground: 348 75% 60%;
-
-            --destructive: 0 84% 60%;
-            --destructive-foreground: 0 0% 98%;
-
-            --border: 0 0% 90%;
-            --input: 0 0% 90%;
-            --ring: 348 75% 60%;
-
-            --radius: 0.75rem;
-
-            /* Polish theme design tokens */
-            /*--gradient-primary: linear-gradient(135deg, hsl(348 75% 60%), hsl(348 65% 70%));*/
-            /*--gradient-primary: linear-gradient(135deg, hsl(220 70% 45%), hsl(220 65% 60%));*/
-
-            --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(348 20% 97%));
-            --quiz-success: 145 65% 50%;
-            --quiz-warning: 35 85% 55%;
-            --quiz-info: 348 40% 70%;
-            --shadow-glow: 0 10px 40px -10px hsl(348 75% 60% / 0.25);
-            --shadow-card: 0 4px 20px -4px hsl(0 0% 0% / 0.08);
-            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-            --sidebar-background: 0 0% 98%;
-
-            --sidebar-foreground: 240 5.3% 26.1%;
-
-            --sidebar-primary: 240 5.9% 10%;
-
-            --sidebar-primary-foreground: 0 0% 98%;
-
-            --sidebar-accent: 240 4.8% 95.9%;
-
-            --sidebar-accent-foreground: 240 5.9% 10%;
-
-            --sidebar-border: 220 13% 91%;
-
-            --sidebar-ring: 217.2 91.2% 59.8%;
-        }
-
-        .dark {
-            --background: 222.2 84% 4.9%;
-            --foreground: 210 40% 98%;
-
-            --card: 222.2 84% 4.9%;
-            --card-foreground: 210 40% 98%;
-
-            --popover: 222.2 84% 4.9%;
-            --popover-foreground: 210 40% 98%;
-
-            --primary: 210 40% 98%;
-            --primary-foreground: 222.2 47.4% 11.2%;
-
-            --secondary: 217.2 32.6% 17.5%;
-            --secondary-foreground: 210 40% 98%;
-
-            --muted: 217.2 32.6% 17.5%;
-            --muted-foreground: 215 20.2% 65.1%;
-
-            --accent: 217.2 32.6% 17.5%;
-            --accent-foreground: 210 40% 98%;
-
-            --destructive: 0 62.8% 30.6%;
-            --destructive-foreground: 210 40% 98%;
-
-            --border: 217.2 32.6% 17.5%;
-            --input: 217.2 32.6% 17.5%;
-            --ring: 212.7 26.8% 83.9%;
-            --sidebar-background: 240 5.9% 10%;
-            --sidebar-foreground: 240 4.8% 95.9%;
-            --sidebar-primary: 224.3 76.3% 48%;
-            --sidebar-primary-foreground: 0 0% 100%;
-            --sidebar-accent: 240 3.7% 15.9%;
-            --sidebar-accent-foreground: 240 4.8% 95.9%;
-            --sidebar-border: 240 3.7% 15.9%;
-            --sidebar-ring: 217.2 91.2% 59.8%;
-        }
-    }
-</style>
-@endassets
-<div class="py-10">
-    <div class="results-container">
-        <h1 class="text-2xl md:text-3xl font-bold text-foreground mb-3">{{ __('app.survey_results') }}</h1>
-        <div class="result-item">
-            <span class="label">{{ __('app.time_taken') }}</span>
-            <span class="value">{{$quiz->created_at->diff($quiz->completed_at)}}</span>
+                    {{-- Analytics / Login Button --}}
+                    @auth
+                        <a
+                            href="{{ route('profile') }}"
+                            wire:navigate
+                            class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold
+                                   bg-purple-50 hover:bg-purple-100 border-2 border-purple-200 hover:border-purple-300
+                                   text-purple-700 transition-all duration-300"
+                        >
+                            @svg('lucide-bar-chart-3', 'w-5 h-5')
+                            <span>Analityka</span>
+                        </a>
+                    @else
+                        <a
+                            href="{{ route('login') }}"
+                            wire:navigate
+                            class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold
+                                   bg-purple-50 hover:bg-purple-100 border-2 border-purple-200 hover:border-purple-300
+                                   text-purple-700 transition-all duration-300"
+                        >
+                            @svg('lucide-log-in', 'w-5 h-5')
+                            <span>Zaloguj się</span>
+                        </a>
+                    @endauth
+                </div>
+            </div>
         </div>
-        <div class="result-item">
-            <span class="label">{{ __('app.total_questions') }}</span>
-            <span class="value">{{$quiz->answers->count()}}</span>
-        </div>
-        <div class="result-item">
-            <span class="label">{{ __('app.correct_answers') }}</span>
-            <span class="value" style="color: #00bb00">{{$quiz->answers->filter(function ($answer) { return $answer->questionAnswer->is_correct; })->count()}}</span>
-        </div>
-        <div class="result-item">
-            <span class="label">{{ __('app.incorrect_answers') }}</span>
-            <span class="value" style="color: #dd4444">{{$quiz->answers->filter(function ($answer) { return !$answer->questionAnswer->is_correct; })->count()}}</span>
-        </div>
-        <div class="result-item">
-            <span class="label">{{ __('app.date') }}</span>
-            <span class="value">{{$quiz->created_at->translatedFormat('F j, H:i') }}</span>
-        </div>
-        <div class="flex flex-col sm:flex-row lg:gap-3">
-            <button
-                class=" mt-5 bg-primary-500 hover:shadow-glow transition-all duration-300 text-lg text-white font-medium
-           h-11 rounded-md px-8 w-full flex items-center justify-center"
-                style="background: #2657b2"
-                wire:navigate wire:navigate.hover
-                href="/topics"
 
-            >
-                @svg('lucide-list', 'w-5 h-5 mr-2 inline')
-                {{ __('app.all_tests') }}
-            </button>
-
-            <button
-                class=" mt-5 hover:shadow-glow transition-all duration-300 text-lg text-white font-medium
-           h-11 rounded-md px-8 w-full flex items-center justify-center"
-                style="background: #2e7d32"
-                wire:navigate wire:navigate.hover
-                href="/{{$quiz->topics->slug}}"
-            >
-                @svg('lucide-refresh-cw', 'w-5 h-5 mr-2 inline')
-                {{ __('app.repeat_test') }}
-            </button>
-
+        {{-- Motivational Message --}}
+        <div class="text-center p-6 bg-white/50 rounded-xl border border-border/30">
+            @if($percentage >= 80)
+                <p class="text-lg font-semibold text-green-700">🎉 Świetna robota! Doskonały wynik!</p>
+            @elseif($percentage >= 60)
+                <p class="text-lg font-semibold text-blue-700">👍 Dobra robota! Możesz być dumny!</p>
+            @else
+                <p class="text-lg font-semibold text-orange-700">💪 Nie poddawaj się! Następnym razem będzie lepiej!</p>
+            @endif
         </div>
     </div>
-</div>
+</section>
