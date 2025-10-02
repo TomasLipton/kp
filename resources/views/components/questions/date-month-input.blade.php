@@ -52,7 +52,7 @@
 
 <div class="answer-date_month-container" x-data="{ date: '', month: '1' }">
     <input autofocus class="year-answer" x-model="date"
-           wire:keydown.enter="submitYear($event.target.value)"
+           @keydown.enter="$wire.submitDateMonth(date, month)"
            x-on:input="date = date.slice(0, 2).replace(/\D/g, '')"
            x-on:clear-input.window="date = ''; month = '1'"
            type="text"
