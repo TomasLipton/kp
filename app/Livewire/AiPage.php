@@ -10,7 +10,7 @@ class AiPage extends Component
 {
     public function render()
     {
-        abort(404);
+//        abort(404);
         return view('livewire.ai-page');
     }
 }

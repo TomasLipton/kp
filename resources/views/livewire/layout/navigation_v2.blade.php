@@ -88,6 +88,13 @@ new class extends Component
 
         <!-- Language toggle and auth buttons on the right -->
         <div class="hidden sm:flex sm:items-center sm:gap-4">
+            @if(Auth::check() && Auth::user()->isAdmin())
+                <a href="/admin" target="_blank" class="flex items-center gap-2 text-muted-foreground hover:text-foreground text-sm font-medium px-3 py-2 rounded-md hover:bg-accent transition-colors">
+                    @svg('lucide-shield', 'w-4 h-4')
+                    <span>Admin</span>
+                </a>
+            @endif
+
             <!-- Theme Toggle Button -->
             <button @click="toggleTheme()"
                     class="flex items-center gap-2 text-muted-foreground hover:text-foreground text-sm font-medium px-3 py-2 rounded-md hover:bg-accent transition-colors"
@@ -173,13 +180,59 @@ new class extends Component
 
     <!-- Responsive menu -->
     <div :class="{'block': mobileOpen, 'hidden': ! mobileOpen}" class="hidden sm:hidden pt-4 pb-1 border-t border-gray-200">
+        <!-- Theme Toggle -->
+        <div class="px-4 pb-3">
+            <button @click="toggleTheme()"
+                    class="flex items-center gap-2 w-full text-muted-foreground hover:text-foreground text-sm font-medium px-3 py-2 rounded-md hover:bg-accent transition-colors">
+                @svg('lucide-palette', 'w-4 h-4')
+                <span x-text="getThemeLabel()"></span>
+            </button>
+        </div>
+
+        <!-- Language Selector -->
+        @php
+            $currentLocale = LaravelLocalization::getCurrentLocale();
+            $localeNames = [
+                'pl' => ['name' => 'Polski', 'flag' => '🇵🇱', 'short' => 'PL'],
+                'uk' => ['name' => 'Українська', 'flag' => '🇺🇦', 'short' => 'UA'],
+                'be' => ['name' => 'Беларуская','short' => 'BY'],
+                'ru' => ['name' => 'Русский', 'short' => 'RU'],
+            ];
+        @endphp
+        <div class="px-4 pb-3" x-data="{ langOpen: false }">
+            <button @click="langOpen = !langOpen"
+                    class="flex items-center justify-between gap-2 w-full text-muted-foreground hover:text-foreground text-sm font-medium px-3 py-2 rounded-md hover:bg-accent transition-colors">
+                <div class="flex items-center gap-2">
+                    @svg('lucide-globe', 'w-4 h-4')
+                    <span>{{ $localeNames[$currentLocale]['flag'] ?? '🏳️' }} {{ $localeNames[$currentLocale]['name'] ?? 'Language' }}</span>
+                </div>
+                <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': langOpen }" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+            </button>
+            <div x-show="langOpen" x-collapse class="mt-1 space-y-1">
+                @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                    <a href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}"
+                       class="flex items-center gap-2 px-6 py-2 rounded-md hover:bg-accent w-full text-left text-sm {{ $currentLocale == $localeCode ? 'bg-accent' : '' }}">
+                        {{ $localeNames[$localeCode]['flag'] ?? '🏳️' }} {{ $localeNames[$localeCode]['name'] ?? $properties['native'] }}
+                    </a>
+                @endforeach
+            </div>
+        </div>
+
         @if(Auth::check())
-            <div class="px-4">
+            <div class="px-4 border-t border-gray-200 pt-3">
                 <div class="font-medium text-base text-gray-800" x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name"></div>
                 <div class="font-medium text-sm text-gray-500">{{ auth()->user()->email }}</div>
             </div>
 
             <div class="mt-3 space-y-1">
+                @if(Auth::user()->isAdmin())
+                    <x-responsive-nav-link href="/admin" target="_blank">
+                        @svg('lucide-shield', 'w-4 h-4 inline-block mr-2')
+                        {{ __('Admin') }}
+                    </x-responsive-nav-link>
+                @endif
                 <x-responsive-nav-link :href="route('profile')" wire:navigate>
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
@@ -190,13 +243,14 @@ new class extends Component
                 </button>
             </div>
         @else
-            <x-responsive-nav-link :href="route('login')" :active="request()->routeIs('login')" wire:navigate>
-                {{ __('Login') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('register')" :active="request()->routeIs('register')" wire:navigate>
-                {{ __('Register') }}
-            </x-responsive-nav-link>
-
+            <div class="border-t border-gray-200 pt-3">
+                <x-responsive-nav-link :href="route('login')" :active="request()->routeIs('login')" wire:navigate>
+                    {{ __('Login') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('register')" :active="request()->routeIs('register')" wire:navigate>
+                    {{ __('Register') }}
+                </x-responsive-nav-link>
+            </div>
         @endif
     </div>
 </header>
