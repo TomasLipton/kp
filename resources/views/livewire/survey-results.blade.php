@@ -189,6 +189,8 @@
            h-11 rounded-md px-8 w-full flex items-center justify-center"
                 style="background: #2657b2"
                 wire:navigate wire:navigate.hover
+                href="/topics"
+
             >
                 @svg('lucide-list', 'w-5 h-5 mr-2 inline')
                 {{ __('app.all_tests') }}

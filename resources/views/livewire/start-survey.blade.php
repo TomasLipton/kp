@@ -44,12 +44,37 @@
                 <div class="p-6">
                     <!-- Quiz Title -->
                     <h1 id="quiz-title" class="text-2xl md:text-3xl font-bold text-foreground mb-3">
-                        {{$topic->name_pl}}
+                        @switch(LaravelLocalization::getCurrentLocale())
+                            @case('ru')
+                                {{trim($topic->name_ru ?? $topic->name_pl)}}
+                                @break
+                            @case('uk')
+                                {{trim($topic->name_uk ?? $topic->name_pl)}}
+                                @break
+                            @case('be')
+                                {{trim($topic->name_by ?? $topic->name_pl)}}
+                                @break
+                            @default
+                                {{trim($topic->name_pl)}}
+                        @endswitch
                     </h1>
 
                     <!-- Description -->
                     <p id="quiz-description" class="text-muted-foreground leading-relaxed mb-6">
-                        {{$topic->description_pl}}                    </p>
+                        @switch(LaravelLocalization::getCurrentLocale())
+                            @case('ru')
+                                {{trim($topic->description_ru ?? $topic->description_pl)}}
+                                @break
+                            @case('uk')
+                                {{trim($topic->description_uk ?? $topic->description_pl)}}
+                                @break
+                            @case('be')
+                                {{trim($topic->description_by ?? $topic->description_pl)}}
+                                @break
+                            @default
+                                {{trim($topic->description_pl)}}
+                        @endswitch
+                    </p>
 
                     <!-- Stats Row -->
                     <div class="flex items-center gap-4 mb-6 text-sm text-muted-foreground">
