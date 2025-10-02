@@ -69,7 +69,9 @@
 
     @filamentStyles
 </head>
-<body class="antialiased">
+<body class="antialiased ">
+{{--<body class="antialiased bg-gradient-to-t from-purple-100 via-pink-100 to-indigo-100 ">--}}
+
 
 <div class="app_container shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)]_">
 

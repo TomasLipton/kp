@@ -178,7 +178,7 @@
                 <div>
                     <h3 class="text-xl font-semibold mb-2">{{ __('Current exam questions') }}</h3>
                     <p class="text-muted-foreground">
-                        {{ __('All questions are based on the official Polish Card exam program') }}
+                        {{ __('All questions created by professional tutors to help you prepare') }}
                     </p>
                 </div>
             </div>
