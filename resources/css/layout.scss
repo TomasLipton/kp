@@ -34,6 +34,7 @@ body {
             var(--bg-gradient-mid2) 51%,
             var(--bg-gradient-bottom) 53%,
     );
+    background-attachment: fixed;
 
     min-height: 100dvh;
     margin: 0;
