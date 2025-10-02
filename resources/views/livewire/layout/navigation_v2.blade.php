@@ -44,6 +44,43 @@ new class extends Component
     <div class="container mx-auto px-4 h-16 flex items-center justify-between ">
         <!-- App name on the left -->
         <a href="{{ route('dashboard') }}" wire:navigate class="flex items-center">
+            {{-- Logo Option 7: ID Card Style --}}
+{{--            <svg class="h-12 w-auto" viewBox="0 0 180 70" fill="none" xmlns="http://www.w3.org/2000/svg">--}}
+{{--                <!-- Card Background with Border -->--}}
+{{--                <rect width="180" height="70" rx="8" fill="white" stroke="url(#grad7border)" stroke-width="2"/>--}}
+{{--                <rect x="2" y="2" width="176" height="66" rx="6" fill="url(#grad7bg)"/>--}}
+
+{{--                <!-- Photo/Icon Area (left side) -->--}}
+{{--                <rect x="10" y="12" width="38" height="46" rx="4" fill="white" opacity="0.25"/>--}}
+{{--                <circle cx="29" cy="28" r="8" fill="white" opacity="0.8"/>--}}
+{{--                <path d="M29 24 L32 28 L29 32 L26 28 Z" fill="url(#grad7)" opacity="0.9"/>--}}
+{{--                <rect x="18" y="40" width="22" height="3" rx="1.5" fill="white" opacity="0.6"/>--}}
+{{--                <rect x="18" y="46" width="22" height="3" rx="1.5" fill="white" opacity="0.5"/>--}}
+
+{{--                <!-- Text Area (right side - better positioned and centered) -->--}}
+{{--                <text x="58" y="32" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="700" fill="white" letter-spacing="1.5">QUIZ</text>--}}
+{{--                <text x="58" y="52" font-family="system-ui, -apple-system, sans-serif" font-size="19" font-weight="500" fill="white" opacity="0.95" letter-spacing="0.8">Polaka</text>--}}
+
+{{--                <!-- Polish Flag Colors Accent -->--}}
+{{--                <rect x="155" y="12" width="15" height="23" rx="2" fill="white" opacity="0.8"/>--}}
+{{--                <rect x="155" y="35" width="15" height="23" rx="2" fill="#DC143C" opacity="0.8"/>--}}
+
+{{--                <defs>--}}
+{{--                    <linearGradient id="grad7" x1="0" y1="0" x2="180" y2="70" gradientUnits="userSpaceOnUse">--}}
+{{--                        <stop offset="0%" stop-color="hsl(var(--primary))"/>--}}
+{{--                        <stop offset="100%" stop-color="hsl(var(--primary) / 0.7)"/>--}}
+{{--                    </linearGradient>--}}
+{{--                    <linearGradient id="grad7bg" x1="0" y1="0" x2="180" y2="70" gradientUnits="userSpaceOnUse">--}}
+{{--                        <stop offset="0%" stop-color="hsl(var(--primary) / 0.95)"/>--}}
+{{--                        <stop offset="100%" stop-color="hsl(var(--primary) / 0.85)"/>--}}
+{{--                    </linearGradient>--}}
+{{--                    <linearGradient id="grad7border" x1="0" y1="0" x2="180" y2="0" gradientUnits="userSpaceOnUse">--}}
+{{--                        <stop offset="0%" stop-color="white" stop-opacity="0.5"/>--}}
+{{--                        <stop offset="100%" stop-color="white" stop-opacity="0.3"/>--}}
+{{--                    </linearGradient>--}}
+{{--                </defs>--}}
+{{--            </svg>--}}
+
             <h1 class="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
                 QuizPolaka <span style="font-size: 1rem; font-weight: 400" class="hidden md:inline">{{ __('app.polish_card_tests') }}</span>
             </h1>
