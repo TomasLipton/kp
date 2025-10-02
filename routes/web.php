@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Livewire\Volt\Volt;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 Route::group([
@@ -13,6 +14,8 @@ Route::group([
     });
 
     Route::get('/', \App\Livewire\Main::class)->name('dashboard');
+
+    Volt::route('topics', 'topics')->name('topics');
 
     Route::get('profile', \App\Livewire\Profile::class)
         ->middleware(['auth'])

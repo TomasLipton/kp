@@ -2,9 +2,24 @@
     use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 @endphp
 
+<?php
+
+use App\Models\Topics;
+use Livewire\Volt\Component;
+use Livewire\Attributes\Layout;
+
+new #[Layout('layouts.app-kp')] class extends Component
+{
+    public function with(): array
+    {
+        return [
+            'topics' => Topics::all()
+        ];
+    }
+}; ?>
+
 @assets
 @vite(['resources/css/main.scss'])
-
 @endassets
 
 <div>
