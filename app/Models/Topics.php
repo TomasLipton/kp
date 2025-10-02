@@ -17,6 +17,10 @@ class Topics extends Model
         'description_ru',
         'name_pl',
         'description_pl',
+        'name_by',
+        'description_by',
+        'name_uk',
+        'description_uk',
         'picture',
         'parent_id',
     ];
