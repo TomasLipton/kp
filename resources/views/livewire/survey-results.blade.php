@@ -9,28 +9,41 @@
             {{-- Success Banner --}}
             <div class="bg-gradient-to-r from-green-50 via-green-100 to-green-50 border-b border-green-200 p-6 text-center relative">
                 {{-- Share Button Icon --}}
-                <button
-                    x-data="{
-                        copied: false,
-                        copyLink() {
-                            navigator.clipboard.writeText(window.location.href);
-                            this.copied = true;
-                            setTimeout(() => this.copied = false, 2000);
-                        }
-                    }"
-                    @click="copyLink()"
-                    class="absolute top-4 right-4 w-10 h-10 rounded-full bg-green-200 hover:bg-green-300
-                           border border-green-400 flex items-center justify-center
-                           transition-all duration-300 hover:scale-110 group"
-                    x-tooltip="copied ? 'Skopiowano!' : 'Udostępnij wyniki'"
-                >
-                    <template x-if="!copied">
-                        @svg('lucide-share-2', 'w-5 h-5 text-green-700')
-                    </template>
-                    <template x-if="copied">
-                        @svg('lucide-check', 'w-5 h-5 text-green-700')
-                    </template>
-                </button>
+                <div class="absolute top-4 right-4 group" x-data="{
+                    copied: false,
+                    showTooltip: false,
+                    copyLink() {
+                        navigator.clipboard.writeText(window.location.href);
+                        this.copied = true;
+                        setTimeout(() => this.copied = false, 2000);
+                    }
+                }">
+                    <button
+                        @click="copyLink()"
+                        @mouseenter="showTooltip = true"
+                        @mouseleave="showTooltip = false"
+                        class="w-10 h-10 rounded-full bg-green-200 hover:bg-green-300
+                               border border-green-400 flex items-center justify-center
+                               transition-all duration-300 hover:scale-110 relative"
+                    >
+                        <template x-if="!copied">
+                            @svg('lucide-share-2', 'w-5 h-5 text-green-700')
+                        </template>
+                        <template x-if="copied">
+                            @svg('lucide-check', 'w-5 h-5 text-green-700')
+                        </template>
+                    </button>
+
+                    {{-- Tooltip --}}
+                    <div
+                        x-show="showTooltip"
+                        x-transition
+                        class="absolute -bottom-10 right-0 bg-gray-900 text-white text-xs px-3 py-1.5 rounded-lg whitespace-nowrap shadow-lg z-50"
+                    >
+                        <span x-text="copied ? '{{ __('app.link_copied') }}' : '{{ __('app.share_results') }}'"></span>
+                        <div class="absolute -top-1 right-4 w-2 h-2 bg-gray-900 transform rotate-45"></div>
+                    </div>
+                </div>
 
                 <div class="flex flex-col items-center gap-3">
                     <div class="w-16 h-16 rounded-full bg-green-500 flex items-center justify-center shadow-lg">
