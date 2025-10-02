@@ -1,7 +1,6 @@
 @script
 <script>
     Livewire.hook('component.init', ({component, cleanup}) => {
-        console.log('component.init', component, cleanup);
         document.addEventListener('keydown', function (event) {
             if (event.key === 'Enter' && document.getElementById('wrap').dataset.isAnswered === 'true') {
                 $wire.nextQuestion();
