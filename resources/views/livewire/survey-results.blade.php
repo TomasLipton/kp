@@ -7,7 +7,31 @@
                     before:bg-gradient-to-br before:from-white/50 before:via-white/20 before:to-transparent before:-z-10">
 
             {{-- Success Banner --}}
-            <div class="bg-gradient-to-r from-green-50 via-green-100 to-green-50 border-b border-green-200 p-6 text-center">
+            <div class="bg-gradient-to-r from-green-50 via-green-100 to-green-50 border-b border-green-200 p-6 text-center relative">
+                {{-- Share Button Icon --}}
+                <button
+                    x-data="{
+                        copied: false,
+                        copyLink() {
+                            navigator.clipboard.writeText(window.location.href);
+                            this.copied = true;
+                            setTimeout(() => this.copied = false, 2000);
+                        }
+                    }"
+                    @click="copyLink()"
+                    class="absolute top-4 right-4 w-10 h-10 rounded-full bg-green-200 hover:bg-green-300
+                           border border-green-400 flex items-center justify-center
+                           transition-all duration-300 hover:scale-110 group"
+                    x-tooltip="copied ? 'Skopiowano!' : 'Udostępnij wyniki'"
+                >
+                    <template x-if="!copied">
+                        @svg('lucide-share-2', 'w-5 h-5 text-green-700')
+                    </template>
+                    <template x-if="copied">
+                        @svg('lucide-check', 'w-5 h-5 text-green-700')
+                    </template>
+                </button>
+
                 <div class="flex flex-col items-center gap-3">
                     <div class="w-16 h-16 rounded-full bg-green-500 flex items-center justify-center shadow-lg">
                         @svg('lucide-trophy', 'w-8 h-8 text-white')
@@ -132,61 +156,30 @@
                     </a>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {{-- Share Button --}}
-                    <button
-                        x-data="{
-                            copied: false,
-                            copyLink() {
-                                navigator.clipboard.writeText(window.location.href);
-                                this.copied = true;
-                                setTimeout(() => this.copied = false, 2000);
-                            }
-                        }"
-                        @click="copyLink()"
-                        class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold
-                               bg-blue-50 hover:bg-blue-100 border-2 border-blue-200 hover:border-blue-300
-                               text-blue-700 transition-all duration-300"
+                {{-- Analytics / Login Button --}}
+                @auth
+                    <a
+                        href="{{ route('profile') }}"
+                        wire:navigate
+                        class="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold
+                               bg-purple-50 hover:bg-purple-100 border-2 border-purple-200 hover:border-purple-300
+                               text-purple-700 transition-all duration-300"
                     >
-                        <template x-if="!copied">
-                            <div class="flex items-center gap-2">
-                                @svg('lucide-share-2', 'w-5 h-5')
-                                <span>Udostępnij wyniki</span>
-                            </div>
-                        </template>
-                        <template x-if="copied">
-                            <div class="flex items-center gap-2">
-                                @svg('lucide-check', 'w-5 h-5')
-                                <span>Skopiowano link!</span>
-                            </div>
-                        </template>
-                    </button>
-
-                    {{-- Analytics / Login Button --}}
-                    @auth
-                        <a
-                            href="{{ route('profile') }}"
-                            wire:navigate
-                            class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold
-                                   bg-purple-50 hover:bg-purple-100 border-2 border-purple-200 hover:border-purple-300
-                                   text-purple-700 transition-all duration-300"
-                        >
-                            @svg('lucide-bar-chart-3', 'w-5 h-5')
-                            <span>Analityka</span>
-                        </a>
-                    @else
-                        <a
-                            href="{{ route('login') }}"
-                            wire:navigate
-                            class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold
-                                   bg-purple-50 hover:bg-purple-100 border-2 border-purple-200 hover:border-purple-300
-                                   text-purple-700 transition-all duration-300"
-                        >
-                            @svg('lucide-log-in', 'w-5 h-5')
-                            <span>Zaloguj się</span>
-                        </a>
-                    @endauth
-                </div>
+                        @svg('lucide-bar-chart-3', 'w-5 h-5')
+                        <span>Analityka</span>
+                    </a>
+                @else
+                    <a
+                        href="{{ route('login') }}"
+                        wire:navigate
+                        class="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold
+                               bg-purple-50 hover:bg-purple-100 border-2 border-purple-200 hover:border-purple-300
+                               text-purple-700 transition-all duration-300"
+                    >
+                        @svg('lucide-log-in', 'w-5 h-5')
+                        <span>Zaloguj się</span>
+                    </a>
+                @endauth
             </div>
         </div>
 
