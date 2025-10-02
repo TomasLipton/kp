@@ -43,31 +43,88 @@ class TopicsResource extends Resource
                     ->default(false)
                     ->dehydrated(false),
 
-                Forms\Components\TextInput::make('name_pl')->required()
-                    ->afterStateUpdated(function (Get $get, Set $set, ?string $state) {
-                        if (! $get('is_slug_changed_manually') && filled($state)) {
-                            $set('slug', Str::slug($state));
-                        }
-                    })
-                    ->reactive(),
-
-                Forms\Components\TextInput::make('name_ru')->default('-')->required(),
-                Forms\Components\TextInput::make('description_pl')->required(),
-                Forms\Components\TextInput::make('description_ru')->default('-')->required(),
-
-                Forms\Components\Select::make('parent_id')
-                    ->relationship('parent', 'name_ru'),
-
-                Forms\Components\Section::make('Image')
+                Forms\Components\Grid::make(3)
                     ->schema([
-                        FileUpload::make('picture')
-//                            ->disk('public')
-                            ->image()
-                            ->imageEditor()
-                            ->directory('topics')
-                            ->required(),
-                    ]),
+                        Forms\Components\Section::make('Translations')
+                            ->schema([
+                                Forms\Components\Fieldset::make('Polish (PL)')
+                                    ->schema([
+                                        Forms\Components\TextInput::make('name_pl')
+                                            ->label('Name')
+                                            ->required()
+                                            ->afterStateUpdated(function (Get $get, Set $set, ?string $state) {
+                                                if (! $get('is_slug_changed_manually') && filled($state)) {
+                                                    $set('slug', Str::slug($state));
+                                                }
+                                            })
+                                            ->reactive(),
+                                        Forms\Components\Textarea::make('description_pl')
+                                            ->label('Description')
+                                            ->required()
+                                            ->rows(3),
+                                    ]),
 
+                                Forms\Components\Fieldset::make('Russian (RU)')
+                                    ->schema([
+                                        Forms\Components\TextInput::make('name_ru')
+                                            ->label('Name')
+                                            ->default('-')
+                                            ->required(),
+                                        Forms\Components\Textarea::make('description_ru')
+                                            ->label('Description')
+                                            ->default('-')
+                                            ->required()
+                                            ->rows(3),
+                                    ]),
+
+                                Forms\Components\Fieldset::make('Belarusian (BY)')
+                                    ->schema([
+                                        Forms\Components\TextInput::make('name_by')
+                                            ->label('Name')
+                                            ->default('-')
+                                            ->required(),
+                                        Forms\Components\Textarea::make('description_by')
+                                            ->label('Description')
+                                            ->default('-')
+                                            ->required()
+                                            ->rows(3),
+                                    ]),
+
+                                Forms\Components\Fieldset::make('Ukrainian (UK)')
+                                    ->schema([
+                                        Forms\Components\TextInput::make('name_uk')
+                                            ->label('Name')
+                                            ->default('-')
+                                            ->required(),
+                                        Forms\Components\Textarea::make('description_uk')
+                                            ->label('Description')
+                                            ->default('-')
+                                            ->required()
+                                            ->rows(3),
+                                    ]),
+                            ])
+                            ->columnSpan(2),
+
+                        Forms\Components\Group::make()
+                            ->schema([
+                                Forms\Components\Section::make('Settings')
+                                    ->schema([
+                                        Forms\Components\Select::make('parent_id')
+                                            ->relationship('parent', 'name_ru'),
+                                    ]),
+
+                                Forms\Components\Section::make('Image')
+                                    ->schema([
+                                        FileUpload::make('picture')
+//                            ->disk('public')
+                                            ->image()
+                                            ->imageEditor()
+                                            ->directory('topics')
+                                            ->required(),
+                                    ]),
+                            ])
+                            ->columnSpan(1),
+                    ]),
             ]);
     }
 
