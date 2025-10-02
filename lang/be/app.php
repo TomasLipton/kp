@@ -82,4 +82,16 @@ return [
     'no_time_limit_learn_at_your_pace' => 'Без ліміту часу, вучыце ў своім тэмпе',
     'start' => 'Пачні',
     'start_all_questions' => 'Пачні усе пытанні',
+
+    // New Survey Results translations
+    'quiz_completed_successfully' => 'Віктарына завершана паспяхова!',
+    'correct' => 'Правільныя',
+    'incorrect' => 'Няправільныя',
+    'final_score' => 'Канчатковы вынік',
+    'share_results' => 'Падзяліцца вынікамі',
+    'link_copied' => 'Скапіравана!',
+    'analytics' => 'Аналітыка',
+    'excellent_result' => '🎉 Выдатная праца! Выдатны вынік!',
+    'good_job' => '👍 Добрая праца! Можаце быць ганарлівымі!',
+    'keep_trying' => '💪 Не здавайцеся! Наступным разам будзе лепш!',
 ];

@@ -82,4 +82,16 @@ return [
     'no_time_limit_learn_at_your_pace' => 'Bez limitu czasu, ucz się we własnym tempie',
     'start' => 'Rozpocznij',
     'start_all_questions' => 'Rozpocznij wszystkie pytania',
+
+    // New Survey Results translations
+    'quiz_completed_successfully' => 'Quiz zakończony pomyślnie!',
+    'correct' => 'Poprawne',
+    'incorrect' => 'Błędne',
+    'final_score' => 'Wynik końcowy',
+    'share_results' => 'Udostępnij wyniki',
+    'link_copied' => 'Skopiowano!',
+    'analytics' => 'Analityka',
+    'excellent_result' => '🎉 Świetna robota! Doskonały wynik!',
+    'good_job' => '👍 Dobra robota! Możesz być dumny!',
+    'keep_trying' => '💪 Nie poddawaj się! Następnym razem będzie lepiej!',
 ];

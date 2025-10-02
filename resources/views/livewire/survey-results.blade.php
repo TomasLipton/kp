@@ -38,7 +38,7 @@
                     </div>
                     <div>
                         <h1 class="text-3xl font-bold text-green-900">{{ __('app.survey_results') }}</h1>
-                        <p class="text-sm text-green-700 mt-1">Quiz zakończony pomyślnie!</p>
+                        <p class="text-sm text-green-700 mt-1">{{ __('app.quiz_completed_successfully') }}</p>
                         @if($quiz->type)
                             <span class="inline-block mt-2 px-3 py-1 bg-green-200 text-green-800 text-xs font-semibold rounded-full">
                                 {{ ucfirst($quiz->type) }}
@@ -55,7 +55,7 @@
                     <div class="bg-green-50 border-2 border-green-200 rounded-xl p-4 text-center">
                         <div class="flex items-center justify-center gap-2 mb-2">
                             @svg('lucide-check-circle', 'w-5 h-5 text-green-600')
-                            <span class="text-sm font-medium text-green-700">Poprawne</span>
+                            <span class="text-sm font-medium text-green-700">{{ __('app.correct') }}</span>
                         </div>
                         <div class="text-3xl font-bold text-green-900">
                             {{$quiz->answers->filter(function ($answer) { return $answer->questionAnswer->is_correct; })->count()}}
@@ -66,7 +66,7 @@
                     <div class="bg-red-50 border-2 border-red-200 rounded-xl p-4 text-center">
                         <div class="flex items-center justify-center gap-2 mb-2">
                             @svg('lucide-x-circle', 'w-5 h-5 text-red-600')
-                            <span class="text-sm font-medium text-red-700">Błędne</span>
+                            <span class="text-sm font-medium text-red-700">{{ __('app.incorrect') }}</span>
                         </div>
                         <div class="text-3xl font-bold text-red-900">
                             {{$quiz->answers->filter(function ($answer) { return !$answer->questionAnswer->is_correct; })->count()}}
@@ -82,7 +82,7 @@
                 @endphp
                 <div class="mb-6">
                     <div class="flex justify-between items-center mb-2">
-                        <span class="text-sm font-medium text-foreground">Wynik końcowy</span>
+                        <span class="text-sm font-medium text-foreground">{{ __('app.final_score') }}</span>
                         <span class="text-sm font-bold text-primary">{{ $percentage }}%</span>
                     </div>
                     <div class="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
@@ -166,7 +166,7 @@
                                text-purple-700 transition-all duration-300"
                     >
                         @svg('lucide-bar-chart-3', 'w-5 h-5')
-                        <span>Analityka</span>
+                        <span>{{ __('app.analytics') }}</span>
                     </a>
                 @else
                     <a
@@ -177,7 +177,7 @@
                                text-purple-700 transition-all duration-300"
                     >
                         @svg('lucide-log-in', 'w-5 h-5')
-                        <span>Zaloguj się</span>
+                        <span>{{ __('app.login') }}</span>
                     </a>
                 @endauth
             </div>
@@ -186,11 +186,11 @@
         {{-- Motivational Message --}}
         <div class="text-center p-6 bg-white/50 rounded-xl border border-border/30">
             @if($percentage >= 80)
-                <p class="text-lg font-semibold text-green-700">🎉 Świetna robota! Doskonały wynik!</p>
+                <p class="text-lg font-semibold text-green-700">{{ __('app.excellent_result') }}</p>
             @elseif($percentage >= 60)
-                <p class="text-lg font-semibold text-blue-700">👍 Dobra robota! Możesz być dumny!</p>
+                <p class="text-lg font-semibold text-blue-700">{{ __('app.good_job') }}</p>
             @else
-                <p class="text-lg font-semibold text-orange-700">💪 Nie poddawaj się! Następnym razem będzie lepiej!</p>
+                <p class="text-lg font-semibold text-orange-700">{{ __('app.keep_trying') }}</p>
             @endif
         </div>
     </div>
