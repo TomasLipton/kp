@@ -26,19 +26,20 @@ html {
 }
 
 body {
-    //background: linear-gradient(to bottom, #e9e8e7 50%, rgba(255, 0, 0, 0.2) 50%);
+    // Dynamic theme background - uses CSS variables
     background: linear-gradient(
             to bottom,
-            #e9e8e7 47%,
-            rgba(255, 0, 0, 0.05) 49%,
-            rgba(255, 0, 0, 0.15) 51%,
-            rgba(255, 0, 0, 0.2) 53%,
+            var(--bg-gradient-top) 47%,
+            var(--bg-gradient-mid1) 49%,
+            var(--bg-gradient-mid2) 51%,
+            var(--bg-gradient-bottom) 53%,
     );
 
     min-height: 100dvh;
     margin: 0;
     backdrop-filter: blur(30px);
     -webkit-backdrop-filter: blur(30px);
+    transition: background 0.3s ease;
 
     font-feature-settings: normal;
     -webkit-tap-highlight-color: transparent;

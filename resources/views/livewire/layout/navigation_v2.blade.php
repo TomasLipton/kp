@@ -17,7 +17,30 @@ new class extends Component
     }
 }; ?>
 
-<header class="w-full bg-card/80 backdrop-blur-sm border-b border-border sticky top-0 z-50 rounded-b-lg" x-data="{ mobileOpen: false }">
+<header class="w-full bg-card/80 backdrop-blur-sm border-b border-border sticky top-0 z-50 rounded-b-lg"
+        x-data="{
+            mobileOpen: false,
+            theme: localStorage.getItem('theme') || 'purple',
+            themes: ['purple', 'indigo', 'polish'],
+            themeNames: {
+                'purple': 'Purple & Coral',
+                'indigo': 'Indigo & Rose',
+                'polish': 'Polish Red'
+            },
+            init() {
+                document.documentElement.setAttribute('data-theme', this.theme);
+            },
+            toggleTheme() {
+                const currentIndex = this.themes.indexOf(this.theme);
+                const nextIndex = (currentIndex + 1) % this.themes.length;
+                this.theme = this.themes[nextIndex];
+                localStorage.setItem('theme', this.theme);
+                document.documentElement.setAttribute('data-theme', this.theme);
+            },
+            getThemeLabel() {
+                return this.themeNames[this.theme] || this.theme;
+            }
+        }">
     <div class="container mx-auto px-4 h-16 flex items-center justify-between ">
         <!-- App name on the left -->
         <a href="{{ route('dashboard') }}" wire:navigate class="flex items-center">
@@ -28,6 +51,14 @@ new class extends Component
 
         <!-- Language toggle and auth buttons on the right -->
         <div class="hidden sm:flex sm:items-center sm:gap-4">
+            <!-- Theme Toggle Button -->
+            <button @click="toggleTheme()"
+                    class="flex items-center gap-2 text-muted-foreground hover:text-foreground text-sm font-medium px-3 py-2 rounded-md hover:bg-accent transition-colors"
+                    x-bind:title="'Theme: ' + getThemeLabel()">
+                @svg('lucide-palette', 'w-4 h-4')
+                <span class="hidden md:inline" x-text="getThemeLabel()"></span>
+            </button>
+
             <!-- Language Dropdown -->
             @php
                 $currentLocale = LaravelLocalization::getCurrentLocale();
