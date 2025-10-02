@@ -110,16 +110,7 @@
                                 @if($showKeyboardHelp)
                                     <x-keyboard-help :answersCount="count($questionAnswers)" />
                                 @endif
-{{--                                <ol>--}}
                                     @foreach($questionAnswers as $index => $answer)
-{{--                                        <li wire:key="{{ $answer->id }}" data-answer-id="{{$answer->id}}" data-key="{{$loop->index + 1}}" wire:click.debounce="submitAnswer('{{$answer->id}}')"--}}
-{{--                                            @style([--}}
-{{--                'color: #00bb00' => $answer->is_correct && $chosenAnswer,--}}
-{{--                'color: #dd4444' => $answer->id === $chosenAnswer?->id && !$answer->is_correct,--}}
-{{--                'text-decoration: underline; font-weight: bold;' => $chosenAnswer && $answer->id == $chosenAnswer->id--}}
-{{--            ])--}}
-{{--                                        > {{$answer->text}}</li>--}}
-
                                         <x-button
                                             @style([
               'color: #00bb00;' => $answer->is_correct && $chosenAnswer,
@@ -148,7 +139,6 @@
                                         </x-button>
 
                                     @endforeach
-{{--                                </ol>--}}
                             @endif
 
                             @if($question->question_type === 'year')
@@ -189,6 +179,7 @@
                 @else
                     <livewire:survey-results :quiz="$quiz"/>
                 @endif
+
             </div>
 
 </section>
