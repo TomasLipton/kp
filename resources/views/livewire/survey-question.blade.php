@@ -30,115 +30,158 @@
 @endscript
 
 <section
-
-    @if($question)  data-question-type="{{$question->question_type}}" @endif
-@if($question)  data-is-answered="{!! $chosenAnswer ? 'true' : 'false' !!}" @endif
-    id="wrap">
-
+    @if($question) data-question-type="{{$question->question_type}}" @endif
+    @if($question) data-is-answered="{!! $chosenAnswer ? 'true' : 'false' !!}" @endif
+    id="wrap"
+    class="min-h-screen py-4"
+>
     @if(!$quiz->completed_at)
-
-        <div>
-            <div class="m-2 flex justify-end items-center">
-                <a
+        {{-- Header with Quit Button --}}
+        <div class=" mx-auto mb-4">
+            <div class="flex justify-end items-center">
+                <button
                     @click="if(confirm('Czy na pewno chcesz zakończyć quiz? Nie będziesz mógł wrócić do pytań.')) { $wire.finish() }"
-                    class="inline-flex items-center justify-center gap-1
-                    cursor-pointer
-                    hover:bg-primary/10
-                whitespace-nowrap rounded-md text-sm font-medium ring-offset-background
-                transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring
-                focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50
-                bg-accent text-accent-foreground h-10 px-2 py-2"
+                    class="inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium
+                           bg-red-50 hover:bg-red-100 border border-red-200 hover:border-red-300
+                           text-red-700 transition-all duration-200"
                 >
-                    @svg('lucide-x', 'w-5 h-4')
+                    @svg('lucide-x', 'w-4 h-4')
                     {{ __('Skończyć') }}
-                </a>
+                </button>
             </div>
-            @endif
+        </div>
 
-            <div class="survey-question mt-14_ overflow-hidden bg-ca_rd @if(!$quiz->completed_at) shadow-card border @endif  border-border/50 rounded-lg" @if(!$quiz->completed_at) style="background-color: rgb(235, 235, 235);" @endif>
+        {{-- Main Quiz Container --}}
+        <div class=" mx-auto">
+            <div class="overflow-hidden bg-gradient-card backdrop-blur-sm shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)]
+                        border border-white/40 rounded-2xl relative
+                        before:absolute before:inset-0 before:rounded-2xl before:p-[1px]
+                        before:bg-gradient-to-br before:from-white/50 before:via-white/20 before:to-transparent before:-z-10">
 
-                @if(!$quiz->completed_at)
-                    <div class="header">
-                        <div class="timer">
-                            <div>
-                                {{$topic->name_pl}}
+                {{-- Stats Header --}}
+                <div class="bg-gradient-to-r from-primary/5 via-secondary/5 to-primary/5 border-b border-border/30 p-4">
+                    <div class="grid grid-cols-3 gap-4 max-w-4xl_ mx-auto">
+                        {{-- Topic Name --}}
+                        <div class="flex items-center gap-2">
+                            @svg('lucide-book-open', 'w-5 h-5 text-primary flex-shrink-0')
+                            <span class="text-sm font-medium text-foreground truncate">{{$topic->name_pl}}</span>
+                        </div>
+
+                        {{-- Score Stats --}}
+                        <div class="flex items-center justify-center gap-2">
+                            <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-green-50 border border-green-200">
+                                @svg('lucide-check-circle', 'w-4 h-4 text-green-600')
+                                <span class="text-sm font-semibold text-green-700">
+                                    {{$quiz->answers->filter(function ($answer) { return $answer->questionAnswer->is_correct; })->count()}}
+                                </span>
+                            </div>
+                            <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-50 border border-red-200">
+                                @svg('lucide-x-circle', 'w-4 h-4 text-red-600')
+                                <span class="text-sm font-semibold text-red-700">
+                                    {{$quiz->answers->filter(function ($answer) { return !$answer->questionAnswer->is_correct; })->count()}}
+                                </span>
+                            </div>
+                            <span class="text-sm text-muted-foreground">/ {{$quiz->answers->count()}}</span>
+                        </div>
+
+                        {{-- Timer --}}
+                        <div class="flex items-center justify-end gap-2" x-data="{
+                            createdAt: new Date('{{$quiz->created_at}}'),
+                            timeElapsed: '00:00',
+                            updateSecondsElapsed() {
+                                const totalSeconds = Math.floor((new Date() - this.createdAt) / 1000);
+                                const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
+                                const seconds = String(totalSeconds % 60).padStart(2, '0');
+                                this.timeElapsed = `${minutes}:${seconds}`;
+                            }
+                        }" x-init="setInterval(() => updateSecondsElapsed(), 1000)">
+                            @svg('lucide-timer', 'w-5 h-5 text-primary')
+                            <span class="text-sm font-medium text-foreground" x-text="timeElapsed"></span>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Question Section --}}
+                <div class="p-6 sm:p-8">
+                    <div class="max-w-4xl_ mx-auto">
+                        {{-- Question Text --}}
+                        <div class="mb-8">
+                            <div class="flex items-start gap-4">
+                                <div class="flex-1">
+                                    <h2 class="text-xl sm:text-2xl font-semibold text-foreground leading-relaxed">
+                                        {{$question->question_pl}}
+                                    </h2>
+                                </div>
+                                @if($question->aiSpeach()->count() > 0)
+                                    <button
+                                        id="playAudio"
+                                        class="flex-shrink-0 w-12 h-12 rounded-full bg-primary/10 hover:bg-primary/20
+                                               border-2 border-primary/30 hover:border-primary/50
+                                               flex items-center justify-center transition-all duration-200 hover:scale-110"
+                                    >
+                                        @svg('lucide-volume-2', 'w-5 h-5 text-primary')
+                                    </button>
+                                    <audio id="audioPlayer" src="{{Storage::temporaryUrl($question->aiSpeach->last()->path_to_audio, now()->addMinutes(10))}}"></audio>
+                                @endif
                             </div>
                         </div>
-                        <div class="questions">
-                            <span style="color: #00bb00" data-tooltip="Prawidłowe odpowiedzi"> {{$quiz->answers->filter(function ($answer) { return $answer->questionAnswer->is_correct; })->count()}}</span>
-                            /
-                            <span data-tooltip="Błędne odpowiedzi" style="color: #dd4444"> {{$quiz->answers->filter(function ($answer) { return !$answer->questionAnswer->is_correct; })->count()}}</span>
-                            /
-                            {{$quiz->answers->count()}}
-                        </div>
-                        <div class="actions">
-                            <small class="flex gap-1 justify-end items-center" x-data="{
-    createdAt: new Date('{{$quiz->created_at}}'),
-    timeElapsed: '00:00',
-    updateSecondsElapsed() {
-        const totalSeconds = Math.floor((new Date() - this.createdAt) / 1000);
-        const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
-        const seconds = String(totalSeconds % 60).padStart(2, '0');
-        this.timeElapsed = `${minutes}:${seconds}`;
-    }
-}" x-init="setInterval(() => updateSecondsElapsed(), 1000)">
-                                @svg('lucide-timer', 'w-4')
-                                <span x-text="timeElapsed"></span>
-                            </small>
-                        </div>
-                    </div>
 
-                    <div class="question">
-                        <div class="question_container">
-                            <div style="max-width: 88%"> {{$question->question_pl}}</div>
-                            @if($question->aiSpeach()->count() > 0)
-                                <div style="width: 10%">
-                                    <img class="playAudio" id="playAudio" src="/assets/img.png" alt=""/>
-                                    <audio id="audioPlayer" src="{{Storage::temporaryUrl( $question->aiSpeach->last()->path_to_audio, now()->addMinutes(10) )}}"></audio>
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-                    <div class="answers" style="">
+                        {{-- Question Image --}}
                         @if($question->picture)
-                            <div style="margin: 0 auto;">
-                                <img src="{{url('storage/' . $question->picture)}}" style=" max-width: 300px; border-radius: 8px;" alt="">
+                            <div class="mb-8 flex justify-center">
+                                <img
+                                    src="{{url('storage/' . $question->picture)}}"
+                                    alt="Question illustration"
+                                    class="max-w-full sm:max-w-md rounded-xl shadow-lg border border-border/30"
+                                >
                             </div>
                         @endif
-                        <div style=" width: 100%; ">
+
+                        {{-- Answers Section --}}
+                        <div class="space-y-3">
                             @if($question->question_type === 'single_text')
                                 @if($showKeyboardHelp)
                                     <x-keyboard-help :answersCount="count($questionAnswers)" />
                                 @endif
-                                    @foreach($questionAnswers as $index => $answer)
-                                        <x-button
-                                            @style([
-              'color: #00bb00;' => $answer->is_correct && $chosenAnswer,
-              'color: #dd4444;' => $answer->id === $chosenAnswer?->id && !$answer->is_correct,
 
-              'background: #50ff503d;' => $answer->id === $chosenAnswer?->id  && $answer->is_correct && $chosenAnswer,
-              'background: #dd444420;' => $answer->id === $chosenAnswer?->id && !$answer->is_correct,
-
-          'font-weight: bold;' => $chosenAnswer && $answer->id == $chosenAnswer->id
-           ])
-                                            wire:key="{{ $answer->id }}" data-answer-id="{{$answer->id}}" data-key="{{$loop->index + 1}}" wire:click.debounce="submitAnswer('{{$answer->id}}')"
-                                            variant="outline"
-                                            onclick="handleAnswerSelect({{ $index }})"
-                                            class="w-full text-left justify-start p-4 h-auto min-h-12 relative transition-all duration-200
-                                            mb-2 max-w-2xl
-           {{ $chosenAnswer && $answer->id == $chosenAnswer->id ? '' : 'border border-input bg-background hover:bg-accent hover:text-accent-foreground' }}"
-                                        >
-                                            <div class="flex items-center gap-3 w-full">
-        <span class="min-w-6 h-6 flex items-center justify-center text-xs font-bold rounded-md px-2.5 py-0.5
-                     {{ $chosenAnswer && $answer->id == $chosenAnswer->id  ? 'bg-secondary text-secondary-foreground' : 'border border-input bg-background' }}"
-        >
-            {{ $index + 1 }}
-        </span>
-                                                <span class="flex-1">{{$answer->text}}</span>
-                                            </div>
-                                        </x-button>
-
-                                    @endforeach
+                                @foreach($questionAnswers as $index => $answer)
+                                    <button
+                                        wire:key="{{ $answer->id }}"
+                                        data-answer-id="{{$answer->id}}"
+                                        data-key="{{$loop->index + 1}}"
+                                        wire:click.debounce="submitAnswer('{{$answer->id}}')"
+                                        @class([
+                                            'w-full text-left p-4 rounded-xl transition-all duration-200 border-2 group',
+                                            'bg-green-50 border-green-400 hover:bg-green-100' => $answer->is_correct && $chosenAnswer,
+                                            'bg-red-50 border-red-400 hover:bg-red-100' => $answer->id === $chosenAnswer?->id && !$answer->is_correct,
+                                            'border-border/30 bg-white/50 hover:bg-white hover:border-primary/30 hover:shadow-md' => !$chosenAnswer || $answer->id !== $chosenAnswer?->id,
+                                        ])
+                                    >
+                                        <div class="flex items-center gap-4">
+                                            <span @class([
+                                                'flex items-center justify-center w-8 h-8 rounded-lg text-sm font-bold transition-all',
+                                                'bg-green-200 text-green-700' => $answer->is_correct && $chosenAnswer,
+                                                'bg-red-200 text-red-700' => $answer->id === $chosenAnswer?->id && !$answer->is_correct,
+                                                'bg-primary/10 text-primary border border-primary/20' => !$chosenAnswer || $answer->id !== $chosenAnswer?->id,
+                                            ])>
+                                                {{ $index + 1 }}
+                                            </span>
+                                            <span @class([
+                                                'flex-1 text-base font-medium',
+                                                'text-green-900' => $answer->is_correct && $chosenAnswer,
+                                                'text-red-900' => $answer->id === $chosenAnswer?->id && !$answer->is_correct,
+                                                'text-foreground' => !$chosenAnswer || $answer->id !== $chosenAnswer?->id,
+                                            ])>
+                                                {{$answer->text}}
+                                            </span>
+                                            @if($chosenAnswer && $answer->is_correct)
+                                                @svg('lucide-check-circle', 'w-6 h-6 text-green-600 flex-shrink-0')
+                                            @elseif($chosenAnswer && $answer->id === $chosenAnswer->id && !$answer->is_correct)
+                                                @svg('lucide-x-circle', 'w-6 h-6 text-red-600 flex-shrink-0')
+                                            @endif
+                                        </div>
+                                    </button>
+                                @endforeach
                             @endif
 
                             @if($question->question_type === 'year')
@@ -154,32 +197,67 @@
                             @endif
                         </div>
                     </div>
-                    <div class="submit" id="submit" wire:click="nextQuestion" style="@if($chosenAnswer && $chosenAnswer->is_correct) background: #00d89e; @elseif($chosenAnswer && !$chosenAnswer->is_correct) background: #eb8989; @endif  @if($chosenAnswer) cursor:pointer @endif">
+                </div>
+
+                {{-- Answer Feedback & Continue --}}
+                <div @class([
+                    'border-t transition-all duration-300',
+                    'bg-gradient-to-r from-green-50 via-green-100 to-green-50 border-green-200' => $chosenAnswer && $chosenAnswer->is_correct,
+                    'bg-gradient-to-r from-red-50 via-red-100 to-red-50 border-red-200' => $chosenAnswer && !$chosenAnswer->is_correct,
+                    'bg-gray-50 border-border/30' => !$chosenAnswer,
+                ])>
+                    <div class="max-w-4xl mx-auto p-6">
                         @if($chosenAnswer)
-                            <div class="enter">Kontynuować <span class="d-none d-sm-inline">[Enter]</span></div>
+                            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                                <div class="flex items-center gap-3">
+                                    @if($chosenAnswer->is_correct)
+                                        <div class="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center">
+                                            @svg('lucide-check', 'w-6 h-6 text-white')
+                                        </div>
+                                        <div>
+                                            <p class="text-lg font-semibold text-green-900">Prawidłowa odpowiedź!</p>
+                                            <p class="text-sm text-green-700">Świetna robota, kontynuuj dalej</p>
+                                        </div>
+                                    @else
+                                        <div class="w-12 h-12 rounded-full bg-red-500 flex items-center justify-center">
+                                            @svg('lucide-x', 'w-6 h-6 text-white')
+                                        </div>
+                                        <div>
+                                            <p class="text-lg font-semibold text-red-900">Nieprawidłowa odpowiedź</p>
+                                            <p class="text-sm text-red-700">Nie martw się, następnym razem pójdzie lepiej</p>
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <button
+                                    wire:click="nextQuestion"
+                                    class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold
+                                           bg-gradient-primary text-white shadow-glow
+                                           hover:shadow-[0_15px_50px_-15px_hsl(var(--primary))]
+                                           transition-all duration-300 hover:scale-105"
+                                >
+                                    <span>Kontynuować</span>
+                                    <kbd class="hidden sm:inline-block px-2 py-1 text-xs bg-white/20 rounded border border-white/30">Enter</kbd>
+                                    @svg('lucide-arrow-right', 'w-5 h-5')
+                                </button>
+                            </div>
+                        @else
+                            <div class="text-center">
+                                <p class="text-sm text-muted-foreground">
+                                    @if($question->question_type === 'single_text')
+                                        Wybierz odpowiedź używając myszy lub klawiatury (1-4)
+                                    @else
+                                        Wprowadź swoją odpowiedź
+                                    @endif
+                                </p>
+                            </div>
                         @endif
-                        <p style="@if($chosenAnswer) margin-top: -25px @endif">
-                            @if($question->question_type === 'single_text' || !$chosenAnswer)
-                                Odpowiedź:
-                            @endif
-
-                            @if(!$chosenAnswer)
-                                __
-                            @elseif($question->question_type === 'single_text')
-                                {{$chosenAnswer->order}}
-                            @endif
-                        </p>
-                        <p style="color: white; font-size: 30px; margin-top: 10px">@if($chosenAnswer && $chosenAnswer->is_correct)
-                                Prawidłowa odpowiedź
-                            @elseif($chosenAnswer && !$chosenAnswer->is_correct)
-                                Zła odpowiedź
-                            @endif</p>
                     </div>
-
-                @else
-                    <livewire:survey-results :quiz="$quiz"/>
-                @endif
-
+                </div>
             </div>
-
+        </div>
+    @else
+        {{-- Quiz Results --}}
+        <livewire:survey-results :quiz="$quiz"/>
+    @endif
 </section>

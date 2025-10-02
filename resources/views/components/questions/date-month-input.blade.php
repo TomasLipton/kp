@@ -1,3 +1,55 @@
+@assets
+    <style>
+        .answer-date_month-container {
+            justify-content: center;
+            display: flex;
+            /*padding-top: 50px;*/
+            margin-bottom: 25px;
+            outline: none;
+            border-color: unset;
+
+            input,
+            select {
+                outline: none;
+                font-size: 25px;
+                font-family: inherit;
+                line-height: 1.2;
+                width: 190px;
+                &:focus {
+                    outline: none;
+                }
+            }
+
+            input {
+                border-radius: 8px 0 0 8px;
+                height: 70px;
+                text-align: center;
+                @media screen and (max-width: 550px) {
+                    width: 60%;
+                    height: 40px;
+                }
+            }
+
+            select {
+                border-radius: 0;
+                height: 70px;
+                text-align: center;
+                border-left: unset;
+                @media screen and (max-width: 550px) {
+                    height: 40px;
+                }
+            }
+
+
+            @media screen and (max-width: 550px) {
+                .submit-button {
+                    height: 40px;
+                }
+            }
+        }
+    </style>
+@endassets
+
 <div class="answer-date_month-container" x-data="{ date: '', month: '1' }">
     <input autofocus class="year-answer" x-model="date"
            wire:keydown.enter="submitYear($event.target.value)"

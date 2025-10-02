@@ -16,3 +16,35 @@
         @svg('lucide-check', 'w-10 h-10')
     </button>
 </div>
+
+@assets
+    <style>
+
+        .answer-year-container {
+            justify-content: center;
+            display: flex;
+
+            /*padding-top: 50px;*/
+            margin-bottom: 25px;
+            .year-answer {
+                outline: none;
+                border-radius: 8px 0 0 8px;
+                height: 70px;
+                width: 300px;
+                text-align: center;
+                font-size: 25px;
+                @media screen and (max-width: 550px) {
+                    width: 60%;
+                    font-size: 25px;
+                    height: 40px;
+                }
+            }
+
+            @media screen and (max-width: 550px) {
+                .submit-button {
+                    height: 40px;
+                }
+            }
+        }
+    </style>
+@endassets
