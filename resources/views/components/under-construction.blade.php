@@ -56,9 +56,53 @@
             </div>
         </div>
 
-        <div class="mt-8 text-center">
-            <a href="{{ route('dashboard') }}" wire:navigate class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-primary text-primary-foreground rounded-lg font-semibold hover:scale-105 transition-all">
-                @svg('lucide-arrow-left', 'w-5 h-5')
+        @guest
+            <div class="mt-8 text-center p-6 bg-card/80 backdrop-blur-sm rounded-xl border border-border/50">
+                <div class="mb-4">
+                    @svg('lucide-user-plus', 'w-12 h-12 mx-auto text-primary')
+                </div>
+                <h3 class="font-bold text-lg mb-2">{{ __('under_construction.be_first') }}</h3>
+                <p class="text-sm text-muted-foreground mb-4">{{ __('under_construction.be_first_desc') }}</p>
+                <div class="flex gap-3 justify-center">
+                    <a
+                        href="{{ route('login') }}"
+                        wire:navigate
+                        class="inline-flex items-center gap-2 px-6 py-3 bg-background border-2 border-border text-foreground rounded-lg font-semibold hover:scale-105 transition-all"
+                    >
+                        @svg('lucide-log-in', 'w-5 h-5')
+                        {{ __('Login') }}
+                    </a>
+                    <a
+                        href="{{ route('register') }}"
+                        wire:navigate
+                        class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-primary text-primary-foreground rounded-lg font-semibold hover:scale-105 transition-all"
+                    >
+                        @svg('lucide-user-plus', 'w-5 h-5')
+                        {{ __('Register') }}
+                    </a>
+                </div>
+            </div>
+        @else
+            <div class="mt-8 text-center p-6 bg-card/80 backdrop-blur-sm rounded-xl border border-border/50">
+                <div class="mb-4">
+                    @svg('lucide-book-open', 'w-12 h-12 mx-auto text-primary')
+                </div>
+                <h3 class="font-bold text-lg mb-2">{{ __('under_construction.try_quizzes') }}</h3>
+                <p class="text-sm text-muted-foreground mb-4">{{ __('under_construction.try_quizzes_desc') }}</p>
+                <a
+                    href="{{ route('topics') }}"
+                    wire:navigate
+                    class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-primary text-primary-foreground rounded-lg font-semibold hover:scale-105 transition-all"
+                >
+                    @svg('lucide-play-circle', 'w-5 h-5')
+                    {{ __('under_construction.go_to_quizzes') }}
+                </a>
+            </div>
+        @endguest
+
+        <div class="mt-6 text-center">
+            <a href="{{ route('dashboard') }}" wire:navigate class="inline-flex items-center gap-2 px-4 py-2 text-muted-foreground hover:text-foreground transition-colors">
+                @svg('lucide-arrow-left', 'w-4 h-4')
                 {{ __('under_construction.back_home') }}
             </a>
         </div>

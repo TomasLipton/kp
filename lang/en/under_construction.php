@@ -13,4 +13,9 @@ return [
     'feature3_desc' => 'Get detailed explanations and improve your knowledge',
     'coming_soon' => '🚀 Coming Soon! We\'re working on something amazing for you.',
     'back_home' => 'Back to Home',
+    'be_first' => 'Be the First!',
+    'be_first_desc' => 'Register or log in to get access to this new feature as soon as it\'s ready',
+    'try_quizzes' => 'Try Our Quizzes',
+    'try_quizzes_desc' => 'While this feature is under construction, you can test your knowledge in our interactive quizzes',
+    'go_to_quizzes' => 'Go to Quizzes',
 ];

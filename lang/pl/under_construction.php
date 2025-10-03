@@ -13,4 +13,9 @@ return [
     'feature3_desc' => 'Otrzymuj szczegółowe wyjaśnienia i poprawiaj swoją wiedzę',
     'coming_soon' => '🚀 Wkrótce! Pracujemy nad czymś niesamowitym dla Ciebie.',
     'back_home' => 'Powrót do strony głównej',
+    'be_first' => 'Bądź pierwszym!',
+    'be_first_desc' => 'Zarejestruj się lub zaloguj, aby otrzymać dostęp do tej nowej funkcji, gdy tylko będzie gotowa',
+    'try_quizzes' => 'Spróbuj naszych quizów',
+    'try_quizzes_desc' => 'Podczas gdy ta funkcja jest w budowie, możesz sprawdzić swoją wiedzę w naszych interaktywnych quizach',
+    'go_to_quizzes' => 'Przejdź do quizów',
 ];
