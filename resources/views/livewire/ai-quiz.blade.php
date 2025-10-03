@@ -211,17 +211,45 @@ class extends Component {
                     </div>
                 </div>
 
-                {{-- Start Button --}}
-                <button
-                    type="submit"
-                    class="start-button w-full group relative px-8 py-4 bg-gradient-primary text-primary-foreground rounded-xl font-bold text-lg hover:scale-[1.02] transition-all duration-300 shadow-xl"
-                >
-                    <span class="flex items-center justify-center gap-3">
-                        @svg('lucide-play-circle', 'w-5 h-5')
-                        Start AI Quiz Session
-                        @svg('lucide-arrow-right', 'w-5 h-5 group-hover:translate-x-1 transition-transform')
-                    </span>
-                </button>
+                {{-- Start Button or Login Prompt --}}
+                @auth
+                    <button
+                        type="submit"
+                        class="start-button w-full group relative px-8 py-4 bg-gradient-primary text-primary-foreground rounded-xl font-bold text-lg hover:scale-[1.02] transition-all duration-300 shadow-xl"
+                    >
+                        <span class="flex items-center justify-center gap-3">
+                            @svg('lucide-play-circle', 'w-5 h-5')
+                            Start AI Quiz Session
+                            @svg('lucide-arrow-right', 'w-5 h-5 group-hover:translate-x-1 transition-transform')
+                        </span>
+                    </button>
+                @else
+                    <div class="text-center p-6 bg-muted/30 rounded-xl border border-border">
+                        <div class="mb-4">
+                            @svg('lucide-lock', 'w-12 h-12 mx-auto text-muted-foreground')
+                        </div>
+                        <h3 class="font-bold text-lg mb-2">Login Required</h3>
+                        <p class="text-sm text-muted-foreground mb-4">Please log in to start your AI quiz session</p>
+                        <div class="flex gap-3 justify-center">
+                            <a
+                                href="{{ route('login') }}"
+                                wire:navigate
+                                class="inline-flex items-center gap-2 px-6 py-3 bg-background border-2 border-border text-foreground rounded-lg font-semibold hover:scale-105 transition-all"
+                            >
+                                @svg('lucide-log-in', 'w-5 h-5')
+                                Log In
+                            </a>
+                            <a
+                                href="{{ route('register') }}"
+                                wire:navigate
+                                class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-primary text-primary-foreground rounded-lg font-semibold hover:scale-105 transition-all"
+                            >
+                                @svg('lucide-user-plus', 'w-5 h-5')
+                                Register
+                            </a>
+                        </div>
+                    </div>
+                @endauth
             </div>
         </form>
     </div>
