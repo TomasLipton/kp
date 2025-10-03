@@ -1,19 +1,37 @@
-@assets
-<style>
-    .status-indicator {
-        display: inline-block;
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        margin-right: 8px;
-    }
-    .status-disconnected { background-color: #ef4444; }
-    .status-connecting { background-color: #f59e0b; }
-    .status-connected { background-color: #10b981; }
-</style>
-@endassets
+<?php
+use Livewire\Volt\Component;
+use Livewire\Attributes\Layout;
 
-<div class="bg-card/80 backdrop-blur-sm mt-10 border-border/50 rounded-lg p-5 max-w-2xl mx-auto">
+new #[Layout('layouts.app-kp')]
+class extends Component {
+    public bool $isAdmin = false;
+
+
+    public function mount()
+    {
+        $this->isAdmin = auth()->check() && auth()->user()->is_admin;
+    }
+}; ?>
+
+@if(!$this->isAdmin)
+    <x-under-construction />
+@else
+    @assets
+    <style>
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .status-disconnected { background-color: #ef4444; }
+        .status-connecting { background-color: #f59e0b; }
+        .status-connected { background-color: #10b981; }
+    </style>
+    @endassets
+
+    <div class="bg-card/80 backdrop-blur-sm mt-10 border-border/50 rounded-lg p-5 max-w-2xl mx-auto">
     <div class="space-y-6">
         <!-- Header -->
         <div class="text-center">
@@ -284,3 +302,5 @@ disconnectBtn.addEventListener('click', disconnect);
 // Initialize status
 updateStatus('disconnected');
 </script>
+    </div>
+@endif

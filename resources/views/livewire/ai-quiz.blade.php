@@ -9,6 +9,12 @@ class extends Component {
     public string $speed = 'normal';
     public string $difficulty = 'medium';
     public ?int $topic_id = null;
+    public bool $isAdmin = false;
+
+    public function mount()
+    {
+        $this->isAdmin = auth()->check() && auth()->user()->is_admin;
+    }
 
     public function with(): array
     {
@@ -78,6 +84,9 @@ class extends Component {
 </style>
 @endassets
 
+@if(!$this->isAdmin)
+    <x-under-construction />
+@else
 <div class="min-h-screen py-12 px-4">
     <div class="max-w-5xl mx-auto">
         {{-- Header --}}
@@ -286,3 +295,4 @@ class extends Component {
         </form>
     </div>
 </div>
+@endif
