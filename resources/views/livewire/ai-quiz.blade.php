@@ -126,6 +126,38 @@ class extends Component {
 
         {{-- Configuration Form --}}
         <form wire:submit="startQuiz" class="space-y-8">
+            {{-- Visual Banner --}}
+            <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 border border-primary/20">
+                <div class="grid md:grid-cols-2 gap-6 items-center p-8">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-3">Talk with AI Examiner</h3>
+                        <p class="text-muted-foreground mb-4">Experience a realistic interview simulation with our AI voice assistant. Practice your Polish knowledge in a natural conversation setting.</p>
+                        <div class="flex items-center gap-4">
+                            <div class="flex items-center gap-2 text-sm">
+                                @svg('lucide-mic', 'w-4 h-4 text-primary')
+                                <span class="text-muted-foreground">Voice Recognition</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm">
+                                @svg('lucide-brain', 'w-4 h-4 text-primary')
+                                <span class="text-muted-foreground">AI-Powered</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm">
+                                @svg('lucide-check-circle', 'w-4 h-4 text-primary')
+                                <span class="text-muted-foreground">Real-time</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hidden md:flex justify-center items-center">
+                        <div class="relative">
+                            <div class="absolute inset-0 bg-primary/20 rounded-full blur-3xl"></div>
+                            <div class="relative bg-gradient-to-br from-primary/20 to-primary/5 rounded-2xl p-8 border border-primary/30">
+                                @svg('lucide-user-round-search', 'w-32 h-32 text-primary/70')
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             {{-- All Settings in One Card --}}
             <div class="quiz-config-card rounded-2xl p-8 border border-border/50 shadow-xl space-y-6">
                 {{-- Topic --}}
