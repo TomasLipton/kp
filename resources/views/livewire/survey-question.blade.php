@@ -81,7 +81,7 @@
                                     {{$quiz->answers->filter(function ($answer) { return !$answer->questionAnswer->is_correct; })->count()}}
                                 </span>
                             </div>
-                            <span class="text-sm text-muted-foreground">/ {{$quiz->answers->count()}}</span>
+{{--                            <span class="text-sm text-muted-foreground">/ {{$quiz->answers->count()}}</span>--}}
                         </div>
 
                         {{-- Timer --}}

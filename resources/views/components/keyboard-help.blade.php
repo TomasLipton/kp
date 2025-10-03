@@ -1,6 +1,6 @@
 @props(['answersCount' => 4])
 
-<div class="mb-4 p-3 bg-muted/50 rounded-lg border max-w-3xl m-auto" >
+<div class="hidden md:block mb-4 p-3 bg-muted/50 rounded-lg border max-w-3xl m-auto" >
     <div class="flex items-center justify-between">
         <div class="flex items-center gap-2 text-sm text-muted-foreground">
             @svg('lucide-keyboard', 'w-4 h-4')
