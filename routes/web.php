@@ -23,6 +23,8 @@ Route::group([
 
     Route::get('ai', \App\Livewire\AiPage::class)->name('ai');
 
+    Volt::route('ai-quiz', 'ai-quiz')->name('ai-quiz');
+
     require __DIR__.'/auth.php';
 
     Route::get('/{topic:slug}', \App\Livewire\StartSurvey::class);

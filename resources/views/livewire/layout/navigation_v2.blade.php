@@ -93,6 +93,11 @@ new class extends Component
                     @svg('lucide-shield', 'w-4 h-4')
                     <span>Admin</span>
                 </a>
+                <a href="{{ route('ai-quiz') }}" wire:navigate class="flex items-center gap-2 text-muted-foreground hover:text-foreground text-sm font-medium px-3 py-2 rounded-md hover:bg-accent transition-colors">
+                    @svg('lucide-mic', 'w-4 h-4')
+                    <span>AI Quiz</span>
+                    <span class="ml-1 px-2 py-0.5 text-xs font-semibold bg-primary text-primary-foreground rounded-full">New</span>
+                </a>
             @endif
 
             <!-- Theme Toggle Button -->
@@ -231,6 +236,11 @@ new class extends Component
                     <x-responsive-nav-link href="/admin" target="_blank">
                         @svg('lucide-shield', 'w-4 h-4 inline-block mr-2')
                         {{ __('Admin') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('ai-quiz')" wire:navigate>
+                        @svg('lucide-mic', 'w-4 h-4 inline-block mr-2')
+                        AI Quiz
+                        <span class="ml-2 px-2 py-0.5 text-xs font-semibold bg-primary text-primary-foreground rounded-full">New</span>
                     </x-responsive-nav-link>
                 @endif
                 <x-responsive-nav-link :href="route('profile')" wire:navigate>
