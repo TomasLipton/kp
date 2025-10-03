@@ -81,7 +81,6 @@
             transcript.scrollTop = transcript.scrollHeight;
         }
 
-
         async function getEphemeralToken() {
             return "{{$quiz->ephemeral_key}}";
         }
@@ -120,29 +119,29 @@
                     updateStatus('connected');
 
                     // Send session update with instructions
-                    const sessionUpdate = {
-                        type: 'session.update',
-                        session: {
-                            instructions: 'You are a helpful assistant. Be concise and friendly.',
-                            voice: 'verse',
-                            input_audio_transcription: {
-                                model: 'whisper-1'
-                            }
-                        }
-                    };
-                    dataChannel.send(JSON.stringify(sessionUpdate));
+                    // const sessionUpdate = {
+                    //     type: 'session.update',
+                    //     session: {
+                    //         instructions: 'Say hi on polish',
+                    //         voice: 'verse',
+                    //         input_audio_transcription: {
+                    //             model: 'whisper-1'
+                    //         }
+                    //     }
+                    // };
+                    // dataChannel.send(JSON.stringify(sessionUpdate));
 
                     // Make AI speak first with a greeting
-                    setTimeout(() => {
+                    // setTimeout(() => {
                         const createResponse = {
                             type: 'response.create',
                             response: {
                                 modalities: ['text', 'audio'],
-                                instructions: 'Greet the user and ask how you can help them today.'
+                                instructions: 'You are a Polish examiner. Speak ONLY in Polish. If the user says anything in another language, correct them and continue in Polish.',
                             }
                         };
                         dataChannel.send(JSON.stringify(createResponse));
-                    }, 500);
+                    // }, 500);
                 };
 
                 dataChannel.onmessage = (event) => {
@@ -238,6 +237,7 @@
         updateStatus('disconnected');
     </script>
     @endscript
+
     <div class="bg-card/80 backdrop-blur-sm mt-10 border-border/50 rounded-lg p-5 max-w-2xl mx-auto">
         <div class="space-y-6">
             <!-- Header -->
