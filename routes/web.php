@@ -21,7 +21,9 @@ Route::group([
         ->middleware(['auth'])
         ->name('profile');
 
-    Route::get('ai', \App\Livewire\AiPage::class)->name('ai');
+    Route::get('ai-quiz/{quiz}', \App\Livewire\AiPage::class)
+        ->middleware(['auth'])
+        ->name('ai');
 
     Volt::route('ai-quiz', 'ai-quiz')->name('ai-quiz');
 

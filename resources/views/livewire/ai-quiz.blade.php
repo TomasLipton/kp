@@ -3,11 +3,13 @@
 use App\Models\Topics;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
+use OpenAI\Laravel\Facades\OpenAI;
 
 new #[Layout('layouts.app-kp')]
 class extends Component {
     public string $speed = 'normal';
     public string $difficulty = 'medium';
+    public string $gender = 'female';
     public ?int $topic_id = null;
     public bool $isAdmin = false;
 
@@ -28,17 +30,32 @@ class extends Component {
         $this->validate([
             'speed' => 'required|in:slow,normal,fast',
             'difficulty' => 'required|in:easy,medium,hard',
+            'gender' => 'required|in:male,female',
             'topic_id' => 'required|exists:topics,id',
         ]);
 
         $topic = Topics::find($this->topic_id);
 
-        // Redirect to AI quiz session with configuration
-        $this->redirect(route('ai') . '?' . http_build_query([
+        $response = OpenAI::realtime()->token([
+            'instructions' => 'You are a teacher',
+            'model' => 'gpt-4o-realtime-preview-2024-12-17',
+                'voice' => 'verse',
+        ]);
+
+        // Create AIQuiz record
+        $aiQuiz = \App\Models\AIQuiz::create([
+            'user_id' => auth()->id(),
+            'topic_id' => $this->topic_id,
             'speed' => $this->speed,
             'difficulty' => $this->difficulty,
-            'topic' => $topic->{'name_' . app()->getLocale()} ?? $topic->name_pl,
-        ]));
+            'gender' => $this->gender,
+            'status' => 'preparing',
+            'ephemeral_key' =>  $response->clientSecret->value,
+            'ephemeral_key_expiry' =>  $response->clientSecret->expiresAt,
+        ]);
+
+        // Redirect to AI quiz session
+        $this->redirect(route('ai', ['quiz' => $aiQuiz->id]));
     }
 }; ?>
 
@@ -84,6 +101,7 @@ class extends Component {
 </style>
 @endassets
 
+<div>
 @if(!$isAdmin)
     <x-under-construction />
 @else
@@ -134,7 +152,7 @@ class extends Component {
         </div>
 
         {{-- Configuration Form --}}
-        <form wire:submit="startQuiz" class="space-y-8">
+        <form wire:submit.prevent="startQuiz" class="space-y-8">
             {{-- Visual Banner --}}
             <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 border border-primary/20">
                 <div class="grid md:grid-cols-2 gap-6 items-center p-8">
@@ -252,6 +270,28 @@ class extends Component {
                     </div>
                 </div>
 
+                {{-- Gender --}}
+                <div class="grid md:grid-cols-[200px,1fr] gap-6 items-start">
+                    <label class="flex items-center gap-2 text-lg font-semibold pt-2">
+                        @svg('lucide-user', 'w-5 h-5 text-primary')
+                        Voice Gender
+                    </label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="gender" value="female" wire:model.live="gender" class="peer sr-only">
+                            <div class="p-3 bg-background border-2 border-border rounded-lg text-center peer-checked:border-primary peer-checked:bg-primary/10 transition-all">
+                                <div class="font-semibold text-sm">Female</div>
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="gender" value="male" wire:model.live="gender" class="peer sr-only">
+                            <div class="p-3 bg-background border-2 border-border rounded-lg text-center peer-checked:border-primary peer-checked:bg-primary/10 transition-all">
+                                <div class="font-semibold text-sm">Male</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
                 {{-- Start Button or Login Prompt --}}
                 @auth
                     <button
@@ -296,3 +336,4 @@ class extends Component {
     </div>
 </div>
 @endif
+</div>

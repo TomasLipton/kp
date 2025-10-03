@@ -1,17 +1,18 @@
 <?php
-use Livewire\Volt\Component;
-use Livewire\Attributes\Layout;
-
-new #[Layout('layouts.app-kp')]
-class extends Component {
-    public bool $isAdmin = false;
-
-
-    public function mount()
-    {
-        $this->isAdmin = auth()->check() && auth()->user()?->is_admin;
-    }
-}; ?>
+//use Livewire\Volt\Component;
+//use Livewire\Attributes\Layout;
+//
+//new #[Layout('layouts.app-kp')]
+//class extends Component {
+//    public bool $isAdmin = false;
+//    public ?string $token = null;
+//
+//
+//    public function mount()
+//    {
+//        $this->isAdmin = auth()->check() && auth()->user()?->is_admin;
+//    }
+//}; ?><!---->
 @if(!auth()->check() || !auth()->user()?->is_admin)
     <x-under-construction />
 @else
@@ -29,7 +30,7 @@ class extends Component {
         .status-connected { background-color: #10b981; }
     </style>
     @endassets
-
+{{$this->token}}
     <div class="bg-card/80 backdrop-blur-sm mt-10 border-border/50 rounded-lg p-5 max-w-2xl mx-auto">
     <div class="space-y-6">
         <!-- Header -->
@@ -129,25 +130,9 @@ function addTranscriptMessage(role, message) {
     transcript.scrollTop = transcript.scrollHeight;
 }
 
+
 async function getEphemeralToken() {
-    try {
-        const response = await fetch('http://localhost:3000/api/session', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to get ephemeral token');
-        }
-
-        const data = await response.json();
-        return data.client_secret.value;
-    } catch (error) {
-        console.error('Error getting ephemeral token:', error);
-        throw error;
-    }
+    return "{{$quiz->ephemeral_key}}";
 }
 
 async function connectToOpenAI() {
