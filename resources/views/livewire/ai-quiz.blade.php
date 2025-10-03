@@ -27,7 +27,7 @@ class extends Component {
 
     public function startQuiz()
     {
-        $this->validate([
+     $validated =    $this->validate([
             'speed' => 'required|in:slow,normal,fast',
             'difficulty' => 'required|in:easy,medium,hard',
             'gender' => 'required|in:male,female',
@@ -50,22 +50,39 @@ Rules:
 5. Make the conversation natural, but include questions and prompts typical for the "Karta Polaka" exam.
 
 Topic emphasis:
-- Focus on the topic specified by the variable {TOPIC}.
+- Focus on the topic specified by the variable $topic->name_pl.
 - Always try to guide the conversation towards this topic while staying natural.
 
 Instructions for first message:
 - Begin with a greeting as an examiner, introduce yourself, and explain that this is a test mode.
-- Ask the first question related to {TOPIC}.
+- Ask the first question related to $topic->name_pl.
 
 
 
 TEXT;
 
+        $voices = [
+            'male' => [
+
+                'ash',
+            ],
+            'female' => [
+//                'ash',
+//                'ballad',
+//                'coral',
+//                'echo',
+//                'sage',
+                'alloy',
+                'shimmer',
+            ],
+        ];
+
+        $selectedVoice = $voices[$this->gender][array_rand($voices[$this->gender])];
 
         $response = OpenAI::realtime()->token([
             'instructions' => $prompt,
             'model' => 'gpt-4o-realtime-preview-2024-12-17',
-                'voice' => 'verse',
+            'voice' => $selectedVoice,
         ]);
 
         // Create AIQuiz record
