@@ -41,7 +41,7 @@ new class extends Component
                 return this.themeNames[this.theme] || this.theme;
             }
         }">
-    <div class="container mx-auto px-4 h-16 flex items-center justify-between ">
+    <div class="container_ mx-auto px-4 h-16 flex items-center justify-between ">
         <!-- App name on the left -->
         <a href="{{ route('dashboard') }}" wire:navigate class="flex items-center">
             {{-- Logo Option 7: ID Card Style --}}
@@ -82,7 +82,7 @@ new class extends Component
 {{--            </svg>--}}
 
             <h1 class="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-                QuizPolaka <span style="font-size: 1rem; font-weight: 400" class="hidden md:inline">{{ __('app.polish_card_tests') }}</span>
+                QuizPolaka <span style="font-size: 1rem; font-weight: 400" class="hidden xl:inline">{{ __('app.polish_card_tests') }}</span>
             </h1>
         </a>
 
