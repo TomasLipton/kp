@@ -67,6 +67,7 @@
         }
 
         function addTranscriptMessage(role, message) {
+            console.error(role, message);
             const messageDiv = document.createElement('div');
             messageDiv.className = role === 'user' ? 'text-blue-600' : 'text-green-600';
             messageDiv.innerHTML = `<strong>${role === 'user' ? 'You' : 'AI'}:</strong> ${message}`;
@@ -119,29 +120,26 @@
                     updateStatus('connected');
 
                     // Send session update with instructions
-                    // const sessionUpdate = {
-                    //     type: 'session.update',
-                    //     session: {
-                    //         instructions: 'Say hi on polish',
-                    //         voice: 'verse',
-                    //         input_audio_transcription: {
-                    //             model: 'whisper-1'
-                    //         }
-                    //     }
-                    // };
-                    // dataChannel.send(JSON.stringify(sessionUpdate));
+                    const sessionUpdate = {
+                        type: 'session.update',
+                        session: {
+                            input_audio_transcription: {
+                                model: 'whisper-1'
+                            }
+                        }
+                    };
+                    dataChannel.send(JSON.stringify(sessionUpdate));
 
-                    // Make AI speak first with a greeting
-                    // setTimeout(() => {
+                    setTimeout(() => {
                         const createResponse = {
                             type: 'response.create',
                             response: {
                                 modalities: ['text', 'audio'],
-                                instructions: 'You are a Polish examiner. Speak ONLY in Polish. If the user says anything in another language, correct them and continue in Polish.',
+                                instructions: 'You are a Polish examiner. Speak ONLY in Polish. If the user says anything in another language, correct them and continue in Polish. Start with with explanation of what will happen. Always ask questions first. Lead the conversation',
                             }
                         };
                         dataChannel.send(JSON.stringify(createResponse));
-                    // }, 500);
+                    }, 500);
                 };
 
                 dataChannel.onmessage = (event) => {
