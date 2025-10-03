@@ -9,11 +9,10 @@ class extends Component {
 
     public function mount()
     {
-        $this->isAdmin = auth()->check() && auth()->user()->is_admin;
+        $this->isAdmin = auth()->check() && auth()->user()?->is_admin;
     }
 }; ?>
-
-@if(!$this->isAdmin)
+@if(!auth()->check() || !auth()->user()?->is_admin)
     <x-under-construction />
 @else
     @assets

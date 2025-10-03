@@ -13,7 +13,7 @@ class extends Component {
 
     public function mount()
     {
-        $this->isAdmin = auth()->check() && auth()->user()->is_admin;
+        $this->isAdmin = auth()->check() && auth()->user()?->is_admin;
     }
 
     public function with(): array
@@ -84,7 +84,7 @@ class extends Component {
 </style>
 @endassets
 
-@if(!$this->isAdmin)
+@if(!$isAdmin)
     <x-under-construction />
 @else
 <div class="min-h-screen py-12 px-4">
