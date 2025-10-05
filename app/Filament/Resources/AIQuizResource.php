@@ -10,8 +10,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class AIQuizResource extends Resource
 {
@@ -20,6 +18,8 @@ class AIQuizResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-right';
 
     protected static ?string $navigationGroup = 'Ai Quiz';
+
+    protected static ?string $label = 'Ai Quiz';
 
     protected static ?int $navigationSort = 1;
 
@@ -112,12 +112,14 @@ class AIQuizResource extends Resource
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\BadgeColumn::make('status')
-                    ->colors([
-                        'warning' => 'preparing',
-                        'primary' => 'in_progress',
-                        'success' => 'completed',
-                    ]),
+                Tables\Columns\TextColumn::make('status')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'preparing' => 'warning',
+                        'active' => 'info',
+                        'in_progress' => 'primary',
+                        'completed' => 'success',
+                    }),
 
                 Tables\Columns\TextColumn::make('speed')
                     ->badge()
@@ -185,7 +187,7 @@ class AIQuizResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\ChatMessagesRelationManager::class,
         ];
     }
 
@@ -194,6 +196,7 @@ class AIQuizResource extends Resource
         return [
             'index' => Pages\ListAIQuizzes::route('/'),
             'create' => Pages\CreateAIQuiz::route('/create'),
+            'view' => Pages\ViewAIQuiz::route('/{record}'),
             'edit' => Pages\EditAIQuiz::route('/{record}/edit'),
         ];
     }
