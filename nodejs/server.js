@@ -7,7 +7,8 @@ import {
     createQuizSession,
     getConversationHistory,
     saveUserMessage,
-    saveAssistantMessage
+    saveAssistantMessage,
+    saveToolMessage
 } from "./lib/database.js";
 import { toolDefinitions, handleToolCall } from "./lib/tools.js";
 import { transcribeAudio, generateChatResponse, generateSpeech } from "./lib/openai-service.js";
@@ -63,13 +64,15 @@ wss.on("connection", (ws) => {
                 // Add user message to conversation history
                 conversationHistory.push({ role: "user", content: userText });
 
-                const prompt = 'You are a helpful assistant.';
+                const prompt = 'You are a helpful assistant. You are in test mode. Run tool to test on each message';
 
                 // Chat with tools
                 const chatMessages = [
                     { role: "system", content: prompt },
                     ...conversationHistory
                 ];
+
+                console.log(chatMessages);
 
                 const assistantMessage = await generateChatResponse(chatMessages, toolDefinitions);
 
@@ -84,6 +87,15 @@ wss.on("connection", (ws) => {
                         console.log(`Calling tool: ${toolName}`, toolArgs);
 
                         const toolResult = await handleToolCall(toolName, toolArgs);
+
+                        // Save tool call to database (assistant message with tool_call)
+                        await saveAssistantMessage(quizSessionId, null, toolName, {
+                            id: toolCall.id,
+                            arguments: toolArgs
+                        });
+
+                        // Save tool response to database
+                        await saveToolMessage(quizSessionId, toolCall.id, JSON.stringify(toolResult));
 
                         // Add tool result to conversation
                         conversationHistory.push({

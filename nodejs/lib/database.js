@@ -71,20 +71,57 @@ export async function saveAssistantMessage(quizId, content, toolName = null, too
     await connection.end();
 }
 
+export async function saveToolMessage(quizId, toolCallId, content) {
+    const connection = await mysql.createConnection(dbConfig);
+
+    await connection.execute(
+        `INSERT INTO chat_messages (a_i_quiz_id, role, content, metadata, created_at, updated_at)
+         VALUES (?, ?, ?, ?, NOW(), NOW())`,
+        [quizId, 'tool', content, JSON.stringify({ tool_call_id: toolCallId })]
+    );
+
+    await connection.end();
+}
+
 export async function getConversationHistory(quizId) {
     const connection = await mysql.createConnection(dbConfig);
 
     const [messages] = await connection.execute(
-        'SELECT role, content FROM chat_messages WHERE a_i_quiz_id = ? ORDER BY created_at ASC',
+        'SELECT role, content, tool_name, tool_call, metadata FROM chat_messages WHERE a_i_quiz_id = ? ORDER BY created_at ASC',
         [quizId]
     );
 
     await connection.end();
 
-    return messages.map(m => ({
-        role: m.role,
-        content: m.content
-    }));
+    return messages.map(m => {
+        const message = {
+            role: m.role,
+            content: m.content
+        };
+
+        // If this is an assistant message with a tool call
+        if (m.role === 'assistant' && m.tool_name && m.tool_call) {
+            const toolCallData = typeof m.tool_call === 'string' ? JSON.parse(m.tool_call) : m.tool_call;
+            message.tool_calls = [{
+                id: toolCallData.id,
+                type: 'function',
+                function: {
+                    name: m.tool_name,
+                    arguments: JSON.stringify(toolCallData.arguments)
+                }
+            }];
+            // Tool call messages don't have content
+            message.content = null;
+        }
+
+        // If this is a tool response message
+        if (m.role === 'tool' && m.metadata) {
+            const metadata = typeof m.metadata === 'string' ? JSON.parse(m.metadata) : m.metadata;
+            message.tool_call_id = metadata.tool_call_id;
+        }
+
+        return message;
+    });
 }
 
 export async function verifyQuizExists(quizId) {
