@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class AIQuiz extends Model
 {
@@ -37,6 +38,11 @@ class AIQuiz extends Model
     public function topic(): BelongsTo
     {
         return $this->belongsTo(Topics::class, 'topic_id');
+    }
+
+    public function chatMessages(): HasMany
+    {
+        return $this->hasMany(ChatMessage::class, 'a_i_quiz_id');
     }
 
     public function isExpired(): bool
