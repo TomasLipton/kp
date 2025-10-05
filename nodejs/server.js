@@ -13,9 +13,10 @@ wss.on("connection", (ws) => {
     const chunks = [];
     let isProcessing = false;
 
-    ws.on("message", async (msg) => {
-        if (msg.toString() === "END_RECORDING" && !isProcessing) {
+    ws.on("message", async (msg, isBinary) => {
+        if (!isBinary && msg.toString() === "END_RECORDING" && !isProcessing) {
             isProcessing = true;
+            const startTime = Date.now();
             console.log("Processing audio...");
             const filePath = "./input.webm";
             fs.writeFileSync(filePath, Buffer.concat(chunks));
@@ -29,11 +30,19 @@ wss.on("connection", (ws) => {
                 const userText = stt.text;
                 console.log("User said:", userText);
 
+                // Send user message to client
+                ws.send(JSON.stringify({
+                    role: "user",
+                    text: userText,
+                }));
+
+                const prompt = 'You are a helpful assistant.';
+
                 // Chat
                 const reply = await openai.chat.completions.create({
-                    model: "gpt-4o-mini",
+                    model: "gpt-5",
                     messages: [
-                        { role: "system", content: "You are a helpful assistant." },
+                        { role: "system", content: prompt },
                         { role: "user", content: userText },
                     ],
                 });
@@ -50,7 +59,15 @@ wss.on("connection", (ws) => {
                 });
 
                 const buffer = Buffer.from(await speech.arrayBuffer());
-                ws.send(buffer);
+                const duration = Date.now() - startTime;
+
+                // Send assistant response with audio and metadata
+                ws.send(JSON.stringify({
+                    role: "assistant",
+                    text: replyText,
+                    audio: buffer.toString('base64'),
+                    duration: duration,
+                }));
 
             } catch (err) {
                 console.error("Error:", err);

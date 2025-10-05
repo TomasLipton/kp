@@ -10,26 +10,57 @@
 <button id="stopBtn">Stop</button>
 <audio id="player" style="display: none;"></audio>
 
+<div id="chatLog" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc; max-height: 400px; overflow-y: auto;">
+    <h3>Chat Log</h3>
+    <div id="messages"></div>
+</div>
+
 <script>
-    let ws, mediaRecorder;
+    let ws, mediaRecorder, stopTime;
+
+    function addMessage(role, text, duration = null) {
+        const messagesDiv = document.getElementById('messages');
+        const timestamp = new Date().toLocaleTimeString();
+        const messageDiv = document.createElement('div');
+        messageDiv.style.marginBottom = '10px';
+        messageDiv.style.padding = '5px';
+        messageDiv.style.backgroundColor = role === 'user' ? '#e3f2fd' : '#f1f8e9';
+
+        const durationText = duration !== null ? ` (${duration}ms)` : '';
+        messageDiv.innerHTML = `<strong>${role}:</strong> ${text}<br><small>${timestamp}${durationText}</small>`;
+        messagesDiv.appendChild(messageDiv);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
 
     document.getElementById('startBtn').onclick = async () => {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         ws = new WebSocket("ws://localhost:3000");
-        ws.binaryType = "arraybuffer";
 
         ws.onmessage = (event) => {
-            // получаем готовый звук (mp3/opus/pcm)
-            const blob = new Blob([event.data], { type: "audio/mpeg" });
-            const player = document.getElementById('player');
-            player.src = URL.createObjectURL(blob);
-            player.play();
+            try {
+                const data = JSON.parse(event.data);
+
+                if (data.role === 'user') {
+                    addMessage('user', data.text);
+                } else if (data.role === 'assistant') {
+                    addMessage('assistant', data.text, data.duration);
+
+                    // Decode base64 audio and play
+                    const audioData = Uint8Array.from(atob(data.audio), c => c.charCodeAt(0));
+                    const blob = new Blob([audioData], { type: "audio/mpeg" });
+                    const player = document.getElementById('player');
+                    player.src = URL.createObjectURL(blob);
+                    player.play();
+                }
+            } catch (e) {
+                console.error('Failed to parse message:', e);
+            }
         };
 
         mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm;codecs=opus' });
         mediaRecorder.addEventListener('dataavailable', (e) => {
             if (e.data.size > 0 && ws.readyState === WebSocket.OPEN) {
-                e.data.arrayBuffer().then(buffer => ws.send(buffer));
+                ws.send(e.data);
             }
         });
 
@@ -38,6 +69,7 @@
 
     document.getElementById('stopBtn').onclick = () => {
         mediaRecorder?.stop();
+        stopTime = Date.now();
         if (ws && ws.readyState === WebSocket.OPEN) {
             ws.send("END_RECORDING");
         }
