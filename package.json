@@ -17,7 +17,9 @@
         "vite": "^5.4.19"
     },
     "dependencies": {
+        "openai": "^6.1.0",
         "sass": "^1.78.0",
-        "tailwindcss-animate": "^1.0.7"
+        "tailwindcss-animate": "^1.0.7",
+        "ws": "^8.18.3"
     }
 }

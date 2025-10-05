@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Voice Stream Demo</title>
+</head>
+<body>
+<h2>🎤 Voice Stream</h2>
+<button id="startBtn">Start</button>
+<button id="stopBtn">Stop</button>
+<audio id="player" controls></audio>
+
+<script>
+    let ws, mediaRecorder;
+
+    document.getElementById('startBtn').onclick = async () => {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        ws = new WebSocket("ws://localhost:3000");
+        ws.binaryType = "arraybuffer";
+
+        ws.onmessage = (event) => {
+            // получаем готовый звук (mp3/opus/pcm)
+            const blob = new Blob([event.data], { type: "audio/mpeg" });
+            document.getElementById('player').src = URL.createObjectURL(blob);
+        };
+
+        mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm;codecs=opus' });
+        mediaRecorder.addEventListener('dataavailable', (e) => {
+            if (e.data.size > 0 && ws.readyState === WebSocket.OPEN) {
+                e.data.arrayBuffer().then(buffer => ws.send(buffer));
+            }
+        });
+
+        mediaRecorder.start(250); // каждые 250 мс отправляем кусок
+    };
+
+    document.getElementById('stopBtn').onclick = () => {
+        mediaRecorder?.stop();
+        ws?.close();
+    };
+</script>
+</body>
+</html>
