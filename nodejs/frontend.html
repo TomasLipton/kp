@@ -6,8 +6,24 @@
 </head>
 <body>
 <h2>🎤 Voice Stream</h2>
-<button id="startBtn">Start</button>
-<button id="stopBtn">Stop</button>
+
+<div style="margin-bottom: 15px;">
+    <label for="userId">User ID:</label>
+    <input type="number" id="userId" value="1" style="margin-right: 10px;">
+
+    <label for="topicId">Topic ID:</label>
+    <input type="number" id="topicId" value="1" style="margin-right: 10px;">
+
+    <button id="newSessionBtn">New Session</button>
+    <button id="loadSessionBtn">Load Session</button>
+</div>
+
+<div style="margin-bottom: 15px;">
+    <strong>Session ID:</strong> <span id="sessionId">Not initialized</span>
+</div>
+
+<button id="startBtn" disabled>Start Recording</button>
+<button id="stopBtn" disabled>Stop Recording</button>
 <audio id="player" style="display: none;"></audio>
 
 <div id="chatLog" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc; max-height: 400px; overflow-y: auto;">
@@ -16,7 +32,7 @@
 </div>
 
 <script>
-    let ws, mediaRecorder, stopTime;
+    let ws, mediaRecorder, stopTime, quizSessionId;
 
     function addMessage(role, text, duration = null) {
         const messagesDiv = document.getElementById('messages');
@@ -32,15 +48,41 @@
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
     }
 
-    document.getElementById('startBtn').onclick = async () => {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    function connectWebSocket() {
         ws = new WebSocket("ws://localhost:3000");
+
+        ws.onopen = () => {
+            console.log('WebSocket connected');
+
+            // Load or create session
+            const savedSessionId = localStorage.getItem('quiz_session_id');
+            if (savedSessionId) {
+                quizSessionId = savedSessionId;
+                document.getElementById('sessionId').textContent = quizSessionId;
+                // Initialize with existing session
+                ws.send(JSON.stringify({
+                    type: "INIT_SESSION",
+                    quiz_session_id: quizSessionId
+                }));
+            }
+        };
 
         ws.onmessage = (event) => {
             try {
                 const data = JSON.parse(event.data);
 
-                if (data.role === 'user') {
+                if (data.type === 'SESSION_CREATED') {
+                    quizSessionId = data.quiz_session_id;
+                    localStorage.setItem('quiz_session_id', quizSessionId);
+                    document.getElementById('sessionId').textContent = quizSessionId;
+                    document.getElementById('startBtn').disabled = false;
+                    addMessage('system', `New session created: ${quizSessionId}`);
+                } else if (data.type === 'SESSION_READY') {
+                    document.getElementById('startBtn').disabled = false;
+                    addMessage('system', `Session loaded with ${data.message_count} messages`);
+                } else if (data.type === 'ERROR') {
+                    addMessage('error', data.message);
+                } else if (data.role === 'user') {
                     addMessage('user', data.text);
                 } else if (data.role === 'assistant') {
                     addMessage('assistant', data.text, data.duration);
@@ -51,11 +93,82 @@
                     const player = document.getElementById('player');
                     player.src = URL.createObjectURL(blob);
                     player.play();
+                } else if (data.role === 'tool') {
+                    addMessage('tool', `Called ${data.tool_name}: ${JSON.stringify(data.tool_result)}`);
                 }
             } catch (e) {
                 console.error('Failed to parse message:', e);
             }
         };
+
+        ws.onerror = (error) => {
+            console.error('WebSocket error:', error);
+        };
+
+        ws.onclose = () => {
+            console.log('WebSocket disconnected');
+            document.getElementById('startBtn').disabled = true;
+        };
+    }
+
+    document.getElementById('newSessionBtn').onclick = () => {
+        const userId = document.getElementById('userId').value;
+        const topicId = document.getElementById('topicId').value;
+
+        console.log('Creating new session...', { userId, topicId });
+
+        if (!ws || ws.readyState !== WebSocket.OPEN) {
+            console.log('WebSocket not connected, connecting...');
+            connectWebSocket();
+            // Wait for connection then send
+            const checkConnection = setInterval(() => {
+                if (ws && ws.readyState === WebSocket.OPEN) {
+                    clearInterval(checkConnection);
+                    console.log('Sending CREATE_SESSION message');
+                    ws.send(JSON.stringify({
+                        type: "CREATE_SESSION",
+                        user_id: parseInt(userId),
+                        topic_id: parseInt(topicId)
+                    }));
+                }
+            }, 100);
+        } else {
+            console.log('Sending CREATE_SESSION message');
+            ws.send(JSON.stringify({
+                type: "CREATE_SESSION",
+                user_id: parseInt(userId),
+                topic_id: parseInt(topicId)
+            }));
+        }
+    };
+
+    document.getElementById('loadSessionBtn').onclick = () => {
+        const savedSessionId = localStorage.getItem('quiz_session_id');
+        if (!savedSessionId) {
+            alert('No saved session found. Create a new session first.');
+            return;
+        }
+
+        quizSessionId = savedSessionId;
+        document.getElementById('sessionId').textContent = quizSessionId;
+
+        if (!ws || ws.readyState !== WebSocket.OPEN) {
+            connectWebSocket();
+        } else {
+            ws.send(JSON.stringify({
+                type: "INIT_SESSION",
+                quiz_session_id: quizSessionId
+            }));
+        }
+    };
+
+    document.getElementById('startBtn').onclick = async () => {
+        if (!quizSessionId) {
+            alert('Please create or load a session first.');
+            return;
+        }
+
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
         mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm;codecs=opus' });
         mediaRecorder.addEventListener('dataavailable', (e) => {
@@ -64,7 +177,9 @@
             }
         });
 
-        mediaRecorder.start(250); // каждые 250 мс отправляем кусок
+        mediaRecorder.start(250);
+        document.getElementById('startBtn').disabled = true;
+        document.getElementById('stopBtn').disabled = false;
     };
 
     document.getElementById('stopBtn').onclick = () => {
@@ -72,6 +187,16 @@
         stopTime = Date.now();
         if (ws && ws.readyState === WebSocket.OPEN) {
             ws.send("END_RECORDING");
+        }
+        document.getElementById('startBtn').disabled = false;
+        document.getElementById('stopBtn').disabled = true;
+    };
+
+    // Auto-connect on page load if session exists
+    window.onload = () => {
+        const savedSessionId = localStorage.getItem('quiz_session_id');
+        if (savedSessionId) {
+            connectWebSocket();
         }
     };
 </script>
