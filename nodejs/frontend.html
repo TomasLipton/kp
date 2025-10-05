@@ -8,7 +8,7 @@
 <h2>🎤 Voice Stream</h2>
 <button id="startBtn">Start</button>
 <button id="stopBtn">Stop</button>
-<audio id="player" controls></audio>
+<audio id="player" style="display: none;"></audio>
 
 <script>
     let ws, mediaRecorder;
@@ -21,7 +21,9 @@
         ws.onmessage = (event) => {
             // получаем готовый звук (mp3/opus/pcm)
             const blob = new Blob([event.data], { type: "audio/mpeg" });
-            document.getElementById('player').src = URL.createObjectURL(blob);
+            const player = document.getElementById('player');
+            player.src = URL.createObjectURL(blob);
+            player.play();
         };
 
         mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm;codecs=opus' });
@@ -36,7 +38,9 @@
 
     document.getElementById('stopBtn').onclick = () => {
         mediaRecorder?.stop();
-        ws?.close();
+        if (ws && ws.readyState === WebSocket.OPEN) {
+            ws.send("END_RECORDING");
+        }
     };
 </script>
 </body>
