@@ -14,6 +14,7 @@ class AIQuiz extends Model
     protected $fillable = [
         'user_id',
         'topic_id',
+        'openai_conversation_id',
         'speed',
         'difficulty',
         'gender',

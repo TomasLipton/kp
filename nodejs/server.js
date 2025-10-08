@@ -10,16 +10,20 @@ dotenv.config({ path: path.join(__dirname, '.env') });
 
 import fs from "fs";
 import { WebSocketServer } from "ws";
+import OpenAI from "openai";
 import {
     createQuizSession,
+    getQuizSession,
     getConversationHistory,
     saveUserMessage,
     saveAssistantMessage,
-    saveToolMessage
+    saveToolMessage,
+    updateQuizConversationId
 } from "./lib/database.js";
 import { toolDefinitions, handleToolCall } from "./lib/tools.js";
 import { transcribeAudio, generateChatResponse, generateSpeech } from "./lib/openai-service.js";
 
+const client = new OpenAI();
 const wss = new WebSocketServer({ port: 3000 });
 
 console.log("🚀 WebSocket server started on ws://localhost:3000");
@@ -31,6 +35,7 @@ wss.on("connection", (ws) => {
     let isProcessing = false;
     let conversationHistory = [];
     let quizSessionId = null;
+    let conversationId = null;
 
     ws.on("message", async (msg, isBinary) => {
         // Handle END_RECORDING signal
@@ -76,7 +81,7 @@ wss.on("connection", (ws) => {
 
                 console.log(chatMessages);
 
-                const assistantMessage = await generateChatResponse(chatMessages, toolDefinitions);
+                const assistantMessage = await generateChatResponse(chatMessages, toolDefinitions, conversationId);
 
                 // Handle tool calls if present
                 if (assistantMessage.tool_calls && assistantMessage.tool_calls.length > 0) {
@@ -119,7 +124,7 @@ wss.on("connection", (ws) => {
                     const finalMessage = await generateChatResponse([
                         { role: "system", content: prompt },
                         ...conversationHistory
-                    ]);
+                    ], null, conversationId);
 
                     const replyText = finalMessage.content;
                     conversationHistory.push({ role: "assistant", content: replyText });
@@ -182,6 +187,13 @@ wss.on("connection", (ws) => {
                     quizSessionId = data.quiz_session_id;
                     console.log("Session initialized:", quizSessionId);
 
+                    // Get quiz session details including conversation ID
+                    const quizSession = await getQuizSession(quizSessionId);
+                    if (quizSession && quizSession.openai_conversation_id) {
+                        conversationId = quizSession.openai_conversation_id;
+                        console.log("Loaded conversation ID:", conversationId);
+                    }
+
                     conversationHistory = await getConversationHistory(quizSessionId);
 
                     ws.send(JSON.stringify({
@@ -197,6 +209,17 @@ wss.on("connection", (ws) => {
                     try {
                         quizSessionId = await createQuizSession(data.user_id, data.topic_id, data.options || {});
                         console.log("New session created:", quizSessionId);
+
+                        // Create OpenAI conversation
+                        const conversation = await client.conversations.create();
+                        console.log("OpenAI Conversation created:", conversation);
+
+                        // Store conversation ID
+                        conversationId = conversation.id;
+
+                        // Save conversation ID to database
+                        await updateQuizConversationId(quizSessionId, conversation.id);
+                        console.log("Conversation ID saved to database:", conversation.id);
 
                         ws.send(JSON.stringify({
                             type: "SESSION_CREATED",

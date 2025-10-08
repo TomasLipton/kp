@@ -84,6 +84,11 @@ class AIQuizResource extends Resource
 
                 Forms\Components\Section::make('OpenAI Realtime API')
                     ->schema([
+                        Forms\Components\TextInput::make('openai_conversation_id')
+                            ->label('OpenAI Conversation ID')
+                            ->maxLength(255)
+                            ->columnSpanFull(),
+
                         Forms\Components\TextInput::make('ephemeral_key')
                             ->label('Ephemeral Key')
                             ->maxLength(255)
@@ -111,6 +116,11 @@ class AIQuizResource extends Resource
                     ->label('Topic')
                     ->searchable()
                     ->sortable(),
+
+                Tables\Columns\TextColumn::make('openai_conversation_id')
+                    ->label('Conversation ID')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('status')
                     ->badge()

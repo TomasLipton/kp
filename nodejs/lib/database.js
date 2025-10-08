@@ -136,3 +136,14 @@ export async function verifyQuizExists(quizId) {
 
     return rows.length > 0;
 }
+
+export async function updateQuizConversationId(quizId, conversationId) {
+    const connection = await mysql.createConnection(dbConfig);
+
+    await connection.execute(
+        'UPDATE a_i_quizzes SET openai_conversation_id = ?, updated_at = NOW() WHERE id = ?',
+        [conversationId, quizId]
+    );
+
+    await connection.end();
+}
