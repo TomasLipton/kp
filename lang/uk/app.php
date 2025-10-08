@@ -75,6 +75,10 @@ return [
     'privacy_required' => 'Прийміть політику конфіденційності для продовження',
     'terms_required' => 'Прийміть умови використання для продовження',
 
+    // Topics Section
+    'test_knowledge_track_progress' => 'Перевірте свої знання та відстежуйте прогрес',
+    'start_quiz' => 'Почати тест',
+
     // Navigation
     'polish_card_tests' => 'Тести для підготовки на карту поляка',
 

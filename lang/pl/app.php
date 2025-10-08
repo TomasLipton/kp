@@ -75,6 +75,10 @@ return [
     'privacy_required' => 'Zaakceptuj politykę prywatności, aby kontynuować',
     'terms_required' => 'Zaakceptuj regulamin, aby kontynuować',
 
+    // Topics Section
+    'test_knowledge_track_progress' => 'Sprawdź swoją wiedzę i śledź swoje postępy',
+    'start_quiz' => 'Rozpocznij quiz',
+
     // Navigation
     'polish_card_tests' => 'Testy do przygotowania na kartę Polaka',
 

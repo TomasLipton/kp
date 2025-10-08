@@ -75,6 +75,10 @@ return [
     'privacy_required' => 'Please accept the privacy policy to continue',
     'terms_required' => 'Please accept the terms of service to continue',
 
+    // Topics Section
+    'test_knowledge_track_progress' => 'Test your knowledge and track your progress',
+    'start_quiz' => 'Start quiz',
+
     // Navigation
     'polish_card_tests' => 'Polish Card Tests',
 

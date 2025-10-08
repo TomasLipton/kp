@@ -56,24 +56,35 @@
         </div>
     </div>
 
-    <div class="mt-14 overflow-hidden bg-gradient-card backdrop-blur-sm shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] border border-white/40 rounded-lg pb-8 relative
-         before:absolute before:inset-0 before:rounded-lg before:p-[1px] before:bg-gradient-to-br before:from-white/50 before:via-white/20 before:to-transparent before:-z-10">
-        <div class="text-center mb-8 mt-8">
+    {{-- Topics Section --}}
+    <div class="mt-14">
+        <div class="text-center mb-10">
             <h2 class="text-3xl md:text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-4">
                 {{ __('Quiz Topics') }}
             </h2>
-            <p class="text-lg text-muted-foreground">
+            <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
                 {{ __('Choose a topic to start your journey through Polish history and culture') }}
             </p>
         </div>
 
-        <section class="hero-section ">
-            <div class="card-grid">
-                @foreach($topics->take(3) as $topic)
-                    <a class="category-card rounded-lg" href="/{{$topic->slug}}" wire:navigate wire:navigate.hover>
-                        <div class="card__background" style="background-image: url({{url('storage/' . $topic->picture)}})"></div>
-                        <div class="card__content">
-                            <p class="card__category">
+        {{-- Featured Topics (Large Cards with Images) --}}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            @foreach($topics->take(2) as $topic)
+                <a href="/{{$topic->slug}}" wire:navigate wire:navigate.hover
+                   class="group relative overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] h-80">
+
+                    {{-- Background Image with Overlay --}}
+                    <div class="absolute inset-0">
+                        <img src="{{url('storage/' . $topic->picture)}}" alt="{{$topic->name_pl}}"
+                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20 group-hover:from-black/90 transition-all duration-300"></div>
+                    </div>
+
+                    {{-- Content --}}
+                    <div class="relative h-full flex flex-col justify-end p-6 text-white">
+                        {{-- Question Count Badge --}}
+                        <div class="absolute top-6 right-6">
+                            <span class="px-3 py-1.5 rounded-full bg-white/20 backdrop-blur-sm text-sm font-medium border border-white/30">
                                 {{$topic->questions()->count()}}
                                 @php
                                     $count = $topic->questions()->count();
@@ -85,8 +96,76 @@
                                 @else
                                     {{ __('app.questions_many') }}
                                 @endif
-                            </p>
-                            <h3 class="card__heading">
+                            </span>
+                        </div>
+
+                        {{-- Title --}}
+                        <h3 class="text-2xl md:text-3xl font-bold mb-3 group-hover:text-primary transition-colors">
+                            @switch(LaravelLocalization::getCurrentLocale())
+                                @case('ru')
+                                    {{trim($topic->name_ru ?? $topic->name_pl)}}
+                                    @break
+                                @case('uk')
+                                    {{trim($topic->name_uk ?? $topic->name_pl)}}
+                                    @break
+                                @case('be')
+                                    {{trim($topic->name_be ?? $topic->name_pl)}}
+                                    @break
+                                @default
+                                    {{trim($topic->name_pl)}}
+                            @endswitch
+                        </h3>
+
+                        {{-- CTA --}}
+                        <div class="flex items-center gap-2 text-sm font-medium">
+                            <span>{{ __('app.start_quiz') }}</span>
+                            <svg class="w-4 h-4 transition-transform group-hover:translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    {{-- Hover Border Effect --}}
+                    <div class="absolute inset-0 rounded-2xl ring-2 ring-primary/0 group-hover:ring-primary/50 transition-all duration-300"></div>
+                </a>
+            @endforeach
+        </div>
+
+        {{-- More Topics (Smaller Cards) --}}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+            @foreach($topics->skip(2)->take(3) as $topic)
+                <a href="/{{$topic->slug}}" wire:navigate wire:navigate.hover
+                   class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] h-48">
+
+                    {{-- Background Image with Overlay --}}
+                    <div class="absolute inset-0">
+                        <img src="{{url('storage/' . $topic->picture)}}" alt="{{$topic->name_pl}}"
+                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent"></div>
+                    </div>
+
+                    {{-- Content --}}
+                    <div class="relative h-full flex flex-col justify-between p-4 text-white">
+                        {{-- Question Count --}}
+                        <div class="flex justify-end">
+                            <span class="text-xs px-2 py-1 rounded-full bg-white/20 backdrop-blur-sm border border-white/30">
+                                {{$topic->questions()->count()}}
+                                @php
+                                    $count = $topic->questions()->count();
+                                @endphp
+                                @if($count === 1)
+                                    {{ __('app.question') }}
+                                @elseif($count % 10 >= 2 && $count % 10 <= 4 && ($count % 100 < 10 || $count % 100 >= 20))
+                                    {{ __('app.questions_few') }}
+                                @else
+                                    {{ __('app.questions_many') }}
+                                @endif
+                            </span>
+                        </div>
+
+                        {{-- Title --}}
+                        <div>
+                            <h3 class="text-lg font-bold mb-2 group-hover:text-primary transition-colors">
                                 @switch(LaravelLocalization::getCurrentLocale())
                                     @case('ru')
                                         {{trim($topic->name_ru ?? $topic->name_pl)}}
@@ -101,27 +180,31 @@
                                         {{trim($topic->name_pl)}}
                                 @endswitch
                             </h3>
+                            <div class="flex items-center gap-1 text-xs opacity-0 group-hover:opacity-100 transition-opacity">
+                                <span>{{ __('app.start_quiz') }}</span>
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                </svg>
+                            </div>
                         </div>
-                        <div class="absolute inset-0 border-2 scale-105 border-primary/0 hover:border-primary/50 transition-colors duration-300 rounded-lg"></div>
-                    </a>
-                @endforeach
-
-                {{-- View All Topics Card --}}
-                <a class="category-card rounded-lg" href="{{ route('topics') }}" wire:navigate wire:navigate.hover>
-                    <div class="card__background" style="background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary) / 0.8) 100%)"></div>
-                    <div class="card__content flex flex-col items-center justify-center h-full text-center">
-                        <h3 class="card__heading text-2xl mb-2">
-                            {{ __('View all topics') }}
-                        </h3>
-                        <p class="card__category">
-                            {{$topics->count()}} {{ __('available topics') }}
-                        </p>
                     </div>
-                    <div class="absolute inset-0 border-2 scale-105 border-primary/0 hover:border-primary/50 transition-colors duration-300 rounded-lg"></div>
-                </a>
-            </div>
-        </section>
 
+                    {{-- Hover Border Effect --}}
+                    <div class="absolute inset-0 rounded-xl ring-2 ring-primary/0 group-hover:ring-primary/50 transition-all duration-300"></div>
+                </a>
+            @endforeach
+        </div>
+
+        {{-- View All Button --}}
+        <div class="text-center mt-10">
+            <a href="{{ route('topics') }}" wire:navigate
+               class="inline-flex items-center gap-2 px-8 py-4 bg-gradient-primary text-white font-semibold text-lg rounded-xl
+                      shadow-glow hover:shadow-[0_20px_60px_-15px_hsl(var(--primary))] transition-all duration-300 hover:scale-105">
+                {{ __('View all topics') }}
+                <span class="px-2 py-0.5 rounded-full bg-white/20 text-sm">{{$topics->count()}}</span>
+                @svg('lucide-arrow-right', 'w-5 h-5')
+            </a>
+        </div>
     </div>
 
     {{-- How It Works Section --}}
