@@ -152,11 +152,23 @@ new class extends Component
 
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile')" wire:navigate>
-                            {{ __('Profile') }}
+                            <span class="flex items-center gap-2">
+                                @svg('lucide-user', 'w-4 h-4 text-blue-500')
+                                {{ __('Profile') }}
+                            </span>
+                        </x-dropdown-link>
+                        <x-dropdown-link :href="route('analytics')" wire:navigate>
+                            <span class="flex items-center gap-2">
+                                @svg('lucide-bar-chart-3', 'w-4 h-4 text-green-500')
+                                {{ __('Analytics') }}
+                            </span>
                         </x-dropdown-link>
                         <button wire:click="logout" class="w-full text-start">
                             <x-dropdown-link>
-                                {{ __('Log Out') }}
+                                <span class="flex items-center gap-2">
+                                    @svg('lucide-log-out', 'w-4 h-4 text-red-500')
+                                    {{ __('Log Out') }}
+                                </span>
                             </x-dropdown-link>
                         </button>
                     </x-slot>
@@ -245,10 +257,16 @@ new class extends Component
                     </x-responsive-nav-link>
                 @endif
                 <x-responsive-nav-link :href="route('profile')" wire:navigate>
+                    @svg('lucide-user', 'w-4 h-4 inline-block mr-2 text-blue-500')
                     {{ __('Profile') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('analytics')" wire:navigate>
+                    @svg('lucide-bar-chart-3', 'w-4 h-4 inline-block mr-2 text-green-500')
+                    {{ __('Analytics') }}
                 </x-responsive-nav-link>
                 <button wire:click="logout" class="w-full text-start">
                     <x-responsive-nav-link>
+                        @svg('lucide-log-out', 'w-4 h-4 inline-block mr-2 text-red-500')
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
                 </button>
