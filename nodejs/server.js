@@ -24,9 +24,9 @@ import { toolDefinitions, handleToolCall } from "./lib/tools.js";
 import { transcribeAudio, generateChatResponse, generateSpeech } from "./lib/openai-service.js";
 
 const client = new OpenAI();
-const wss = new WebSocketServer({ port: 3000 });
+const wss = new WebSocketServer({ port: 6001 });
 
-console.log("🚀 WebSocket server started on ws://localhost:3000");
+console.log("🚀 WebSocket server started on ws://localhost:6001");
 
 wss.on("connection", (ws) => {
     console.log("Client connected");
