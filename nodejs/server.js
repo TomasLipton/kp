@@ -1,8 +1,15 @@
-import fs from "fs";
-import { WebSocketServer } from "ws";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
+
+// Load .env from same directory FIRST
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+console.log(__dirname);
+dotenv.config({ path: path.join(__dirname, '.env') });
+
+import fs from "fs";
+import { WebSocketServer } from "ws";
 import {
     createQuizSession,
     getConversationHistory,
@@ -12,11 +19,6 @@ import {
 } from "./lib/database.js";
 import { toolDefinitions, handleToolCall } from "./lib/tools.js";
 import { transcribeAudio, generateChatResponse, generateSpeech } from "./lib/openai-service.js";
-
-// Load .env from parent directory
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-dotenv.config({ path: path.join(__dirname, '..', '.env') });
 
 const wss = new WebSocketServer({ port: 3000 });
 
