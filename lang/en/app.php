@@ -72,6 +72,8 @@ return [
     'start_learning_journey' => 'Start your learning journey today',
     'already_have_account' => 'Already have an account?',
     'sign_in' => 'Sign in',
+    'privacy_required' => 'Please accept the privacy policy to continue',
+    'terms_required' => 'Please accept the terms of service to continue',
 
     // Navigation
     'polish_card_tests' => 'Polish Card Tests',

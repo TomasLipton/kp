@@ -130,7 +130,7 @@ class extends Component
                         <p class="text-sm text-muted-foreground">{{ __('app.start_learning_journey') }}</p>
                     </div>
 
-                    <form method="GET" action="{{ route('auth.google.redirect') }}">
+                    <form id="registerForm" method="GET" action="{{ route('auth.google.redirect') }}" onsubmit="return validateForm()">
                         @csrf
 
                         <input type="hidden" name="privacy_accepted" value="{{ old('privacy_accepted', '0') }}">
@@ -151,40 +151,112 @@ class extends Component
                             {{ __('Register with Google') }}
                         </button>
 
-                        <div class="space-y-3 mb-4">
-                            <label class="flex items-start gap-2 text-xs cursor-pointer">
-                                <input
-                                    type="checkbox"
-                                    id="privacy"
-                                    name="privacy_accepted"
-                                    value="1"
-                                    class="mt-0.5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0"
-                                    {{ old('privacy_accepted') ? 'checked' : '' }}
-                                    onchange="this.form.querySelector('input[name=privacy_accepted][type=hidden]').value = this.checked ? '1' : '0'"
-                                >
-                                <span>I accept the <a href="#" class="text-primary hover:underline">{{ __('app.privacy_policy') }}</a></span>
-                            </label>
+                        <div class="space-y-2 mb-4">
+                            <div>
+                                <label id="privacy-label" class="flex items-start gap-2 text-xs cursor-pointer p-2 rounded-lg transition-colors">
+                                    <input
+                                        type="checkbox"
+                                        id="privacy"
+                                        name="privacy_accepted"
+                                        value="1"
+                                        class="mt-0.5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0"
+                                        {{ old('privacy_accepted') ? 'checked' : '' }}
+                                        onchange="handleCheckboxChange(this, 'privacy')"
+                                    >
+                                    <span>I accept the <a href="#" class="text-primary hover:underline">{{ __('app.privacy_policy') }}</a></span>
+                                </label>
+                                <p id="privacy-error" class="text-xs text-red-600 dark:text-red-400 ml-6 mt-1 hidden">
+                                    {{ __('app.privacy_required') }}
+                                </p>
+                            </div>
 
-                            <label class="flex items-start gap-2 text-xs cursor-pointer">
-                                <input
-                                    type="checkbox"
-                                    id="rules"
-                                    name="rules_accepted"
-                                    value="1"
-                                    class="mt-0.5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0"
-                                    {{ old('rules_accepted') ? 'checked' : '' }}
-                                    onchange="this.form.querySelector('input[name=rules_accepted][type=hidden]').value = this.checked ? '1' : '0'"
-                                >
-                                <span>I accept the <a href="#" class="text-primary hover:underline">{{ __('app.terms_of_service') }}</a></span>
-                            </label>
+                            <div>
+                                <label id="rules-label" class="flex items-start gap-2 text-xs cursor-pointer p-2 rounded-lg transition-colors">
+                                    <input
+                                        type="checkbox"
+                                        id="rules"
+                                        name="rules_accepted"
+                                        value="1"
+                                        class="mt-0.5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0"
+                                        {{ old('rules_accepted') ? 'checked' : '' }}
+                                        onchange="handleCheckboxChange(this, 'rules')"
+                                    >
+                                    <span>I accept the <a href="#" class="text-primary hover:underline">{{ __('app.terms_of_service') }}</a></span>
+                                </label>
+                                <p id="rules-error" class="text-xs text-red-600 dark:text-red-400 ml-6 mt-1 hidden">
+                                    {{ __('app.terms_required') }}
+                                </p>
+                            </div>
                         </div>
 
-                        @if(!old('privacy_accepted') || !old('rules_accepted'))
-                            <p class="text-xs text-muted-foreground mb-4">
-                                {{ __('app.must_accept_conditions') }}
-                            </p>
-                        @endif
+                        <p class="text-xs text-muted-foreground mb-4">
+                            {{ __('app.must_accept_conditions') }}
+                        </p>
                     </form>
+
+                    <script>
+                        function handleCheckboxChange(checkbox, name) {
+                            const form = checkbox.form;
+                            const hiddenInput = form.querySelector(`input[name=${name}_accepted][type=hidden]`);
+                            hiddenInput.value = checkbox.checked ? '1' : '0';
+
+                            // Clear error state when checkbox is checked
+                            if (checkbox.checked) {
+                                clearError(name);
+                            }
+                        }
+
+                        function clearError(name) {
+                            const label = document.getElementById(`${name}-label`);
+                            const error = document.getElementById(`${name}-error`);
+                            const checkbox = document.getElementById(name);
+
+                            label.classList.remove('bg-red-50', 'dark:bg-red-950/20', 'border', 'border-red-300', 'dark:border-red-800');
+                            error.classList.add('hidden');
+                            checkbox.classList.remove('border-red-500', 'dark:border-red-500');
+                        }
+
+                        function showError(name) {
+                            const label = document.getElementById(`${name}-label`);
+                            const error = document.getElementById(`${name}-error`);
+                            const checkbox = document.getElementById(name);
+
+                            label.classList.add('bg-red-50', 'dark:bg-red-950/20', 'border', 'border-red-300', 'dark:border-red-800');
+                            error.classList.remove('hidden');
+                            checkbox.classList.add('border-red-500', 'dark:border-red-500');
+                        }
+
+                        function validateForm() {
+                            const privacyChecked = document.getElementById('privacy').checked;
+                            const rulesChecked = document.getElementById('rules').checked;
+
+                            let isValid = true;
+
+                            // Clear all errors first
+                            clearError('privacy');
+                            clearError('rules');
+
+                            // Validate privacy checkbox
+                            if (!privacyChecked) {
+                                showError('privacy');
+                                isValid = false;
+                            }
+
+                            // Validate rules checkbox
+                            if (!rulesChecked) {
+                                showError('rules');
+                                isValid = false;
+                            }
+
+                            // Scroll to first error if validation fails
+                            if (!isValid) {
+                                const firstError = !privacyChecked ? 'privacy' : 'rules';
+                                document.getElementById(`${firstError}-label`).scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }
+
+                            return isValid;
+                        }
+                    </script>
 
                     <div class="pt-4 border-t border-gray-200 dark:border-gray-700 text-center">
                         <p class="text-xs text-muted-foreground">

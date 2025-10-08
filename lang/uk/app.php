@@ -72,6 +72,8 @@ return [
     'start_learning_journey' => 'Розпочніть свій освітній шлях сьогодні',
     'already_have_account' => 'Вже є акаунт?',
     'sign_in' => 'Увійти',
+    'privacy_required' => 'Прийміть політику конфіденційності для продовження',
+    'terms_required' => 'Прийміть умови використання для продовження',
 
     // Navigation
     'polish_card_tests' => 'Тести для підготовки на карту поляка',

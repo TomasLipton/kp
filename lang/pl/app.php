@@ -72,6 +72,8 @@ return [
     'start_learning_journey' => 'Rozpocznij swoją edukacyjną podróż już dziś',
     'already_have_account' => 'Masz już konto?',
     'sign_in' => 'Zaloguj się',
+    'privacy_required' => 'Zaakceptuj politykę prywatności, aby kontynuować',
+    'terms_required' => 'Zaakceptuj regulamin, aby kontynuować',
 
     // Navigation
     'polish_card_tests' => 'Testy do przygotowania na kartę Polaka',
