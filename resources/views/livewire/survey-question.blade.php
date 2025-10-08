@@ -195,6 +195,10 @@
                             @if($question->question_type === 'date_month')
                                 <x-questions.date-month-input :chosenAnswer="$chosenAnswer"/>
                             @endif
+
+                            @if($question->question_type === 'date_month_year')
+                                <x-questions.date-month-year-input :chosenAnswer="$chosenAnswer"/>
+                            @endif
                         </div>
                     </div>
                 </div>

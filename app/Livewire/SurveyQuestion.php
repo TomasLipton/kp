@@ -150,6 +150,27 @@ class SurveyQuestion extends Component
         ]))->save();
     }
 
+    public function submitDateMonthYear($date, $month, $year)
+    {
+        if ($this->chosenAnswer || strlen($date) > 2 || strlen($date) < 1 || strlen($year) < 3 || strlen($year) > 4) {
+            return;
+        }
+
+        $formattedMonth = str_pad($month, 2, '0', STR_PAD_LEFT);
+        $formattedDate = str_pad($date, 2, '0', STR_PAD_LEFT);
+
+        $this->chosenAnswer = $this->question->answers->where('text', $formattedDate.'.'.$formattedMonth.'.'.$year)->first();
+
+        if (! $this->chosenAnswer) {
+            $this->chosenAnswer = $this->question->answers->where('is_correct', 0)->first();
+        }
+
+        (new QuizAnswer([
+            'quiz_id' => $this->quiz->id,
+            'question_answer_id' => $this->chosenAnswer->id,
+        ]))->save();
+    }
+
     public function submitAnswerByOrder($number)
     {
         if ($this->chosenAnswer) {

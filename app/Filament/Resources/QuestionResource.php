@@ -33,6 +33,7 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
+use Filament\Tables\Grouping\Group as TableGroup;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -81,12 +82,12 @@ class QuestionResource extends Resource
 
                         Repeater::make('answers')
                             ->reactive()
-                            ->helperText("For date+month use format 'DD.MM' e.g. '01.01'. For year use format 'YYYY' e.g. '2022'. For year and date+month add 1 incorrect answer with any value.")
+                            ->helperText("For date+month use format 'DD.MM' e.g. '01.01'. For date+month+year use format 'DD.MM.YYYY' e.g. '01.01.2022'. For year use format 'YYYY' e.g. '2022'. For year, date+month, and date+month+year add 1 incorrect answer with any value.")
                             ->relationship()
                             ->orderColumn('order')
                             ->grid(2)
                             ->defaultItems(4)
-                            ->maxItems(fn (Get $get): int => in_array($get('question_type'), ['year', 'date_month', 'number']) ? 2 : 5)
+                            ->maxItems(fn (Get $get): int => in_array($get('question_type'), ['year', 'date_month', 'date_month_year', 'number']) ? 2 : 5)
                             ->reorderableWithButtons()
                             ->collapsible()
                             ->cloneable()
@@ -145,6 +146,7 @@ class QuestionResource extends Resource
                             ->options([
                                 'single_text' => 'Single Text',
                                 'date_month' => 'Date Month',
+                                'date_month_year' => 'Date Month Year',
                                 'year' => 'Year',
                                 'number' => 'Number',
                                 'multi_text' => 'Multi Text',
@@ -153,7 +155,7 @@ class QuestionResource extends Resource
                             ->required()
                             ->reactive()
                             ->disableOptionWhen(fn (string $value): bool => in_array($value, ['multi_text']))->afterStateUpdated(function ($state, callable $set) {
-                                if (in_array($state, ['year', 'date_month', 'number'])) {
+                                if (in_array($state, ['year', 'date_month', 'date_month_year', 'number'])) {
                                     // Create 2 default answer items
                                     $set('answers', [
                                         ['text' => '', 'is_correct' => true, 'order' => 1],
@@ -191,9 +193,12 @@ class QuestionResource extends Resource
                 IconColumn::make('Picture')->label('Zdjęcie')->boolean(fn () => true)->default(fn (Question $question) => $question->picture)->sortable(),
                 IconColumn::make('is_reviewed')
                     ->label('Zweryfikowano')
-                    ->boolean()->sortable(),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->boolean()
+                    ->sortable(),
                 IconColumn::make('Voice')->label('Audio')->boolean(fn () => true)->default(fn (Question $question) => $question->aiSpeach()->count() > 0),
                 TextColumn::make('question_pl')
+                    ->searchable()
                     ->label('Pytanie (PL)')
                     ->extraAttributes([
                         'style' => 'max-width:260px',
@@ -203,9 +208,11 @@ class QuestionResource extends Resource
 
                 TextColumn::make('question_type')
                     ->badge()
+                    ->searchable(isIndividual: true)
                     ->color(fn (string $state): string => match ($state) {
                         'single_text' => 'info',
                         'date_month' => 'warning',
+                        'date_month_year' => 'warning',
                         'year' => 'success',
                         'multi_text' => 'danger',
                         'number' => 'primary',
@@ -214,6 +221,7 @@ class QuestionResource extends Resource
                     ->formatStateUsing(fn (string $state): string => match ($state) {
                         'single_text' => 'Single Text',
                         'date_month' => 'Date Month',
+                        'date_month_year' => 'Date Month Year',
                         'year' => 'Year',
                         'multi_text' => 'Multi Text',
                         'number' => 'Number',
@@ -223,14 +231,30 @@ class QuestionResource extends Resource
 
                 TextColumn::make('topics.name_pl')
                     ->label('Temat')
-                    ->searchable()
+                    ->searchable(isIndividual: true)
                     ->sortable(),
+            ])
+            ->groups([
+                TableGroup::make('question_type')
+                    ->label('Typ pytania'),
+                TableGroup::make('topics.name_pl')
+                    ->label('Temat'),
             ])
             ->filters([
                 TrashedFilter::make(),
                 SelectFilter::make('topics_id')
                     ->relationship('topics', 'name_pl')
                     ->label('Temat'),
+                SelectFilter::make('question_type')
+                    ->label('Typ pytania')
+                    ->options([
+                        'single_text' => 'Single Text',
+                        'date_month' => 'Date Month',
+                        'date_month_year' => 'Date Month Year',
+                        'year' => 'Year',
+                        'number' => 'Number',
+                        'multi_text' => 'Multi Text',
+                    ]),
 
             ])
             ->actions([
