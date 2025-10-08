@@ -57,18 +57,23 @@
     </div>
 
     {{-- Topics Section --}}
-    <div class="mt-14">
-        <div class="text-center mb-10">
-            <h2 class="text-3xl md:text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-4">
-                {{ __('Quiz Topics') }}
-            </h2>
-            <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
-                {{ __('Choose a topic to start your journey through Polish history and culture') }}
-            </p>
-        </div>
+    <div class="mt-14 relative">
+        <!-- Decorative frame -->
+        <div class="absolute inset-0 rounded-3xl border-2 border-primary/20 pointer-events-none"></div>
+        <div class="absolute -inset-1 rounded-3xl border border-primary/10 pointer-events-none"></div>
 
-        {{-- Featured Topics (Large Cards with Images) --}}
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="relative p-8 md:p-10">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl md:text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-4">
+                    {{ __('Quiz Topics') }}
+                </h2>
+                <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
+                    {{ __('Choose a topic to start your journey through Polish history and culture') }}
+                </p>
+            </div>
+
+            {{-- Featured Topics (Large Cards with Images) --}}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             @foreach($topics->take(2) as $topic)
                 <a href="/{{$topic->slug}}" wire:navigate wire:navigate.hover
                    class="group relative overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] h-80">
@@ -195,15 +200,16 @@
             @endforeach
         </div>
 
-        {{-- View All Button --}}
-        <div class="text-center mt-10">
-            <a href="{{ route('topics') }}" wire:navigate
-               class="inline-flex items-center gap-2 px-8 py-4 bg-gradient-primary text-white font-semibold text-lg rounded-xl
-                      shadow-glow hover:shadow-[0_20px_60px_-15px_hsl(var(--primary))] transition-all duration-300 hover:scale-105">
-                {{ __('View all topics') }}
-                <span class="px-2 py-0.5 rounded-full bg-white/20 text-sm">{{$topics->count()}}</span>
-                @svg('lucide-arrow-right', 'w-5 h-5')
-            </a>
+            {{-- View All Button --}}
+            <div class="text-center mt-10">
+                <a href="{{ route('topics') }}" wire:navigate
+                   class="inline-flex items-center gap-2 px-8 py-4 bg-gradient-primary text-white font-semibold text-lg rounded-xl
+                          shadow-glow hover:shadow-[0_20px_60px_-15px_hsl(var(--primary))] transition-all duration-300 hover:scale-105">
+                    {{ __('View all topics') }}
+                    <span class="px-2 py-0.5 rounded-full bg-white/20 text-sm">{{$topics->count()}}</span>
+                    @svg('lucide-arrow-right', 'w-5 h-5')
+                </a>
+            </div>
         </div>
     </div>
 
