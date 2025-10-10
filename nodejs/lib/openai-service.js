@@ -24,7 +24,7 @@ export async function generateChatResponse(userText, tools = null, conversationI
     const prompt = 'You are a helpful assistant. You are in test mode. Run tool to test on each message. Your name is Brran';
 
     const options = {
-        model: "gpt-5-mini-2025-08-07",
+        model: "gpt-4o-mini",
         'parallel_tool_calls': true,
         'tool_choice': 'auto',
         'instructions': prompt,
@@ -102,7 +102,7 @@ export async function generateChatResponseForTools(toolResults, conversationId =
     const payload = {
         'instructions': prompt,
         'input': input,
-        model: "gpt-5-mini-2025-08-07",
+        model: "gpt-4o-mini",
         'conversation': conversationId
     };
     // console.log('payload', payload);

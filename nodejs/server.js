@@ -9,6 +9,7 @@ console.log(__dirname);
 dotenv.config({ path: path.join(__dirname, '.env') });
 
 import fs from "fs";
+import crypto from "crypto";
 import { WebSocketServer } from "ws";
 import OpenAI from "openai";
 import {
@@ -51,7 +52,15 @@ wss.on("connection", (ws) => {
             isProcessing = true;
             const startTime = Date.now();
             console.log("Processing audio...");
-            const filePath = "./input.webm";
+
+            // Generate unique filename in project voice directory
+            const voiceDir = path.join(__dirname, 'voice');
+            if (!fs.existsSync(voiceDir)) {
+                fs.mkdirSync(voiceDir, { recursive: true });
+            }
+
+            const uniqueId = crypto.randomBytes(16).toString('hex');
+            const filePath = path.join(voiceDir, `audio-${uniqueId}.webm`);
             fs.writeFileSync(filePath, Buffer.concat(chunks));
 
             try {
@@ -173,6 +182,16 @@ wss.on("connection", (ws) => {
             } catch (err) {
                 console.error("Error:", err);
             } finally {
+                // Clean up temporary file
+                try {
+                    if (fs.existsSync(filePath)) {
+                        // fs.unlinkSync(filePath);
+                        // console.log("Temporary file cleaned up:", filePath);
+                    }
+                } catch (cleanupErr) {
+                    console.error("Error cleaning up temp file:", cleanupErr);
+                }
+
                 isProcessing = false;
                 chunks.length = 0;
             }
