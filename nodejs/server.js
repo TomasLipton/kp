@@ -77,25 +77,12 @@ wss.on("connection", (ws) => {
                     text: userText,
                 }));
 
-                // Add user message to conversation history
-                conversationHistory.push({ role: "user", content: userText });
-
-                const prompt = 'You are a helpful assistant. You are in test mode. Run tool to test on each message';
-
-                // Chat with tools
-                const chatMessages = [
-                    { role: "system", content: prompt },
-                    ...conversationHistory
-                ];
-
-
                 const assistantMessage = await generateChatResponse(userText, toolDefinitions, conversationId);
 
                 console.log('assistantMessage', assistantMessage)
 
                 // Handle tool calls if present
                 if (assistantMessage.tool_calls && assistantMessage.tool_calls.length > 0) {
-                    // conversationHistory.push(assistantMessage);
 
                     // Save tool call to database (assistant message with tool_call)
                     await saveAssistantMessage(quizSessionId, assistantMessage.tool_calls);
@@ -111,17 +98,8 @@ wss.on("connection", (ws) => {
 
                         toolResults[toolCall.id] = toolResult;
 
-
-
                         // Save tool response to database
                         await saveToolMessage(quizSessionId, toolCall.id, JSON.stringify(toolResult));
-
-                        // Add tool result to conversation
-                        // conversationHistory.push({
-                        //     role: "tool",
-                        //     tool_call_id: toolCall.id,
-                        //     content: JSON.stringify(toolResult)
-                        // });
 
                         // Send tool call notification to client
                         ws.send(JSON.stringify({
@@ -136,8 +114,6 @@ wss.on("connection", (ws) => {
 
                     // Get final response after tool execution
                     const replyText = await generateChatResponseForTools(toolResults, conversationId);
-
-                    conversationHistory.push({ role: "assistant", content: replyText });
 
                     // Save assistant message to database
                     await saveAssistantMessage(quizSessionId, replyText);
@@ -158,7 +134,6 @@ wss.on("connection", (ws) => {
                 } else {
                     // No tool calls, proceed normally
                     const replyText = assistantMessage.content;
-                    conversationHistory.push({ role: "assistant", content: replyText });
 
                     // Save assistant message to database
                     await saveAssistantMessage(quizSessionId, replyText);
