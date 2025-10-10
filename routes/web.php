@@ -14,6 +14,7 @@ Route::group([
     });
 
     Route::get('/', \App\Livewire\Main::class)->name('dashboard');
+    Route::view('/voice', 'frontend')->name('voicetest');
 
     Volt::route('topics', 'topics')->name('topics');
 
