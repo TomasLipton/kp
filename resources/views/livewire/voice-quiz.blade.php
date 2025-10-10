@@ -1,12 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Voice Stream Demo</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-50 min-h-screen p-6">
+@php
+    use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+@endphp
+
+<?php
+
+use App\Models\Topics;
+use Livewire\Volt\Component;
+use Livewire\Attributes\Layout;
+
+new #[Layout('layouts.app-kp')] class extends Component
+{
+    public function with(): array
+    {
+        return [
+            'topics' => Topics::all()
+        ];
+    }
+}; ?>
+
+
     <div class="max-w-7xl mx-auto">
         <!-- Header -->
         <div class="mb-6">
@@ -92,6 +104,7 @@
         </div>
     </div>
 
+@script
 <script>
     let ws, mediaRecorder, stopTime, quizSessionId;
 
@@ -344,5 +357,5 @@
         }
     };
 </script>
-</body>
-</html>
+
+@endscript
