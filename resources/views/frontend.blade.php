@@ -131,7 +131,7 @@
     }
 
     function connectWebSocket() {
-        ws = new WebSocket("ws://localhost:6001");
+        ws = new WebSocket("wss://quiz-polaka.pl");
 
         ws.onopen = () => {
             console.log('WebSocket connected');
