@@ -97,6 +97,9 @@ wss.on("connection", (ws) => {
                 if (assistantMessage.tool_calls && assistantMessage.tool_calls.length > 0) {
                     // conversationHistory.push(assistantMessage);
 
+                    // Save tool call to database (assistant message with tool_call)
+                    await saveAssistantMessage(quizSessionId, assistantMessage.tool_calls);
+
                     let toolResults = {};
                     for (const toolCall of assistantMessage.tool_calls) {
                         const toolName = toolCall.function.name;
@@ -108,14 +111,10 @@ wss.on("connection", (ws) => {
 
                         toolResults[toolCall.id] = toolResult;
 
-                        // Save tool call to database (assistant message with tool_call)
-                        // await saveAssistantMessage(quizSessionId, null, toolName, {
-                        //     id: toolCall.id,
-                        //     arguments: toolArgs
-                        // });
+
 
                         // Save tool response to database
-                        // await saveToolMessage(quizSessionId, toolCall.id, JSON.stringify(toolResult));
+                        await saveToolMessage(quizSessionId, toolCall.id, JSON.stringify(toolResult));
 
                         // Add tool result to conversation
                         // conversationHistory.push({

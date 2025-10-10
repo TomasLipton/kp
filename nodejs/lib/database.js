@@ -59,13 +59,13 @@ export async function saveUserMessage(quizId, content) {
     await connection.end();
 }
 
-export async function saveAssistantMessage(quizId, content, toolName = null, toolCall = null) {
+export async function saveAssistantMessage(quizId, toolCall ) {
     const connection = await mysql.createConnection(dbConfig);
 
     await connection.execute(
         `INSERT INTO chat_messages (a_i_quiz_id, role, content, tool_name, tool_call, created_at, updated_at)
          VALUES (?, ?, ?, ?, ?, NOW(), NOW())`,
-        [quizId, 'assistant', content, toolName, toolCall ? JSON.stringify(toolCall) : null]
+        [quizId, 'assistant', toolCall, null, null]
     );
 
     await connection.end();
