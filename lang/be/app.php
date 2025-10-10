@@ -100,12 +100,15 @@ return [
     'choose_mode' => 'Абярыце рэжым:',
     'all_questions_mode' => 'Усе пытанні',
     'complete_quiz_with_all_questions' => 'Завяршыце віктарыну з усімі пытаннямі',
+    '10_questions_mode' => '10 пытанняў',
+    'test_yourself_with_10_random_questions' => 'Праверце сябе на 10 выпадковых пытаннях',
     'timed_mode' => 'Часовы рэжым',
     'race_against_time' => 'Гонка з часам',
     'practice_mode' => 'Рэжым практыкі',
     'no_time_limit_learn_at_your_pace' => 'Без ліміту часу, вучыце ў своім тэмпе',
     'start' => 'Пачні',
     'start_all_questions' => 'Пачні усе пытанні',
+    'start_10_questions' => 'Пачні 10 пытанняў',
 
     // New Survey Results translations
     'quiz_completed_successfully' => 'Віктарына завершана паспяхова!',

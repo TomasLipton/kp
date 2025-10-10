@@ -42,6 +42,19 @@ class SurveyQuestion extends Component
 
         $answeredQuestionIds = QuizAnswer::where('quiz_id', $this->quiz->id)->with('questionAnswer.question')->get()->pluck('questionAnswer.question.id')->toArray();
 
+        $this->questionsAnswered = count($answeredQuestionIds);
+
+        if ($this->quiz->completed_at) {
+            return;
+        }
+
+        // Check if we've reached the question limit for this quiz type
+        if ($this->quiz->type === '10_questions' && $this->questionsAnswered >= $this->quiz->questions_amount) {
+            $this->finish();
+
+            return;
+        }
+
         $nextQuestion = $this->topic->questions()
             ->whereNotIn('id', $answeredQuestionIds)
             ->inRandomOrder()
@@ -51,12 +64,6 @@ class SurveyQuestion extends Component
                 },
             ])
             ->first();
-
-        $this->questionsAnswered = count($answeredQuestionIds);
-
-        if ($this->quiz->completed_at) {
-            return;
-        }
 
         if (! $nextQuestion) {
             $this->finish();
@@ -198,12 +205,19 @@ class SurveyQuestion extends Component
         }
         $answeredQuestionIds = QuizAnswer::where('quiz_id', $this->quiz->id)->with('questionAnswer.question')->get()->pluck('questionAnswer.question.id')->toArray();
 
+        $this->questionsAnswered = count($answeredQuestionIds);
+
+        // Check if we've reached the question limit for this quiz type
+        if ($this->quiz->type === '10_questions' && $this->questionsAnswered >= $this->quiz->questions_amount) {
+            $this->finish();
+
+            return;
+        }
+
         $nextQuestion = $this->topic->questions()
             ->whereNotIn('id', $answeredQuestionIds)
             ->inRandomOrder()
             ->first();
-
-        $this->questionsAnswered = count($answeredQuestionIds);
 
         if (! $nextQuestion) {
             $this->finish();

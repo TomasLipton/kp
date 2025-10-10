@@ -100,12 +100,15 @@ return [
     'choose_mode' => 'Wybierz tryb:',
     'all_questions_mode' => 'Wszystkie pytania',
     'complete_quiz_with_all_questions' => 'Ukończ quiz ze wszystkimi pytaniami',
+    '10_questions_mode' => '10 pytań',
+    'test_yourself_with_10_random_questions' => 'Sprawdź się na 10 losowych pytaniach',
     'timed_mode' => 'Tryb czasowy',
     'race_against_time' => 'Wyścig z czasem',
     'practice_mode' => 'Tryb ćwiczeń',
     'no_time_limit_learn_at_your_pace' => 'Bez limitu czasu, ucz się we własnym tempie',
     'start' => 'Rozpocznij',
     'start_all_questions' => 'Rozpocznij wszystkie pytania',
+    'start_10_questions' => 'Rozpocznij 10 pytań',
 
     // New Survey Results translations
     'quiz_completed_successfully' => 'Quiz zakończony pomyślnie!',

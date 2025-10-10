@@ -104,11 +104,18 @@
                         <h3 class="text-sm font-semibold text-foreground mb-3">{{ __('app.choose_mode') }}</h3>
                         <div class="grid grid-cols-1 gap-2">
                             <button
-                                data-mode="all"
-                                class="mode-button p-3 rounded-lg border-2 text-left transition-all border-primary bg-primary/5 text-foreground"
+                                wire:click="setMode('Wszystkie pytania')"
+                                class="mode-button p-3 rounded-lg border-2 text-left transition-all {{ $surveyMode === 'Wszystkie pytania' ? 'border-primary bg-primary/5 text-foreground' : 'border-border bg-secondary/30 text-muted-foreground hover:border-primary/50' }}"
                             >
                                 <div class="font-medium">{{ __('app.all_questions_mode') }}</div>
                                 <div class="text-sm opacity-75">{{ __('app.complete_quiz_with_all_questions') }}</div>
+                            </button>
+                            <button
+                                wire:click="setMode('10 pytań')"
+                                class="mode-button p-3 rounded-lg border-2 text-left transition-all {{ $surveyMode === '10 pytań' ? 'border-primary bg-primary/5 text-foreground' : 'border-border bg-secondary/30 text-muted-foreground hover:border-primary/50' }}"
+                            >
+                                <div class="font-medium">{{ __('app.10_questions_mode') }}</div>
+                                <div class="text-sm opacity-75">{{ __('app.test_yourself_with_10_random_questions') }}</div>
                             </button>
                             {{--                            <button--}}
                             {{--                                data-mode="timed"--}}
@@ -133,7 +140,11 @@
                             @svg('lucide-book-open', 'w-4 h-4 text-primary')
                             <span id="current-mode-questions" class="font-medium text-foreground">
                                 @php
-                                    $count = $topic->questions()->count();
+                                    if ($surveyMode === '10 pytań') {
+                                        $count = 10;
+                                    } else {
+                                        $count = $topic->questions()->count();
+                                    }
                                     $questionText = $count == 1 ? __('app.question') :
                                         (($count % 10 >= 2 && $count % 10 <= 4 && ($count % 100 < 10 || $count % 100 >= 20)) ? __('app.questions_few') : __('app.questions_many'));
                                 @endphp
@@ -141,7 +152,7 @@
                             </span>
                             <span class="text-muted-foreground">•</span>
                             <span id="current-mode-desc" class="text-muted-foreground">
-                                {{ __('app.complete_quiz_with_all_questions') }}
+                                {{ $surveyMode === '10 pytań' ? __('app.test_yourself_with_10_random_questions') : __('app.complete_quiz_with_all_questions') }}
                             </span>
                         </div>
                     </div>
@@ -156,7 +167,7 @@
                         @svg('lucide-play', 'w-5 h-5 mr-2 fill-current')
 
                         <span class="block sm:hidden">{{ __('app.start') }}</span>
-                        <span class="hidden sm:block">{{ __('app.start_all_questions') }}</span>
+                        <span class="hidden sm:block">{{ $surveyMode === '10 pytań' ? __('app.start_10_questions') : __('app.start_all_questions') }}</span>
                     </button>
 
                 </div>

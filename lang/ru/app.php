@@ -100,12 +100,15 @@ return [
     'choose_mode' => 'Выберите режим:',
     'all_questions_mode' => 'Все вопросы',
     'complete_quiz_with_all_questions' => 'Завершите викторину со всеми вопросами',
+    '10_questions_mode' => '10 вопросов',
+    'test_yourself_with_10_random_questions' => 'Проверьте себя на 10 случайных вопросах',
     'timed_mode' => 'Режим на время',
     'race_against_time' => 'Гонка против времени',
     'practice_mode' => 'Режим практики',
     'no_time_limit_learn_at_your_pace' => 'Без ограничения времени, учитесь в своем темпе',
     'start' => 'Начать',
     'start_all_questions' => 'Начать все вопросы',
+    'start_10_questions' => 'Начать 10 вопросов',
 
     // New Survey Results translations
     'quiz_completed_successfully' => 'Викторина завершена успешно!',
