@@ -182,16 +182,6 @@ wss.on("connection", (ws) => {
             } catch (err) {
                 console.error("Error:", err);
             } finally {
-                // Clean up temporary file
-                try {
-                    if (fs.existsSync(filePath)) {
-                        // fs.unlinkSync(filePath);
-                        // console.log("Temporary file cleaned up:", filePath);
-                    }
-                } catch (cleanupErr) {
-                    console.error("Error cleaning up temp file:", cleanupErr);
-                }
-
                 isProcessing = false;
                 chunks.length = 0;
             }
