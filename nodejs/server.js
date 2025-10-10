@@ -38,6 +38,9 @@ wss.on("connection", (ws) => {
     let quizSessionId = null;
     let conversationId = null;
 
+    ws.send(JSON.stringify({
+        type: "CONNECTED",
+    }));
     ws.on("message", async (msg, isBinary) => {
         // Handle END_RECORDING signal
         if (!isBinary && msg.toString() === "END_RECORDING" && !isProcessing) {
@@ -210,6 +213,27 @@ wss.on("connection", (ws) => {
                             type: "SESSION_CREATED",
                             quiz_session_id: quizSessionId
                         }));
+
+                        // Generate initial greeting
+                        const greetingText = "Hi! I'm your quiz assistant. I'm ready to help you learn. What would you like to start with?";
+
+                        console.log("Generating initial greeting:", greetingText);
+
+                        // Save assistant message to database
+                        await saveAssistantMessage(quizSessionId, greetingText);
+
+                        // Generate speech
+                        const buffer = await generateSpeech(greetingText);
+
+                        // Send greeting to client
+                        ws.send(JSON.stringify({
+                            role: "assistant",
+                            text: greetingText,
+                            audio: buffer.toString('base64'),
+                            initial: true
+                        }));
+
+                        console.log("Initial greeting sent to client");
                     } catch (err) {
                         console.error("Error creating session:", err);
                         ws.send(JSON.stringify({
