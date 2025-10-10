@@ -21,7 +21,7 @@ import {
     updateQuizConversationId
 } from "./lib/database.js";
 import { toolDefinitions, handleToolCall } from "./lib/tools.js";
-import { transcribeAudio, generateChatResponse, generateSpeech } from "./lib/openai-service.js";
+import {transcribeAudio, generateChatResponse, generateSpeech, generateChatResponseForTools} from "./lib/openai-service.js";
 
 const client = new OpenAI();
 const wss = new WebSocketServer({ port: 6001 });
@@ -79,14 +79,16 @@ wss.on("connection", (ws) => {
                     ...conversationHistory
                 ];
 
-                console.log(chatMessages);
 
-                const assistantMessage = await generateChatResponse(chatMessages, toolDefinitions, conversationId);
+                const assistantMessage = await generateChatResponse(userText, toolDefinitions, conversationId);
+
+                console.log('assistantMessage', assistantMessage)
 
                 // Handle tool calls if present
                 if (assistantMessage.tool_calls && assistantMessage.tool_calls.length > 0) {
-                    conversationHistory.push(assistantMessage);
+                    // conversationHistory.push(assistantMessage);
 
+                    let toolResults = {};
                     for (const toolCall of assistantMessage.tool_calls) {
                         const toolName = toolCall.function.name;
                         const toolArgs = JSON.parse(toolCall.function.arguments);
@@ -95,21 +97,23 @@ wss.on("connection", (ws) => {
 
                         const toolResult = await handleToolCall(toolName, toolArgs);
 
+                        toolResults[toolCall.id] = toolResult;
+
                         // Save tool call to database (assistant message with tool_call)
-                        await saveAssistantMessage(quizSessionId, null, toolName, {
-                            id: toolCall.id,
-                            arguments: toolArgs
-                        });
+                        // await saveAssistantMessage(quizSessionId, null, toolName, {
+                        //     id: toolCall.id,
+                        //     arguments: toolArgs
+                        // });
 
                         // Save tool response to database
-                        await saveToolMessage(quizSessionId, toolCall.id, JSON.stringify(toolResult));
+                        // await saveToolMessage(quizSessionId, toolCall.id, JSON.stringify(toolResult));
 
                         // Add tool result to conversation
-                        conversationHistory.push({
-                            role: "tool",
-                            tool_call_id: toolCall.id,
-                            content: JSON.stringify(toolResult)
-                        });
+                        // conversationHistory.push({
+                        //     role: "tool",
+                        //     tool_call_id: toolCall.id,
+                        //     content: JSON.stringify(toolResult)
+                        // });
 
                         // Send tool call notification to client
                         ws.send(JSON.stringify({
@@ -120,13 +124,11 @@ wss.on("connection", (ws) => {
                         }));
                     }
 
-                    // Get final response after tool execution
-                    const finalMessage = await generateChatResponse([
-                        { role: "system", content: prompt },
-                        ...conversationHistory
-                    ], null, conversationId);
+                    console.log('toolResults', toolResults)
 
-                    const replyText = finalMessage.content;
+                    // Get final response after tool execution
+                    const replyText = await generateChatResponseForTools(toolResults, conversationId);
+
                     conversationHistory.push({ role: "assistant", content: replyText });
 
                     // Save assistant message to database

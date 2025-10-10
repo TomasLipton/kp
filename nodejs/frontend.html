@@ -12,7 +12,7 @@
     <input type="number" id="userId" value="1" style="margin-right: 10px;">
 
     <label for="topicId">Topic ID:</label>
-    <input type="number" id="topicId" value="1" style="margin-right: 10px;">
+    <input type="number" id="topicId" value="30" style="margin-right: 10px;">
 
     <button id="newSessionBtn">New Session</button>
     <button id="loadSessionBtn">Load Session</button>
@@ -49,7 +49,7 @@
     }
 
     function connectWebSocket() {
-        ws = new WebSocket("ws://localhost:3000");
+        ws = new WebSocket("ws://localhost:6001");
 
         ws.onopen = () => {
             console.log('WebSocket connected');

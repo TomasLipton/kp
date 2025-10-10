@@ -2,13 +2,13 @@ import fs from "fs";
 import OpenAI from "openai";
 import dotenv from "dotenv";
 import path from "path";
-import { fileURLToPath } from "url";
+import {fileURLToPath} from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-dotenv.config({ path: path.join(__dirname, '..', '.env') });
+dotenv.config({path: path.join(__dirname, '..', '.env')});
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const openai = new OpenAI({apiKey: process.env.OPENAI_API_KEY});
 
 export async function transcribeAudio(filePath) {
     const stt = await openai.audio.transcriptions.create({
@@ -19,43 +19,18 @@ export async function transcribeAudio(filePath) {
     return stt.text;
 }
 
-export async function generateChatResponse(messages, tools = null, conversationId = null) {
-    // Convert messages to responses API format
-    const input = messages
-        .filter(msg => msg.role !== 'system') // System messages handled via instructions
-        .map(msg => {
-            // Handle tool responses with special format
-            if (msg.role === 'tool' && msg.tool_call_id) {
-                return {
-                    type: 'function_call_output',
-                    call_id: msg.tool_call_id,
-                    output: msg.content
-                };
-            }
+export async function generateChatResponse(userText, tools = null, conversationId = null) {
 
-            // Regular messages
-            return {
-                type: 'message',
-                role: msg.role,
-                content: msg.content || ''
-            };
-        });
+    const prompt = 'You are a helpful assistant. You are in test mode. Run tool to test on each message. Your name is Brran';
 
     const options = {
-        model: "gpt-4.1",
-        input: input,
+        model: "gpt-5-mini-2025-08-07",
+        'parallel_tool_calls': true,
+        'tool_choice': 'auto',
+        'instructions': prompt,
+        'conversation': conversationId,
+        input: userText,
     };
-
-    // Add conversation ID if provided
-    if (conversationId) {
-        options.conversation = conversationId;
-    }
-
-    // Add instructions only on first message (when no conversationId exists)
-    const systemMessage = messages.find(msg => msg.role === 'system');
-    if (systemMessage && !conversationId) {
-        options.instructions = systemMessage.content;
-    }
 
     // Add tools if provided (convert to responses API format)
     if (tools) {
@@ -106,6 +81,38 @@ export async function generateChatResponse(messages, tools = null, conversationI
         content: textContent,
         tool_calls: toolCalls.length > 0 ? toolCalls : undefined
     };
+}
+
+export async function generateChatResponseForTools(toolResults, conversationId = null) {
+
+    const prompt = 'You are a helpful assistant. You are in test mode. Run tool to test on each message. Your name is Brran';
+
+    let input = [];
+    for (const [call_id, result] of Object.entries(toolResults)) {
+        const toolOutput = {
+            type: 'function_call_output',
+            call_id,
+            output: JSON.stringify(result),
+        };
+
+        input.push(toolOutput);
+    }
+
+
+    const payload = {
+        'instructions': prompt,
+        'input': input,
+        model: "gpt-5-mini-2025-08-07",
+        'conversation': conversationId
+    };
+    // console.log('payload', payload);
+
+    const response = await openai.responses.create(payload);
+
+    // console.log('response', response);
+
+    // Convert response format to match chat completions format
+    return response.output_text;
 }
 
 export async function generateSpeech(text, voice = "verse") {
