@@ -223,8 +223,11 @@ TEXT;
                     <div class="hidden md:flex justify-center items-center">
                         <div class="relative">
                             <div class="absolute inset-0 bg-primary/20 rounded-full blur-3xl"></div>
-                            <div class="relative bg-gradient-to-br from-primary/20 to-primary/5 rounded-2xl p-8 border border-primary/30">
-                                @svg('lucide-user-round-search', 'w-32 h-32 text-primary/70')
+                            <div class="relative bg-gradient-to-br from-primary/20 to-primary/5 rounded-2xl p-4 border border-primary/30">
+                                <img src="https://www.svgrepo.com/show/493366/meeting-person.svg"
+                                     alt="AI Voice Quiz"
+                                     class="w-48 h-48 object-contain"
+                                     loading="lazy">
                             </div>
                         </div>
                     </div>
