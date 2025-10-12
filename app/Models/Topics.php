@@ -23,7 +23,15 @@ class Topics extends Model
         'description_uk',
         'picture',
         'parent_id',
+        'isVisibleToPublic',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'isVisibleToPublic' => 'boolean',
+        ];
+    }
 
     public function parent(): BelongsTo
     {

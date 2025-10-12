@@ -111,6 +111,9 @@ class TopicsResource extends Resource
                                     ->schema([
                                         Forms\Components\Select::make('parent_id')
                                             ->relationship('parent', 'name_ru'),
+                                        Forms\Components\Toggle::make('isVisibleToPublic')
+                                            ->label('Visible to Public')
+                                            ->default(true),
                                     ]),
 
                                 Forms\Components\Section::make('Image')
@@ -144,6 +147,9 @@ class TopicsResource extends Resource
                     ->label('Questions')
                     ->counts('questions')
                     ->badge(),
+                Tables\Columns\IconColumn::make('isVisibleToPublic')
+                    ->label('Public')
+                    ->boolean(),
             ])
             ->filters([
                 //

@@ -13,7 +13,7 @@ new #[Layout('layouts.app-kp')] class extends Component
     public function with(): array
     {
         return [
-            'topics' => Topics::all()
+            'topics' => Topics::where('isVisibleToPublic', true)->get()
         ];
     }
 }; ?>
