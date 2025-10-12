@@ -59,10 +59,15 @@ new class extends Component
                 </a>
             @endif
 
-            <a href="{{ route('ai-sync-configure') }}" wire:navigate class="flex items-center gap-2 text-muted-foreground hover:text-foreground text-sm font-medium px-3 py-2 rounded-md hover:bg-accent transition-colors">
-                    @svg('lucide-mic', 'w-4 h-4')
-                    <span>AI Quiz</span>
-                </a>
+            <a href="{{ route('ai-sync-configure') }}" wire:navigate
+               class="group relative flex items-center gap-2 text-sm font-medium px-4 py-2 rounded-lg border-2 border-primary/30
+                      bg-primary/5 hover:bg-primary/10 text-primary hover:text-primary transition-all duration-300
+                      hover:border-primary/60 hover:shadow-[0_0_20px_rgba(var(--primary-rgb),0.3)]"
+               style="animation: pulse-border 2s ease-in-out infinite;">
+                @svg('lucide-mic', 'w-4 h-4 group-hover:scale-110 transition-transform')
+                <span class="font-semibold">AI Quiz</span>
+
+            </a>
 
             <!-- Theme Toggle Button -->
             <button @click="toggleTheme()"
