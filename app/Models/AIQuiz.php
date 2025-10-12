@@ -19,6 +19,7 @@ class AIQuiz extends Model
         'difficulty',
         'gender',
         'voice',
+        'type',
         'ephemeral_key',
         'ephemeral_key_expiry',
         'status',

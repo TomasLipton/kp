@@ -16,7 +16,6 @@ Route::group([
     Route::get('/', \App\Livewire\Main::class)->name('dashboard');
 
     Volt::route('topics', 'topics')->name('topics');
-    Volt::route('voice-quiz/{quiz}', 'voice-quiz')->name('voice-quiz');
 
     Route::get('profile', \App\Livewire\Profile::class)
         ->middleware(['auth'])
@@ -31,7 +30,8 @@ Route::group([
 //        ->name('ai');
 //
 //    Volt::route('ai-realtime-configure', 'ai-realtime-configure')->name('ai-quiz');
-    Volt::route('ai', 'ai-sync-configure')->name('ai-sync-configure');
+    Volt::route('ai-voice-quiz', 'ai-sync-configure')->name('ai-sync-configure');
+    Volt::route('ai-voice-quiz/{quiz}', 'voice-quiz')->name('voice-quiz');
 
     require __DIR__.'/auth.php';
 

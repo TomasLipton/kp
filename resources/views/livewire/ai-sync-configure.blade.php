@@ -79,26 +79,22 @@ TEXT;
 
         $selectedVoice = $voices[$this->gender][array_rand($voices[$this->gender])];
 
-        $response = OpenAI::realtime()->token([
-            'instructions' => $prompt,
-            'model' => 'gpt-4o-realtime-preview-2024-12-17',
-            'voice' => $selectedVoice,
-        ]);
+        $response = OpenAI::conversations()->create();
 
         // Create AIQuiz record
         $aiQuiz = \App\Models\AIQuiz::create([
             'user_id' => auth()->id(),
+            'type' => 'sync',
             'topic_id' => $this->topic_id,
             'speed' => $this->speed,
             'difficulty' => $this->difficulty,
             'gender' => $this->gender,
+            'openai_conversation_id' => $response->id,
             'status' => 'preparing',
-            'ephemeral_key' =>  $response->clientSecret->value,
-            'ephemeral_key_expiry' =>  $response->clientSecret->expiresAt,
         ]);
 
         // Redirect to AI quiz session
-        $this->redirect(route('ai', ['quiz' => $aiQuiz->id]));
+        $this->redirect(route('voice-quiz', ['quiz' => $aiQuiz->id]));
     }
 }; ?>
 
@@ -162,40 +158,40 @@ TEXT;
             <h1 class="text-5xl md:text-6xl font-bold bg-gradient-primary bg-clip-text text-transparent">
                 Configure Your Session
             </h1>
-            <p class="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-                Choose your topic, difficulty level, and speaking speed for an interactive AI quiz experience
-            </p>
+{{--            <p class="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">--}}
+{{--                Choose your topic, difficulty level, and speaking speed for an interactive AI quiz experience--}}
+{{--            </p>--}}
         </div>
 
         {{-- How it works --}}
-        <div class="relative p-5 bg-gradient-to-br from-primary/5 via-primary/10 to-primary/5 rounded-xl border border-primary/20 mb-8 overflow-hidden">
-            <div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl"></div>
-            <div class="relative flex gap-4">
-                <div class="flex-shrink-0 p-2 bg-primary/10 rounded-lg flex items-center justify-center">
-                    @svg('lucide-lightbulb', 'w-5 h-5 text-primary')
-                </div>
-                <div class="flex-1">
-                    <p class="font-bold text-foreground mb-2 flex items-center gap-2">
-                        How it works
-                        <span class="text-xs px-2 py-0.5 bg-primary/20 text-primary rounded-full">Quick guide</span>
-                    </p>
-                    <div class="grid md:grid-cols-3 gap-3 text-sm">
-                        <div class="flex items-start gap-2">
-                            <span class="flex-shrink-0 w-5 h-5 bg-primary/20 text-primary rounded-full flex items-center justify-center text-xs font-bold">1</span>
-                            <span class="text-muted-foreground">AI asks questions about your topic</span>
-                        </div>
-                        <div class="flex items-start gap-2">
-                            <span class="flex-shrink-0 w-5 h-5 bg-primary/20 text-primary rounded-full flex items-center justify-center text-xs font-bold">2</span>
-                            <span class="text-muted-foreground">Respond using your voice</span>
-                        </div>
-                        <div class="flex items-start gap-2">
-                            <span class="flex-shrink-0 w-5 h-5 bg-primary/20 text-primary rounded-full flex items-center justify-center text-xs font-bold">3</span>
-                            <span class="text-muted-foreground">Get instant feedback</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+{{--        <div class="relative p-5 bg-gradient-to-br from-primary/5 via-primary/10 to-primary/5 rounded-xl border border-primary/20 mb-8 overflow-hidden">--}}
+{{--            <div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl"></div>--}}
+{{--            <div class="relative flex gap-4">--}}
+{{--                <div class="flex-shrink-0 p-2 bg-primary/10 rounded-lg flex items-center justify-center">--}}
+{{--                    @svg('lucide-lightbulb', 'w-5 h-5 text-primary')--}}
+{{--                </div>--}}
+{{--                <div class="flex-1">--}}
+{{--                    <p class="font-bold text-foreground mb-2 flex items-center gap-2">--}}
+{{--                        How it works--}}
+{{--                        <span class="text-xs px-2 py-0.5 bg-primary/20 text-primary rounded-full">Quick guide</span>--}}
+{{--                    </p>--}}
+{{--                    <div class="grid md:grid-cols-3 gap-3 text-sm">--}}
+{{--                        <div class="flex items-start gap-2">--}}
+{{--                            <span class="flex-shrink-0 w-5 h-5 bg-primary/20 text-primary rounded-full flex items-center justify-center text-xs font-bold">1</span>--}}
+{{--                            <span class="text-muted-foreground">AI asks questions about your topic</span>--}}
+{{--                        </div>--}}
+{{--                        <div class="flex items-start gap-2">--}}
+{{--                            <span class="flex-shrink-0 w-5 h-5 bg-primary/20 text-primary rounded-full flex items-center justify-center text-xs font-bold">2</span>--}}
+{{--                            <span class="text-muted-foreground">Respond using your voice</span>--}}
+{{--                        </div>--}}
+{{--                        <div class="flex items-start gap-2">--}}
+{{--                            <span class="flex-shrink-0 w-5 h-5 bg-primary/20 text-primary rounded-full flex items-center justify-center text-xs font-bold">3</span>--}}
+{{--                            <span class="text-muted-foreground">Get instant feedback</span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
 
         {{-- Configuration Form --}}
         <form wire:submit.prevent="startQuiz" class="space-y-8">
