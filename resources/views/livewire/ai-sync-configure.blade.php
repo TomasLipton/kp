@@ -261,82 +261,13 @@ TEXT;
                 </div>
 
                 {{-- Difficulty --}}
-                <div class="grid md:grid-cols-[200px,1fr] gap-6 items-start">
-                    <label class="flex items-center gap-2 text-lg font-semibold pt-2">
-                        @svg('lucide-gauge', 'w-5 h-5 text-primary')
-                        Difficulty
-                    </label>
-                    <div class="grid grid-cols-3 gap-2">
-                        <label class="cursor-pointer">
-                            <input type="radio" name="difficulty" value="easy" wire:model.live="difficulty" class="peer sr-only">
-                            <div class="p-3 bg-background border-2 border-border rounded-lg text-center peer-checked:border-primary peer-checked:bg-primary/10 transition-all">
-                                <div class="font-semibold text-sm">Easy</div>
-                            </div>
-                        </label>
-                        <label class="cursor-pointer">
-                            <input type="radio" name="difficulty" value="medium" wire:model.live="difficulty" class="peer sr-only">
-                            <div class="p-3 bg-background border-2 border-border rounded-lg text-center peer-checked:border-primary peer-checked:bg-primary/10 transition-all">
-                                <div class="font-semibold text-sm">Medium</div>
-                            </div>
-                        </label>
-                        <label class="cursor-pointer">
-                            <input type="radio" name="difficulty" value="hard" wire:model.live="difficulty" class="peer sr-only">
-                            <div class="p-3 bg-background border-2 border-border rounded-lg text-center peer-checked:border-primary peer-checked:bg-primary/10 transition-all">
-                                <div class="font-semibold text-sm">Hard</div>
-                            </div>
-                        </label>
-                    </div>
-                </div>
+{{--                <div class="≥--}}
 
                 {{-- Speed --}}
-                <div class="grid md:grid-cols-[200px,1fr] gap-6 items-start">
-                    <label class="flex items-center gap-2 text-lg font-semibold pt-2">
-                        @svg('lucide-audio-lines', 'w-5 h-5 text-primary')
-                        Speed
-                    </label>
-                    <div class="grid grid-cols-3 gap-2">
-                        <label class="cursor-pointer">
-                            <input type="radio" name="speed" value="slow" wire:model.live="speed" class="peer sr-only">
-                            <div class="p-3 bg-background border-2 border-border rounded-lg text-center peer-checked:border-primary peer-checked:bg-primary/10 transition-all">
-                                <div class="font-semibold text-sm">Slow</div>
-                            </div>
-                        </label>
-                        <label class="cursor-pointer">
-                            <input type="radio" name="speed" value="normal" wire:model.live="speed" class="peer sr-only">
-                            <div class="p-3 bg-background border-2 border-border rounded-lg text-center peer-checked:border-primary peer-checked:bg-primary/10 transition-all">
-                                <div class="font-semibold text-sm">Normal</div>
-                            </div>
-                        </label>
-                        <label class="cursor-pointer">
-                            <input type="radio" name="speed" value="fast" wire:model.live="speed" class="peer sr-only">
-                            <div class="p-3 bg-background border-2 border-border rounded-lg text-center peer-checked:border-primary peer-checked:bg-primary/10 transition-all">
-                                <div class="font-semibold text-sm">Fast</div>
-                            </div>
-                        </label>
-                    </div>
-                </div>
+{{--                ≥--}}
 
                 {{-- Gender --}}
-                <div class="grid md:grid-cols-[200px,1fr] gap-6 items-start">
-                    <label class="flex items-center gap-2 text-lg font-semibold pt-2">
-                        @svg('lucide-user', 'w-5 h-5 text-primary')
-                        Voice Gender
-                    </label>
-                    <div class="grid grid-cols-2 gap-2">
-                        <label class="cursor-pointer">
-                            <input type="radio" name="gender" value="female" wire:model.live="gender" class="peer sr-only">
-                            <div class="p-3 bg-background border-2 border-border rounded-lg text-center peer-checked:border-primary peer-checked:bg-primary/10 transition-all">
-                                <div class="font-semibold text-sm">Female</div>
-                            </div>
-                        </label>
-                        <label class="cursor-pointer">
-                            <input type="radio" name="gender" value="male" wire:model.live="gender" class="peer sr-only">
-                            <div class="p-3 bg-background border-2 border-border rounded-lg text-center peer-checked:border-primary peer-checked:bg-primary/10 transition-all">
-                                <div class="font-semibold text-sm">Male</div>
-                            </div>
-                        </label>
-                    </div>
-                </div>
+{{--              ≥--}}
 
                 {{-- Start Button or Login Prompt --}}
                 @auth
