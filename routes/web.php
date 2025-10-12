@@ -26,11 +26,11 @@ Route::group([
         ->middleware(['auth'])
         ->name('analytics');
 
-    Route::get('ai-quiz/{quiz}', \App\Livewire\AiPage::class)
+    Route::get('ai-realtime-play/{quiz}', \App\Livewire\AiPage::class)
         ->middleware(['auth'])
         ->name('ai');
 
-    Volt::route('ai-quiz', 'ai-quiz')->name('ai-quiz');
+    Volt::route('ai-realtime-configure', 'ai-realtime-configure')->name('ai-quiz');
 
     require __DIR__.'/auth.php';
 

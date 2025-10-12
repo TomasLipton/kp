@@ -9,7 +9,7 @@ use Livewire\Component;
 #[Layout('layouts.app-kp')]
 class AiPage extends Component
 {
-        public bool $isAdmin = false;
+    public bool $isAdmin = false;
     public ?string $token = null;
     public AIQuiz $quiz;
 
@@ -26,6 +26,6 @@ class AiPage extends Component
 
     public function render()
     {
-        return view('livewire.ai-page');
+        return view('livewire.ai-realtime-play');
     }
 }

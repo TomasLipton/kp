@@ -103,6 +103,7 @@ TEXT;
 }; ?>
 
 @assets
+
 <style>
     .quiz-config-card {
         background: linear-gradient(135deg, hsl(var(--card) / 0.8) 0%, hsl(var(--card) / 0.95) 100%);
@@ -148,6 +149,8 @@ TEXT;
 @if(!$isAdmin)
     <x-under-construction />
 @else
+
+
 <div class="min-h-screen py-12 px-4">
     <div class="max-w-5xl mx-auto">
         {{-- Header --}}
