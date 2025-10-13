@@ -11,20 +11,16 @@ dotenv.config({ path: path.join(__dirname, '.env') });
 import fs from "fs";
 import crypto from "crypto";
 import { WebSocketServer } from "ws";
-import OpenAI from "openai";
 import {
-    createQuizSession,
     getQuizSession,
     getConversationHistory,
     saveUserMessage,
     saveAssistantMessage,
-    saveToolMessage,
-    updateQuizConversationId
+    saveToolMessage
 } from "./lib/database.js";
 import { toolDefinitions, handleToolCall } from "./lib/tools.js";
 import {transcribeAudio, generateChatResponse, generateSpeech, generateChatResponseForTools} from "./lib/openai-service.js";
 
-const client = new OpenAI();
 const wss = new WebSocketServer({ port: 6001 });
 
 console.log("🚀 WebSocket server started on ws://localhost:6001");
@@ -191,58 +187,6 @@ wss.on("connection", (ws) => {
                     return;
                 }
 
-                // Create new session
-                if (data.type === "CREATE_SESSION" && data.user_id && data.topic_id) {
-                    console.log("CREATE_SESSION request received:", data);
-                    try {
-                        quizSessionId = await createQuizSession(data.user_id, data.topic_id, data.options || {});
-                        console.log("New session created:", quizSessionId);
-
-                        // Create OpenAI conversation
-                        const conversation = await client.conversations.create();
-                        console.log("OpenAI Conversation created:", conversation);
-
-                        // Store conversation ID
-                        conversationId = conversation.id;
-
-                        // Save conversation ID to database
-                        await updateQuizConversationId(quizSessionId, conversation.id);
-                        console.log("Conversation ID saved to database:", conversation.id);
-
-                        ws.send(JSON.stringify({
-                            type: "SESSION_CREATED",
-                            quiz_session_id: quizSessionId
-                        }));
-
-                        // Generate initial greeting
-                        const greetingText = "Hi! I'm your quiz assistant. I'm ready to help you learn. What would you like to start with?";
-
-                        console.log("Generating initial greeting:", greetingText);
-
-                        // Save assistant message to database
-                        await saveAssistantMessage(quizSessionId, greetingText);
-
-                        // Generate speech
-                        const buffer = await generateSpeech(greetingText);
-
-                        // Send greeting to client
-                        ws.send(JSON.stringify({
-                            role: "assistant",
-                            text: greetingText,
-                            audio: buffer.toString('base64'),
-                            initial: true
-                        }));
-
-                        console.log("Initial greeting sent to client");
-                    } catch (err) {
-                        console.error("Error creating session:", err);
-                        ws.send(JSON.stringify({
-                            type: "ERROR",
-                            message: err.message
-                        }));
-                    }
-                    return;
-                }
             } catch (e) {
                 // Not JSON, ignore
             }

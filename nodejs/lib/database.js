@@ -9,31 +9,6 @@ const dbConfig = {
     port: '3318'
 };
 
-export async function createQuizSession(userId, topicId, options = {}) {
-    const connection = await mysql.createConnection(dbConfig);
-
-    const {
-        type = 'conversation',
-        speed = 'normal',
-        difficulty = 'medium',
-        gender = 'female',
-        voice = 'verse',
-        status = 'active'
-    } = options;
-
-    const uuid = crypto.randomUUID();
-
-    const [result] = await connection.execute(
-        `INSERT INTO a_i_quizzes (id, user_id, topic_id, type, speed, difficulty, gender, voice, status, created_at, updated_at)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())`,
-        [uuid, userId, topicId, type, speed, difficulty, gender, voice, status]
-    );
-
-    await connection.end();
-
-    return uuid;
-}
-
 export async function getQuizSession(quizId) {
     const connection = await mysql.createConnection(dbConfig);
 
@@ -137,13 +112,3 @@ export async function verifyQuizExists(quizId) {
     return rows.length > 0;
 }
 
-export async function updateQuizConversationId(quizId, conversationId) {
-    const connection = await mysql.createConnection(dbConfig);
-
-    await connection.execute(
-        'UPDATE a_i_quizzes SET openai_conversation_id = ?, updated_at = NOW() WHERE id = ?',
-        [conversationId, quizId]
-    );
-
-    await connection.end();
-}

@@ -16,7 +16,7 @@ new #[Layout('layouts.app-kp')] class extends Component
         $isLocal = str_contains($appUrl, '.test') || str_contains($appUrl, '127.0.0.1');
 
         $wsUrl = $isLocal
-            ? 'ws://localhost:3000'
+            ? 'ws://localhost:6001'
             : 'wss://quiz-polaka.pl';
 
         return [
@@ -55,12 +55,8 @@ new #[Layout('layouts.app-kp')] class extends Component
                     </div>
 
                     <div class="flex gap-3">
-                        <button id="newSessionBtn"
-                                class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-medium text-sm">
-                            New Session
-                        </button>
                         <button id="loadSessionBtn"
-                                class="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors font-medium text-sm">
+                                class="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-medium text-sm">
                             Load Session
                         </button>
                     </div>
@@ -116,6 +112,8 @@ new #[Layout('layouts.app-kp')] class extends Component
 <script>
     let ws, mediaRecorder, stopTime, quizSessionId;
     const WS_URL = "{{ $wsUrl }}";
+    const QUIZ_ID = "{{ $wsUrl }}";
+
 
     function addMessage(role, text, duration = null) {
         const messagesDiv = document.getElementById('messages');
@@ -175,13 +173,7 @@ new #[Layout('layouts.app-kp')] class extends Component
             try {
                 const data = JSON.parse(event.data);
 
-                if (data.type === 'SESSION_CREATED') {
-                    quizSessionId = data.quiz_session_id;
-                    localStorage.setItem('quiz_session_id', quizSessionId);
-                    document.getElementById('sessionId').textContent = quizSessionId;
-                    document.getElementById('startBtn').disabled = false;
-                    addMessage('system', `New session created: ${quizSessionId}`);
-                } else if (data.type === 'SESSION_READY') {
+                if (data.type === 'SESSION_READY') {
                     document.getElementById('startBtn').disabled = false;
                     addMessage('system', `Session loaded with ${data.message_count} messages`);
                 } else if (data.type === 'ERROR') {
@@ -214,37 +206,6 @@ new #[Layout('layouts.app-kp')] class extends Component
             document.getElementById('startBtn').disabled = true;
         };
     }
-
-    document.getElementById('newSessionBtn').onclick = () => {
-        const userId = document.getElementById('userId').value;
-        const topicId = document.getElementById('topicId').value;
-
-        console.log('Creating new session...', { userId, topicId });
-
-        if (!ws || ws.readyState !== WebSocket.OPEN) {
-            console.log('WebSocket not connected, connecting...');
-            connectWebSocket();
-            // Wait for connection then send
-            const checkConnection = setInterval(() => {
-                if (ws && ws.readyState === WebSocket.OPEN) {
-                    clearInterval(checkConnection);
-                    console.log('Sending CREATE_SESSION message');
-                    ws.send(JSON.stringify({
-                        type: "CREATE_SESSION",
-                        user_id: parseInt(userId),
-                        topic_id: parseInt(topicId)
-                    }));
-                }
-            }, 100);
-        } else {
-            console.log('Sending CREATE_SESSION message');
-            ws.send(JSON.stringify({
-                type: "CREATE_SESSION",
-                user_id: parseInt(userId),
-                topic_id: parseInt(topicId)
-            }));
-        }
-    };
 
     document.getElementById('loadSessionBtn').onclick = () => {
         const savedSessionId = localStorage.getItem('quiz_session_id');
