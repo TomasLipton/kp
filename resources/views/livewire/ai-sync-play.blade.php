@@ -18,6 +18,14 @@ new #[Layout('layouts.app-kp')] class extends Component
         $this->quiz = $quiz;
     }
 
+    public function endQuiz(): void
+    {
+        // TODO: Implement quiz ending logic
+        // - Save quiz completion status
+        // - Calculate final score
+        // - Redirect to results page
+    }
+
     public function with(): array
     {
         $appUrl = config('app.url', 'http://localhost');
@@ -107,6 +115,17 @@ new #[Layout('layouts.app-kp')] class extends Component
                         </div>
                     </div>
                 </div>
+
+                <!-- End Quiz Button -->
+                <button
+                    wire:click="endQuiz"
+                    wire:confirm="Are you sure you want to end this quiz? You won't be able to return."
+                    class="w-full inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-sm font-medium
+                           bg-red-50 hover:bg-red-100 border border-red-200 hover:border-red-300
+                           text-red-700 transition-all duration-200">
+                    @svg('lucide-flag', 'w-4 h-4')
+                    End Quiz
+                </button>
 
                 <audio id="player" class="hidden"></audio>
             </div>
