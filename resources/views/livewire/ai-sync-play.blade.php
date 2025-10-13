@@ -61,11 +61,24 @@ new #[Layout('layouts.app-kp')] class extends Component
             <div class="space-y-4">
                 <!-- Recording Controls -->
                 <div class="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
-                    <div class="bg-gray-50 px-4 py-2 border-b border-gray-200">
+                    <div class="bg-gray-50 px-4 py-2 border-b border-gray-200 flex items-center justify-between" x-data="{
+                        startTime: new Date('{{ $quiz->created_at }}'),
+                        timeElapsed: '0:00',
+                        updateTimeElapsed() {
+                            const totalSeconds = Math.floor((new Date() - this.startTime) / 1000);
+                            const minutes = Math.floor(totalSeconds / 60);
+                            const seconds = String(totalSeconds % 60).padStart(2, '0');
+                            this.timeElapsed = `${minutes}:${seconds}`;
+                        }
+                    }" x-init="setInterval(() => updateTimeElapsed(), 1000)">
                         <h3 class="font-semibold text-gray-800 text-sm flex items-center gap-2">
                             @svg('lucide-circle-dot', 'w-4 h-4 text-red-500')
                             Recording Controls
                         </h3>
+                        <div class="flex items-center gap-1.5 text-xs font-medium text-gray-600">
+                            @svg('lucide-timer', 'w-4 h-4')
+                            <span x-text="timeElapsed"></span>
+                        </div>
                     </div>
                     <div class="p-4 space-y-3">
                         <div class="flex gap-3">
