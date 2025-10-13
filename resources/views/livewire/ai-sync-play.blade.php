@@ -4,12 +4,20 @@
 
 <?php
 
+use App\Models\AIQuiz;
 use App\Models\Topics;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Layout;
 
 new #[Layout('layouts.app-kp')] class extends Component
 {
+    public AIQuiz $quiz;
+
+    public function mount(AIQuiz $quiz): void
+    {
+        $this->quiz = $quiz;
+    }
+
     public function with(): array
     {
         $appUrl = config('app.url', 'http://localhost');
@@ -22,6 +30,7 @@ new #[Layout('layouts.app-kp')] class extends Component
         return [
             'topics' => Topics::all(),
             'wsUrl' => $wsUrl,
+            'quizId' => $this->quiz->id,
         ];
     }
 }; ?>
@@ -38,35 +47,30 @@ new #[Layout('layouts.app-kp')] class extends Component
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <!-- Left Column: Controls -->
             <div class="space-y-6">
-                <!-- Session Configuration -->
+                <!-- Session Info -->
                 <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                    <h3 class="text-lg font-medium text-gray-900 mb-4">Session Configuration</h3>
-                    <div class="grid grid-cols-2 gap-4 mb-4">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">Session Info</h3>
+                    <div class="space-y-3">
                         <div>
-                            <label for="userId" class="block text-sm font-medium text-gray-700 mb-1">User ID</label>
-                            <input type="number" id="userId" value="1"
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Quiz ID</label>
+                            <div class="text-sm text-gray-900 font-mono bg-gray-50 px-3 py-2 rounded-md border border-gray-200">
+                                {{ $quiz->id }}
+                            </div>
                         </div>
                         <div>
-                            <label for="topicId" class="block text-sm font-medium text-gray-700 mb-1">Topic ID</label>
-                            <input type="number" id="topicId" value="30"
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Topic</label>
+                            <div class="text-sm text-gray-900 px-3 py-2">
+                                {{ $quiz->topic->name_pl ?? 'N/A' }}
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="flex gap-3">
-                        <button id="loadSessionBtn"
-                                class="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-medium text-sm">
-                            Load Session
-                        </button>
                     </div>
                 </div>
 
-                <!-- Session Status -->
+                <!-- Connection Status -->
                 <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
                     <div class="flex items-center justify-between">
-                        <span class="text-sm font-medium text-gray-700">Session ID</span>
-                        <span id="sessionId" class="text-sm text-gray-500 font-mono">Not initialized</span>
+                        <span class="text-sm font-medium text-gray-700">Connection Status</span>
+                        <span id="connectionStatus" class="text-sm text-gray-500">Connecting...</span>
                     </div>
                 </div>
 
@@ -110,10 +114,10 @@ new #[Layout('layouts.app-kp')] class extends Component
 
 @script
 <script>
-    let ws, mediaRecorder, stopTime, quizSessionId;
+    let ws, mediaRecorder, stopTime;
     const WS_URL = "{{ $wsUrl }}";
-    const QUIZ_ID = "{{ $wsUrl }}";
-
+    const QUIZ_ID = "{{ $quizId }}";
+    let quizSessionId = QUIZ_ID;
 
     function addMessage(role, text, duration = null) {
         const messagesDiv = document.getElementById('messages');
@@ -155,18 +159,14 @@ new #[Layout('layouts.app-kp')] class extends Component
 
         ws.onopen = () => {
             console.log('WebSocket connected');
+            document.getElementById('connectionStatus').textContent = 'Connected';
+            document.getElementById('connectionStatus').className = 'text-sm text-green-600 font-medium';
 
-            // Load or create session
-            const savedSessionId = localStorage.getItem('quiz_session_id');
-            if (savedSessionId) {
-                quizSessionId = savedSessionId;
-                document.getElementById('sessionId').textContent = quizSessionId;
-                // Initialize with existing session
-                ws.send(JSON.stringify({
-                    type: "INIT_SESSION",
-                    quiz_session_id: quizSessionId
-                }));
-            }
+            // Initialize session with quiz ID from URL
+            ws.send(JSON.stringify({
+                type: "INIT_SESSION",
+                quiz_session_id: quizSessionId
+            }));
         };
 
         ws.onmessage = (event) => {
@@ -199,33 +199,17 @@ new #[Layout('layouts.app-kp')] class extends Component
 
         ws.onerror = (error) => {
             console.error('WebSocket error:', error);
+            document.getElementById('connectionStatus').textContent = 'Error';
+            document.getElementById('connectionStatus').className = 'text-sm text-red-600 font-medium';
         };
 
         ws.onclose = () => {
             console.log('WebSocket disconnected');
             document.getElementById('startBtn').disabled = true;
+            document.getElementById('connectionStatus').textContent = 'Disconnected';
+            document.getElementById('connectionStatus').className = 'text-sm text-gray-500';
         };
     }
-
-    document.getElementById('loadSessionBtn').onclick = () => {
-        const savedSessionId = localStorage.getItem('quiz_session_id');
-        if (!savedSessionId) {
-            alert('No saved session found. Create a new session first.');
-            return;
-        }
-
-        quizSessionId = savedSessionId;
-        document.getElementById('sessionId').textContent = quizSessionId;
-
-        if (!ws || ws.readyState !== WebSocket.OPEN) {
-            connectWebSocket();
-        } else {
-            ws.send(JSON.stringify({
-                type: "INIT_SESSION",
-                quiz_session_id: quizSessionId
-            }));
-        }
-    };
 
     document.getElementById('startBtn').onclick = async () => {
         if (!quizSessionId) {
@@ -319,12 +303,9 @@ new #[Layout('layouts.app-kp')] class extends Component
         }
     });
 
-    // Auto-connect on page load if session exists
+    // Auto-connect on page load
     window.onload = () => {
-        const savedSessionId = localStorage.getItem('quiz_session_id');
-        if (savedSessionId) {
-            connectWebSocket();
-        }
+        connectWebSocket();
     };
 </script>
 
