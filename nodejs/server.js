@@ -37,6 +37,7 @@ wss.on("connection", (ws) => {
     ws.send(JSON.stringify({
         type: "CONNECTED",
     }));
+
     ws.on("message", async (msg, isBinary) => {
         // Handle END_RECORDING signal
         if (!isBinary && msg.toString() === "END_RECORDING" && !isProcessing) {
@@ -180,10 +181,49 @@ wss.on("connection", (ws) => {
 
                     conversationHistory = await getConversationHistory(quizSessionId);
 
-                    ws.send(JSON.stringify({
-                        type: "SESSION_READY",
-                        message_count: conversationHistory.length
-                    }));
+                    // If no conversation history, generate first message from assistant
+                    if (conversationHistory.length === 0) {
+                        try {
+                            console.log("No conversation history, generating first message...");
+
+                            // Generate initial greeting message
+                            const initialPrompt = "Start the quiz session with a friendly greeting";
+                            const assistantMessage = await generateChatResponse(initialPrompt, toolDefinitions, conversationId);
+
+                            const greetingText = assistantMessage.content;
+
+                            if (greetingText) {
+                                // Save assistant message to database
+                                await saveAssistantMessage(quizSessionId, greetingText);
+
+                                console.log("Generated first message:", greetingText);
+
+                                // Generate speech for the greeting
+                                const buffer = await generateSpeech(greetingText);
+
+                                // Send the initial message to client
+                                ws.send(JSON.stringify({
+                                    role: "assistant",
+                                    text: greetingText,
+                                    audio: buffer.toString('base64'),
+                                }));
+
+                                conversationHistory.push({
+                                    role: "assistant",
+                                    content: greetingText
+                                });
+                            }
+                        } catch (err) {
+                            console.error("Error generating first message:", err);
+                        }
+                    } else {
+                        ws.send(JSON.stringify({
+                            type: "SESSION_READY",
+                            message_count: conversationHistory.length
+                        }));
+                    }
+
+
                     return;
                 }
 
