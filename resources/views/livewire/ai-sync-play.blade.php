@@ -9,8 +9,8 @@ use App\Models\Topics;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Layout;
 
-new #[Layout('layouts.app-kp')] class extends Component
-{
+new #[Layout('layouts.app-kp')]
+class extends Component {
     public AIQuiz $quiz;
 
     public function mount(AIQuiz $quiz): void
@@ -43,9 +43,18 @@ new #[Layout('layouts.app-kp')] class extends Component
     }
 }; ?>
 
-<div class="max-w-7xl mx-auto px-4 mt-4">
-    <!-- Compact Header with Status -->
-    <div class="bg-gradient-to-r from-blue-500/80 to-purple-500/80 rounded-xl shadow-sm p-4 text-white">
+<div x-data="{ loading: true }" x-init="setTimeout(() => loading = false, 500)">
+    <!-- Loading Overlay -->
+    <div x-show="loading" x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 bg-white z-50 flex items-center justify-center">
+        <div class="text-center">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p class="text-gray-600 font-medium">Loading...</p>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 mt-4">
+        <!-- Compact Header with Status -->
+        <div class="bg-gradient-to-r from-blue-500/80 to-purple-500/80 rounded-xl shadow-sm p-4 text-white">
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2">
                     <div class="bg-white/15 backdrop-blur-sm rounded-full p-2">
@@ -251,7 +260,7 @@ new #[Layout('layouts.app-kp')] class extends Component
 
                     // Decode base64 audio and play
                     const audioData = Uint8Array.from(atob(data.audio), c => c.charCodeAt(0));
-                    const blob = new Blob([audioData], { type: "audio/mpeg" });
+                    const blob = new Blob([audioData], {type: "audio/mpeg"});
                     const player = document.getElementById('player');
                     player.src = URL.createObjectURL(blob);
                     player.play();
@@ -283,9 +292,9 @@ new #[Layout('layouts.app-kp')] class extends Component
             return;
         }
 
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const stream = await navigator.mediaDevices.getUserMedia({audio: true});
 
-        mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm;codecs=opus' });
+        mediaRecorder = new MediaRecorder(stream, {mimeType: 'audio/webm;codecs=opus'});
         mediaRecorder.addEventListener('dataavailable', (e) => {
             if (e.data.size > 0 && ws.readyState === WebSocket.OPEN) {
                 ws.send(e.data);
@@ -338,9 +347,9 @@ new #[Layout('layouts.app-kp')] class extends Component
             isSpacePressed = true;
 
             // Start recording
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            const stream = await navigator.mediaDevices.getUserMedia({audio: true});
 
-            mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm;codecs=opus' });
+            mediaRecorder = new MediaRecorder(stream, {mimeType: 'audio/webm;codecs=opus'});
             mediaRecorder.addEventListener('dataavailable', (e) => {
                 if (e.data.size > 0 && ws.readyState === WebSocket.OPEN) {
                     ws.send(e.data);
