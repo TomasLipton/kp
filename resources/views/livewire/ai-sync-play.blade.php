@@ -12,8 +12,16 @@ new #[Layout('layouts.app-kp')] class extends Component
 {
     public function with(): array
     {
+        $appUrl = config('app.url', 'http://localhost');
+        $isLocal = str_contains($appUrl, '.test') || str_contains($appUrl, '127.0.0.1');
+
+        $wsUrl = $isLocal
+            ? 'ws://localhost:3000'
+            : 'wss://quiz-polaka.pl';
+
         return [
-            'topics' => Topics::all()
+            'topics' => Topics::all(),
+            'wsUrl' => $wsUrl,
         ];
     }
 }; ?>
@@ -107,6 +115,7 @@ new #[Layout('layouts.app-kp')] class extends Component
 @script
 <script>
     let ws, mediaRecorder, stopTime, quizSessionId;
+    const WS_URL = "{{ $wsUrl }}";
 
     function addMessage(role, text, duration = null) {
         const messagesDiv = document.getElementById('messages');
@@ -144,7 +153,7 @@ new #[Layout('layouts.app-kp')] class extends Component
     }
 
     function connectWebSocket() {
-        ws = new WebSocket("wss://quiz-polaka.pl");
+        ws = new WebSocket(WS_URL);
 
         ws.onopen = () => {
             console.log('WebSocket connected');
