@@ -63,16 +63,16 @@
                     <p id="quiz-description" class="text-muted-foreground leading-relaxed mb-6">
                         @switch(LaravelLocalization::getCurrentLocale())
                             @case('ru')
-                                {{trim($topic->description_ru ?? $topic->description_pl)}}
+                                {!! str_replace("\n", '<br>', $topic->description_ru ?? $topic->description_pl) !!}
                                 @break
                             @case('uk')
-                                {{trim($topic->description_uk ?? $topic->description_pl)}}
+                                {!! str_replace("\n", '<br>', $topic->description_uk ?? $topic->description_pl) !!}
                                 @break
                             @case('be')
-                                {{trim($topic->description_by ?? $topic->description_pl)}}
+                                {!! str_replace("\n", '<br>', $topic->description_by ?? $topic->description_pl) !!}
                                 @break
                             @default
-                                {{trim($topic->description_pl)}}
+                                {!! str_replace("\n", '<br>', $topic->description_pl) !!}
                         @endswitch
                     </p>
 
