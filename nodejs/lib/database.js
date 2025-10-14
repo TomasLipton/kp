@@ -112,3 +112,51 @@ export async function verifyQuizExists(quizId) {
     return rows.length > 0;
 }
 
+export async function getNextQuestion(aiQuizId) {
+    const connection = await mysql.createConnection(dbConfig);
+
+    try {
+        // Get the topic_id from a_i_quizzes -> quizzes -> topics
+        const [quizData] = await connection.execute(
+            `SELECT q.topics_id
+             FROM a_i_quizzes aiq
+             INNER JOIN quizzes q ON aiq.quiz_id = q.id
+             WHERE aiq.id = ?`,
+            [aiQuizId]
+        );
+
+        if (quizData.length === 0) {
+            await connection.end();
+            return null;
+        }
+
+        const topicId = quizData[0].topics_id;
+
+        // Get a random question from the topic that hasn't been answered yet
+        const [questions] = await connection.execute(
+            `SELECT q.id, q.question_pl, q.question_type, q.picture
+             FROM questions q
+             WHERE q.topics_id = ?
+             AND q.deleted_at IS NULL
+             AND q.id NOT IN (
+                 SELECT qa.question_answer_id
+                 FROM quiz_answers qa
+                 INNER JOIN a_i_quizzes aiq ON qa.quiz_id = aiq.quiz_id
+                 WHERE aiq.id = ?
+             )
+             ORDER BY RAND()
+             LIMIT 1`,
+            [topicId, aiQuizId]
+        );
+
+        await connection.end();
+
+        console.log('questionsquestions', questions[0]);
+
+        return questions.length > 0 ? questions[0] : null;
+    } catch (error) {
+        await connection.end();
+        throw error;
+    }
+}
+

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Quiz;
 use App\Models\Topics;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
@@ -27,7 +28,7 @@ class extends Component {
 
     public function startQuiz()
     {
-     $validated =    $this->validate([
+        $validated = $this->validate([
             'speed' => 'required|in:slow,normal,fast',
             'difficulty' => 'required|in:easy,medium,hard',
             'gender' => 'required|in:male,female',
@@ -81,14 +82,24 @@ TEXT;
 
         $response = OpenAI::conversations()->create();
 
-        // Create AIQuiz record
-        $aiQuiz = \App\Models\AIQuiz::create([
+        // Create Quiz first
+        $quiz = Quiz::create([
+            'uuid' => Str::uuid(),
+            'type' => 'ai_quiz',
+            'questions_amount' => 10,
+            'user_id' => auth()->id(),
+            'topics_id' => $topic->id,
+        ]);
+
+        // Create related AIQuiz using the relationship
+        $aiQuiz = $quiz->aiQuiz()->create([
             'user_id' => auth()->id(),
             'type' => 'sync',
             'topic_id' => $this->topic_id,
             'speed' => $this->speed,
             'difficulty' => $this->difficulty,
             'gender' => $this->gender,
+            'voice' => $selectedVoice,
             'openai_conversation_id' => $response->id,
             'status' => 'preparing',
         ]);
@@ -131,8 +142,12 @@ TEXT;
     }
 
     @keyframes pulse-glow {
-        0%, 100% { box-shadow: 0 0 20px hsl(var(--primary) / 0.3); }
-        50% { box-shadow: 0 0 30px hsl(var(--primary) / 0.5); }
+        0%, 100% {
+            box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
+        }
+        50% {
+            box-shadow: 0 0 30px hsl(var(--primary) / 0.5);
+        }
     }
 
     .start-button:hover {
@@ -142,174 +157,173 @@ TEXT;
 @endassets
 
 <div>
-@if(!$isAdmin)
-    <x-under-construction />
-@else
+    @if(!$isAdmin)
+        <x-under-construction/>
+    @else
 
+        <div class="min-h-screen py-12 px-4">
+            <div class="max-w-5xl mx-auto">
+                {{-- Header --}}
+                <div class="text-center mb-12 space-y-4">
+                    <div class="inline-flex items-center gap-3 px-4 py-2 bg-primary/10 rounded-full mb-4">
+                        @svg('lucide-mic', 'w-5 h-5 text-primary')
+                        <span class="text-sm font-semibold text-primary">AI-Powered Voice Quiz</span>
+                    </div>
+                    <h1 class="text-5xl md:text-6xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+                        Configure Your Session
+                    </h1>
+                    {{--            <p class="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">--}}
+                    {{--                Choose your topic, difficulty level, and speaking speed for an interactive AI quiz experience--}}
+                    {{--            </p>--}}
+                </div>
 
-<div class="min-h-screen py-12 px-4">
-    <div class="max-w-5xl mx-auto">
-        {{-- Header --}}
-        <div class="text-center mb-12 space-y-4">
-            <div class="inline-flex items-center gap-3 px-4 py-2 bg-primary/10 rounded-full mb-4">
-                @svg('lucide-mic', 'w-5 h-5 text-primary')
-                <span class="text-sm font-semibold text-primary">AI-Powered Voice Quiz</span>
-            </div>
-            <h1 class="text-5xl md:text-6xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-                Configure Your Session
-            </h1>
-{{--            <p class="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">--}}
-{{--                Choose your topic, difficulty level, and speaking speed for an interactive AI quiz experience--}}
-{{--            </p>--}}
-        </div>
+                {{-- How it works --}}
+                {{--        <div class="relative p-5 bg-gradient-to-br from-primary/5 via-primary/10 to-primary/5 rounded-xl border border-primary/20 mb-8 overflow-hidden">--}}
+                {{--            <div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl"></div>--}}
+                {{--            <div class="relative flex gap-4">--}}
+                {{--                <div class="flex-shrink-0 p-2 bg-primary/10 rounded-lg flex items-center justify-center">--}}
+                {{--                    @svg('lucide-lightbulb', 'w-5 h-5 text-primary')--}}
+                {{--                </div>--}}
+                {{--                <div class="flex-1">--}}
+                {{--                    <p class="font-bold text-foreground mb-2 flex items-center gap-2">--}}
+                {{--                        How it works--}}
+                {{--                        <span class="text-xs px-2 py-0.5 bg-primary/20 text-primary rounded-full">Quick guide</span>--}}
+                {{--                    </p>--}}
+                {{--                    <div class="grid md:grid-cols-3 gap-3 text-sm">--}}
+                {{--                        <div class="flex items-start gap-2">--}}
+                {{--                            <span class="flex-shrink-0 w-5 h-5 bg-primary/20 text-primary rounded-full flex items-center justify-center text-xs font-bold">1</span>--}}
+                {{--                            <span class="text-muted-foreground">AI asks questions about your topic</span>--}}
+                {{--                        </div>--}}
+                {{--                        <div class="flex items-start gap-2">--}}
+                {{--                            <span class="flex-shrink-0 w-5 h-5 bg-primary/20 text-primary rounded-full flex items-center justify-center text-xs font-bold">2</span>--}}
+                {{--                            <span class="text-muted-foreground">Respond using your voice</span>--}}
+                {{--                        </div>--}}
+                {{--                        <div class="flex items-start gap-2">--}}
+                {{--                            <span class="flex-shrink-0 w-5 h-5 bg-primary/20 text-primary rounded-full flex items-center justify-center text-xs font-bold">3</span>--}}
+                {{--                            <span class="text-muted-foreground">Get instant feedback</span>--}}
+                {{--                        </div>--}}
+                {{--                    </div>--}}
+                {{--                </div>--}}
+                {{--            </div>--}}
+                {{--        </div>--}}
 
-        {{-- How it works --}}
-{{--        <div class="relative p-5 bg-gradient-to-br from-primary/5 via-primary/10 to-primary/5 rounded-xl border border-primary/20 mb-8 overflow-hidden">--}}
-{{--            <div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl"></div>--}}
-{{--            <div class="relative flex gap-4">--}}
-{{--                <div class="flex-shrink-0 p-2 bg-primary/10 rounded-lg flex items-center justify-center">--}}
-{{--                    @svg('lucide-lightbulb', 'w-5 h-5 text-primary')--}}
-{{--                </div>--}}
-{{--                <div class="flex-1">--}}
-{{--                    <p class="font-bold text-foreground mb-2 flex items-center gap-2">--}}
-{{--                        How it works--}}
-{{--                        <span class="text-xs px-2 py-0.5 bg-primary/20 text-primary rounded-full">Quick guide</span>--}}
-{{--                    </p>--}}
-{{--                    <div class="grid md:grid-cols-3 gap-3 text-sm">--}}
-{{--                        <div class="flex items-start gap-2">--}}
-{{--                            <span class="flex-shrink-0 w-5 h-5 bg-primary/20 text-primary rounded-full flex items-center justify-center text-xs font-bold">1</span>--}}
-{{--                            <span class="text-muted-foreground">AI asks questions about your topic</span>--}}
-{{--                        </div>--}}
-{{--                        <div class="flex items-start gap-2">--}}
-{{--                            <span class="flex-shrink-0 w-5 h-5 bg-primary/20 text-primary rounded-full flex items-center justify-center text-xs font-bold">2</span>--}}
-{{--                            <span class="text-muted-foreground">Respond using your voice</span>--}}
-{{--                        </div>--}}
-{{--                        <div class="flex items-start gap-2">--}}
-{{--                            <span class="flex-shrink-0 w-5 h-5 bg-primary/20 text-primary rounded-full flex items-center justify-center text-xs font-bold">3</span>--}}
-{{--                            <span class="text-muted-foreground">Get instant feedback</span>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-
-        {{-- Configuration Form --}}
-        <form wire:submit.prevent="startQuiz" class="space-y-8">
-            {{-- Visual Banner --}}
-            <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 border border-primary/20">
-                <div class="grid md:grid-cols-2 gap-6 items-center p-8">
-                    <div>
-                        <h3 class="text-2xl font-bold mb-3">Talk with AI Examiner</h3>
-                        <p class="text-muted-foreground mb-4">Experience a realistic interview simulation with our AI voice assistant. Practice your Polish knowledge in a natural conversation setting.</p>
-                        <div class="flex items-center gap-4">
-                            <div class="flex items-center gap-2 text-sm">
-                                @svg('lucide-mic', 'w-4 h-4 text-primary')
-                                <span class="text-muted-foreground">Voice Recognition</span>
+                {{-- Configuration Form --}}
+                <form wire:submit.prevent="startQuiz" class="space-y-8">
+                    {{-- Visual Banner --}}
+                    <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 border border-primary/20">
+                        <div class="grid md:grid-cols-2 gap-6 items-center p-8">
+                            <div>
+                                <h3 class="text-2xl font-bold mb-3">Talk with AI Examiner</h3>
+                                <p class="text-muted-foreground mb-4">Experience a realistic interview simulation with our AI voice assistant. Practice your Polish knowledge in a natural conversation setting.</p>
+                                <div class="flex items-center gap-4">
+                                    <div class="flex items-center gap-2 text-sm">
+                                        @svg('lucide-mic', 'w-4 h-4 text-primary')
+                                        <span class="text-muted-foreground">Voice Recognition</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-sm">
+                                        @svg('lucide-brain', 'w-4 h-4 text-primary')
+                                        <span class="text-muted-foreground">AI-Powered</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-sm">
+                                        @svg('lucide-check-circle', 'w-4 h-4 text-primary')
+                                        <span class="text-muted-foreground">Real-time</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="flex items-center gap-2 text-sm">
-                                @svg('lucide-brain', 'w-4 h-4 text-primary')
-                                <span class="text-muted-foreground">AI-Powered</span>
-                            </div>
-                            <div class="flex items-center gap-2 text-sm">
-                                @svg('lucide-check-circle', 'w-4 h-4 text-primary')
-                                <span class="text-muted-foreground">Real-time</span>
+                            <div class="hidden md:flex justify-center items-center">
+                                <div class="relative">
+                                    <div class="absolute inset-0 bg-primary/20 rounded-full blur-3xl"></div>
+                                    <div class="relative bg-gradient-to-br from-primary/20 to-primary/5 rounded-2xl p-4 border border-primary/30">
+                                        <img src="https://www.svgrepo.com/show/493366/meeting-person.svg"
+                                             alt="AI Voice Quiz"
+                                             class="w-48 h-48 object-contain"
+                                             loading="lazy">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="hidden md:flex justify-center items-center">
-                        <div class="relative">
-                            <div class="absolute inset-0 bg-primary/20 rounded-full blur-3xl"></div>
-                            <div class="relative bg-gradient-to-br from-primary/20 to-primary/5 rounded-2xl p-4 border border-primary/30">
-                                <img src="https://www.svgrepo.com/show/493366/meeting-person.svg"
-                                     alt="AI Voice Quiz"
-                                     class="w-48 h-48 object-contain"
-                                     loading="lazy">
+
+                    {{-- All Settings in One Card --}}
+                    <div class="quiz-config-card rounded-2xl p-8 border border-border/50 shadow-xl space-y-6">
+                        {{-- Topic --}}
+                        <div class="grid md:grid-cols-[200px,1fr] gap-6 items-start">
+                            <label class="flex items-center gap-2 text-lg font-semibold pt-2">
+                                @svg('lucide-book-open', 'w-5 h-5 text-primary')
+                                Topic
+                            </label>
+                            <div>
+                                <select
+                                    wire:model.live="topic_id"
+                                    class="w-full px-4 py-3 bg-background border-2 border-border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all font-medium"
+                                >
+                                    <option value="">Choose a topic...</option>
+                                    @foreach($topics as $topic)
+                                        <option value="{{ $topic->id }}">
+                                            {{ $topic->{'name_' . app()->getLocale()} ?? $topic->name_pl }} ({{ $topic->questions()->count() }} questions)
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('topic_id')
+                                <p class="mt-2 text-sm text-destructive flex items-center gap-2">
+                                    @svg('lucide-alert-circle', 'w-4 h-4')
+                                    {{ $message }}
+                                </p>
+                                @enderror
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
 
-            {{-- All Settings in One Card --}}
-            <div class="quiz-config-card rounded-2xl p-8 border border-border/50 shadow-xl space-y-6">
-                {{-- Topic --}}
-                <div class="grid md:grid-cols-[200px,1fr] gap-6 items-start">
-                    <label class="flex items-center gap-2 text-lg font-semibold pt-2">
-                        @svg('lucide-book-open', 'w-5 h-5 text-primary')
-                        Topic
-                    </label>
-                    <div>
-                        <select
-                            wire:model.live="topic_id"
-                            class="w-full px-4 py-3 bg-background border-2 border-border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all font-medium"
-                        >
-                            <option value="">Choose a topic...</option>
-                            @foreach($topics as $topic)
-                                <option value="{{ $topic->id }}">
-                                    {{ $topic->{'name_' . app()->getLocale()} ?? $topic->name_pl }} ({{ $topic->questions()->count() }} questions)
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('topic_id')
-                            <p class="mt-2 text-sm text-destructive flex items-center gap-2">
-                                @svg('lucide-alert-circle', 'w-4 h-4')
-                                {{ $message }}
-                            </p>
-                        @enderror
-                    </div>
-                </div>
+                        {{-- Difficulty --}}
+                        {{--                <div class="≥--}}
 
-                {{-- Difficulty --}}
-{{--                <div class="≥--}}
+                        {{-- Speed --}}
+                        {{--                ≥--}}
 
-                {{-- Speed --}}
-{{--                ≥--}}
+                        {{-- Gender --}}
+                        {{--              ≥--}}
 
-                {{-- Gender --}}
-{{--              ≥--}}
-
-                {{-- Start Button or Login Prompt --}}
-                @auth
-                    <button
-                        type="submit"
-                        class="start-button w-full group relative px-8 py-4 bg-gradient-primary text-primary-foreground rounded-xl font-bold text-lg hover:scale-[1.02] transition-all duration-300 shadow-xl"
-                    >
+                        {{-- Start Button or Login Prompt --}}
+                        @auth
+                            <button
+                                type="submit"
+                                class="start-button w-full group relative px-8 py-4 bg-gradient-primary text-primary-foreground rounded-xl font-bold text-lg hover:scale-[1.02] transition-all duration-300 shadow-xl"
+                            >
                         <span class="flex items-center justify-center gap-3">
                             @svg('lucide-play-circle', 'w-5 h-5')
                             Start AI Quiz Session
                             @svg('lucide-arrow-right', 'w-5 h-5 group-hover:translate-x-1 transition-transform')
                         </span>
-                    </button>
-                @else
-                    <div class="text-center p-6 bg-muted/30 rounded-xl border border-border">
-                        <div class="mb-4">
-                            @svg('lucide-lock', 'w-12 h-12 mx-auto text-muted-foreground')
-                        </div>
-                        <h3 class="font-bold text-lg mb-2">Login Required</h3>
-                        <p class="text-sm text-muted-foreground mb-4">Please log in to start your AI quiz session</p>
-                        <div class="flex gap-3 justify-center">
-                            <a
-                                href="{{ route('login') }}"
-                                wire:navigate
-                                class="inline-flex items-center gap-2 px-6 py-3 bg-background border-2 border-border text-foreground rounded-lg font-semibold hover:scale-105 transition-all"
-                            >
-                                @svg('lucide-log-in', 'w-5 h-5')
-                                Log In
-                            </a>
-                            <a
-                                href="{{ route('register') }}"
-                                wire:navigate
-                                class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-primary text-primary-foreground rounded-lg font-semibold hover:scale-105 transition-all"
-                            >
-                                @svg('lucide-user-plus', 'w-5 h-5')
-                                Register
-                            </a>
-                        </div>
+                            </button>
+                        @else
+                            <div class="text-center p-6 bg-muted/30 rounded-xl border border-border">
+                                <div class="mb-4">
+                                    @svg('lucide-lock', 'w-12 h-12 mx-auto text-muted-foreground')
+                                </div>
+                                <h3 class="font-bold text-lg mb-2">Login Required</h3>
+                                <p class="text-sm text-muted-foreground mb-4">Please log in to start your AI quiz session</p>
+                                <div class="flex gap-3 justify-center">
+                                    <a
+                                        href="{{ route('login') }}"
+                                        wire:navigate
+                                        class="inline-flex items-center gap-2 px-6 py-3 bg-background border-2 border-border text-foreground rounded-lg font-semibold hover:scale-105 transition-all"
+                                    >
+                                        @svg('lucide-log-in', 'w-5 h-5')
+                                        Log In
+                                    </a>
+                                    <a
+                                        href="{{ route('register') }}"
+                                        wire:navigate
+                                        class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-primary text-primary-foreground rounded-lg font-semibold hover:scale-105 transition-all"
+                                    >
+                                        @svg('lucide-user-plus', 'w-5 h-5')
+                                        Register
+                                    </a>
+                                </div>
+                            </div>
+                        @endauth
                     </div>
-                @endauth
+                </form>
             </div>
-        </form>
-    </div>
-</div>
-@endif
+        </div>
+    @endif
 </div>

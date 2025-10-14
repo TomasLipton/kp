@@ -1,4 +1,4 @@
-import { verifyQuizExists, saveAssistantMessage } from './database.js';
+import { verifyQuizExists, saveAssistantMessage, getNextQuestion } from './database.js';
 
 export const toolDefinitions = [
     {
@@ -76,13 +76,21 @@ export async function handleToolCall(toolName, args, quizSessionId) {
                 };
             }
 
-            // TODO: Implement logic to fetch the next question for this quiz session
-            // This should return the next question from the database
+            const question = await getNextQuestion(quizSessionId);
+
+            if (!question) {
+                return {
+                    success: false,
+                    error: "No more questions available for this topic"
+                };
+            }
 
             return {
                 success: true,
-                question: "Sample question placeholder",
-                question_id: "sample_id"
+                question_id: question.id,
+                question: question.question_pl,
+                question_type: question.question_type,
+                picture: question.picture
             };
         } catch (error) {
             console.error("Error getting next question:", error);
