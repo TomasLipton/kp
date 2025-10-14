@@ -2,11 +2,19 @@ import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
 
-// Load .env from same directory FIRST
+// Load .env from same directory FIRST (optional for local dev)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 console.log(__dirname);
-dotenv.config({ path: path.join(__dirname, '.env') });
+
+// Only load .env if it exists (for local development)
+const envPath = path.join(__dirname, '.env');
+if (fs.existsSync(envPath)) {
+    dotenv.config({ path: envPath });
+    console.log('✅ Loaded .env file');
+} else {
+    console.log('⚠️ No .env file found, using environment variables');
+}
 
 import fs from "fs";
 import crypto from "crypto";
