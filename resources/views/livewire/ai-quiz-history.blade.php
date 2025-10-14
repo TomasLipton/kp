@@ -67,7 +67,7 @@ class extends Component {
 
         if ($quiz) {
             $quiz->delete();
-            session()->flash('message', 'Quiz deleted successfully');
+            session()->flash('message', 'Quiz został pomyślnie usunięty');
         }
     }
 }; ?>
@@ -79,10 +79,10 @@ class extends Component {
             <div class="flex items-center justify-between mb-6">
                 <div>
                     <h1 class="text-4xl md:text-5xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-2">
-                        Quiz History
+                        Historia Quizów
                     </h1>
                     <p class="text-lg text-muted-foreground">
-                        View all your past AI quiz sessions
+                        Zobacz wszystkie swoje wcześniejsze sesje quizów AI
                     </p>
                 </div>
                 <a
@@ -91,7 +91,7 @@ class extends Component {
                     class="px-6 py-3 bg-gradient-primary text-primary-foreground rounded-xl font-semibold hover:scale-105 transition-all shadow-lg inline-flex items-center gap-2"
                 >
                     @svg('lucide-plus', 'w-5 h-5')
-                    New Quiz
+                    Nowy Quiz
                 </a>
             </div>
 
@@ -101,19 +101,19 @@ class extends Component {
                     wire:click="$set('statusFilter', 'all')"
                     class="px-4 py-2 rounded-lg font-medium transition-all {{ $statusFilter === 'all' ? 'bg-primary text-primary-foreground' : 'bg-card text-muted-foreground hover:bg-muted' }}"
                 >
-                    All
+                    Wszystkie
                 </button>
                 <button
                     wire:click="$set('statusFilter', 'completed')"
                     class="px-4 py-2 rounded-lg font-medium transition-all {{ $statusFilter === 'completed' ? 'bg-primary text-primary-foreground' : 'bg-card text-muted-foreground hover:bg-muted' }}"
                 >
-                    Completed
+                    Ukończone
                 </button>
                 <button
-                    wire:click="$set('statusFilter', 'preparing')"
-                    class="px-4 py-2 rounded-lg font-medium transition-all {{ $statusFilter === 'preparing' ? 'bg-primary text-primary-foreground' : 'bg-card text-muted-foreground hover:bg-muted' }}"
+                    wire:click="$set('statusFilter', 'in_progress')"
+                    class="px-4 py-2 rounded-lg font-medium transition-all {{ $statusFilter === 'in_progress' ? 'bg-primary text-primary-foreground' : 'bg-card text-muted-foreground hover:bg-muted' }}"
                 >
-                    In Progress
+                    W trakcie
                 </button>
             </div>
         </div>
@@ -130,15 +130,15 @@ class extends Component {
                 <div class="w-20 h-20 rounded-full bg-muted mx-auto mb-4 flex items-center justify-center">
                     @svg('lucide-inbox', 'w-10 h-10 text-muted-foreground')
                 </div>
-                <h3 class="text-xl font-semibold mb-2">No Quizzes Yet</h3>
-                <p class="text-muted-foreground mb-6">Start your first AI quiz session to see it here</p>
+                <h3 class="text-xl font-semibold mb-2">Brak Quizów</h3>
+                <p class="text-muted-foreground mb-6">Rozpocznij swoją pierwszą sesję quizu AI, aby zobaczyć ją tutaj</p>
                 <a
                     href="{{ route('ai-sync-configure') }}"
                     wire:navigate
                     class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-primary text-primary-foreground rounded-xl font-semibold hover:scale-105 transition-all"
                 >
                     @svg('lucide-play-circle', 'w-5 h-5')
-                    Start First Quiz
+                    Rozpocznij Pierwszy Quiz
                 </a>
             </div>
         @else
@@ -169,7 +169,11 @@ class extends Component {
                                             </h3>
                                             @if($quiz->status === 'completed')
                                                 <span class="px-2 py-1 bg-green-100 dark:bg-green-950 text-green-700 dark:text-green-400 text-xs font-semibold rounded-lg flex-shrink-0">
-                                                    Completed
+                                                    Ukończony
+                                                </span>
+                                            @elseif($quiz->status === 'in_progress')
+                                                <span class="px-2 py-1 bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-400 text-xs font-semibold rounded-lg flex-shrink-0">
+                                                    W trakcie
                                                 </span>
                                             @else
                                                 <span class="px-2 py-1 bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-400 text-xs font-semibold rounded-lg flex-shrink-0">
@@ -185,11 +189,19 @@ class extends Component {
                                             </div>
                                             <div class="flex items-center gap-1">
                                                 @svg('lucide-user', 'w-4 h-4')
-                                                <span>{{ ucfirst($quiz->gender ?? 'N/A') }} voice</span>
+                                                <span>Głos {{ $quiz->gender === 'male' ? 'męski' : ($quiz->gender === 'female' ? 'żeński' : 'B/D') }}</span>
                                             </div>
                                             <div class="flex items-center gap-1">
                                                 @svg('lucide-gauge', 'w-4 h-4')
-                                                <span>{{ ucfirst($quiz->difficulty ?? 'Medium') }}</span>
+                                                <span>
+                                                    @if($quiz->difficulty === 'easy')
+                                                        Łatwy
+                                                    @elseif($quiz->difficulty === 'hard')
+                                                        Trudny
+                                                    @else
+                                                        Średni
+                                                    @endif
+                                                </span>
                                             </div>
                                         </div>
 
@@ -198,7 +210,7 @@ class extends Component {
                                             <div class="flex items-center gap-4 text-sm">
                                                 <div class="flex items-center gap-2">
                                                     <span class="text-2xl font-bold text-primary">{{ $quiz->percentage }}%</span>
-                                                    <span class="text-muted-foreground">score</span>
+                                                    <span class="text-muted-foreground">wynik</span>
                                                 </div>
                                                 <div class="flex items-center gap-1 text-muted-foreground">
                                                     @svg('lucide-check-circle', 'w-4 h-4 text-green-500')
@@ -206,7 +218,7 @@ class extends Component {
                                                 </div>
                                             </div>
                                         @else
-                                            <p class="text-sm text-muted-foreground italic">No answers recorded</p>
+                                            <p class="text-sm text-muted-foreground italic">Brak zapisanych odpowiedzi</p>
                                         @endif
                                     </div>
 
@@ -219,7 +231,7 @@ class extends Component {
                                                 class="px-4 py-2 bg-primary text-primary-foreground rounded-lg font-medium hover:scale-105 transition-all text-sm inline-flex items-center gap-2"
                                             >
                                                 @svg('lucide-bar-chart', 'w-4 h-4')
-                                                View Results
+                                                Zobacz Wyniki
                                             </a>
                                         @else
                                             <a
@@ -228,15 +240,15 @@ class extends Component {
                                                 class="px-4 py-2 bg-primary text-primary-foreground rounded-lg font-medium hover:scale-105 transition-all text-sm inline-flex items-center gap-2"
                                             >
                                                 @svg('lucide-play', 'w-4 h-4')
-                                                Continue
+                                                Kontynuuj
                                             </a>
                                         @endif
 
                                         <button
                                             wire:click="deleteQuiz('{{ $quiz->id }}')"
-                                            wire:confirm="Are you sure you want to delete this quiz?"
+                                            wire:confirm="Czy na pewno chcesz usunąć ten quiz?"
                                             class="px-4 py-2 bg-destructive/10 text-destructive rounded-lg font-medium hover:bg-destructive/20 transition-all text-sm"
-                                            title="Delete quiz"
+                                            title="Usuń quiz"
                                         >
                                             @svg('lucide-trash-2', 'w-4 h-4')
                                         </button>
