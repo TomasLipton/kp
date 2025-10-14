@@ -89,6 +89,20 @@ wss.on("connection", (ws) => {
 
                     let toolResults = {};
                     for (const toolCall of assistantMessage.tool_calls) {
+
+                        if (assistantMessage.content) {
+                            const buffer = await generateSpeech(assistantMessage.content);
+                            const duration = Date.now() - startTime;
+
+                            // Send assistant response with audio and metadata
+                            ws.send(JSON.stringify({
+                                role: "assistant",
+                                text: assistantMessage.content,
+                                audio: buffer.toString('base64'),
+                                duration: duration,
+                            }));
+                        }
+
                         const toolName = toolCall.function.name;
                         const toolArgs = JSON.parse(toolCall.function.arguments);
 

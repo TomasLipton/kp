@@ -9,11 +9,11 @@ export const toolDefinitions = [
             strict: true,
             parameters: {
                 type: "object",
-                required: ["response"],
+                required: ["question_answer_id"],
                 properties: {
-                    response: {
-                        type: "string",
-                        description: "User's answer or response to the quiz question"
+                    question_answer_id: {
+                        type: "integer",
+                        description: "ID of the selected answer from the question_answers table"
                     }
                 },
                 additionalProperties: false
@@ -38,7 +38,7 @@ export const toolDefinitions = [
 
 export async function handleToolCall(toolName, args, quizSessionId) {
     if (toolName === "save_quiz_response") {
-        const { response } = args;
+        const { question_answer_id } = args;
 
         try {
             const quizExists = await verifyQuizExists(quizSessionId);
@@ -50,11 +50,15 @@ export async function handleToolCall(toolName, args, quizSessionId) {
                 };
             }
 
+            // TODO: Save the quiz answer to quiz_answers table
+            // await saveQuizAnswer(quizSessionId, question_answer_id);
+
             // await saveAssistantMessage(quizSessionId, response, toolName, args);
 
             return {
                 success: true,
-                message: "Quiz response saved successfully"
+                message: "Quiz response saved successfully",
+                question_answer_id: question_answer_id
             };
         } catch (error) {
             console.error("Error saving quiz response:", error);
