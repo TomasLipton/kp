@@ -226,6 +226,10 @@ wss.on("connection", (ws) => {
                                     role: "assistant",
                                     content: greetingText
                                 });
+                                ws.send(JSON.stringify({
+                                    type: "SESSION_READY",
+                                    message_count: conversationHistory.length
+                                }));
                             }
                         } catch (err) {
                             console.error("Error generating first message:", err);

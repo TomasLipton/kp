@@ -46,15 +46,7 @@ class extends Component {
     }
 }; ?>
 
-<div x-data="{ loading: true }" x-init="setTimeout(() => loading = false, 500)">
-    <!-- Loading Overlay -->
-{{--    <div x-show="loading" x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 bg-white z-50 flex items-center justify-center">--}}
-{{--        <div class="text-center">--}}
-{{--            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>--}}
-{{--            <p class="text-gray-600 font-medium">Loading...</p>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-
+<div>
     <div class="max-w-7xl mx-auto px-4 mt-4">
         <!-- Compact Header with Status -->
         <div class="bg-gradient-to-r from-blue-500/80 to-purple-500/80 rounded-xl shadow-sm p-4 text-white">
