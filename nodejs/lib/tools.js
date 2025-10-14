@@ -9,29 +9,39 @@ export const toolDefinitions = [
             strict: true,
             parameters: {
                 type: "object",
-                required: ["response", "quiz_session_id"],
+                required: ["response"],
                 properties: {
                     response: {
                         type: "string",
                         description: "User's answer or response to the quiz question"
-                    },
-                    quiz_session_id: {
-                        type: "string",
-                        description: "Unique identifier for the quiz session"
                     }
                 },
+                additionalProperties: false
+            }
+        }
+    },
+    {
+        type: "function",
+        function: {
+            name: "get_next_question",
+            description: "Get the next question for a specific quiz session",
+            strict: true,
+            parameters: {
+                type: "object",
+                required: [],
+                properties: {},
                 additionalProperties: false
             }
         }
     }
 ];
 
-export async function handleToolCall(toolName, args) {
+export async function handleToolCall(toolName, args, quizSessionId) {
     if (toolName === "save_quiz_response") {
-        const { response, quiz_session_id } = args;
+        const { response } = args;
 
         try {
-            const quizExists = await verifyQuizExists(quiz_session_id);
+            const quizExists = await verifyQuizExists(quizSessionId);
 
             if (!quizExists) {
                 return {
@@ -40,7 +50,7 @@ export async function handleToolCall(toolName, args) {
                 };
             }
 
-            // await saveAssistantMessage(quiz_session_id, response, toolName, args);
+            // await saveAssistantMessage(quizSessionId, response, toolName, args);
 
             return {
                 success: true,
@@ -48,6 +58,34 @@ export async function handleToolCall(toolName, args) {
             };
         } catch (error) {
             console.error("Error saving quiz response:", error);
+            return {
+                success: false,
+                error: error.message
+            };
+        }
+    }
+
+    if (toolName === "get_next_question") {
+        try {
+            const quizExists = await verifyQuizExists(quizSessionId);
+
+            if (!quizExists) {
+                return {
+                    success: false,
+                    error: "Quiz session not found"
+                };
+            }
+
+            // TODO: Implement logic to fetch the next question for this quiz session
+            // This should return the next question from the database
+
+            return {
+                success: true,
+                question: "Sample question placeholder",
+                question_id: "sample_id"
+            };
+        } catch (error) {
+            console.error("Error getting next question:", error);
             return {
                 success: false,
                 error: error.message

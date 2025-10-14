@@ -94,7 +94,7 @@ wss.on("connection", (ws) => {
 
                         console.log(`Calling tool: ${toolName}`, toolArgs);
 
-                        const toolResult = await handleToolCall(toolName, toolArgs);
+                        const toolResult = await handleToolCall(toolName, toolArgs, quizSessionId);
 
                         toolResults[toolCall.id] = toolResult;
 
