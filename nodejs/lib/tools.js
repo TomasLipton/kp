@@ -1,4 +1,4 @@
-import { verifyQuizExists, saveAssistantMessage, getNextQuestion } from './database.js';
+import { verifyQuizExists, saveAssistantMessage, getNextQuestion, saveQuizAnswer } from './database.js';
 
 export const toolDefinitions = [
     {
@@ -50,10 +50,15 @@ export async function handleToolCall(toolName, args, quizSessionId) {
                 };
             }
 
-            // TODO: Save the quiz answer to quiz_answers table
-            // await saveQuizAnswer(quizSessionId, question_answer_id);
+            // Save the quiz answer to quiz_answers table
+            const saved = await saveQuizAnswer(quizSessionId, question_answer_id);
 
-            // await saveAssistantMessage(quizSessionId, response, toolName, args);
+            if (!saved) {
+                return {
+                    success: false,
+                    error: "Failed to save quiz answer - quiz not found"
+                };
+            }
 
             return {
                 success: true,

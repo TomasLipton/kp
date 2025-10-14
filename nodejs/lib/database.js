@@ -112,6 +112,38 @@ export async function verifyQuizExists(quizId) {
     return rows.length > 0;
 }
 
+export async function saveQuizAnswer(aiQuizId, questionAnswerId) {
+    const connection = await mysql.createConnection(dbConfig);
+
+    try {
+        // Get the quiz_id from a_i_quizzes
+        const [quizData] = await connection.execute(
+            `SELECT quiz_id FROM a_i_quizzes WHERE id = ?`,
+            [aiQuizId]
+        );
+
+        if (quizData.length === 0 || !quizData[0].quiz_id) {
+            await connection.end();
+            return false;
+        }
+
+        const quizId = quizData[0].quiz_id;
+
+        // Insert the answer into quiz_answers table
+        await connection.execute(
+            `INSERT INTO quiz_answers (quiz_id, question_answer_id, created_at, updated_at)
+             VALUES (?, ?, NOW(), NOW())`,
+            [quizId, questionAnswerId]
+        );
+
+        await connection.end();
+        return true;
+    } catch (error) {
+        await connection.end();
+        throw error;
+    }
+}
+
 export async function getNextQuestion(aiQuizId) {
     const connection = await mysql.createConnection(dbConfig);
 
