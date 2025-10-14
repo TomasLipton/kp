@@ -149,11 +149,31 @@ export async function getNextQuestion(aiQuizId) {
             [topicId, aiQuizId]
         );
 
+        if (questions.length === 0) {
+            await connection.end();
+            return null;
+        }
+
+        const question = questions[0];
+
+        // Get answers for this question
+        const [answers] = await connection.execute(
+            `SELECT id, text, picture, is_correct, \`order\`
+             FROM question_answers
+             WHERE question_id = ?
+             AND deleted_at IS NULL
+             ORDER BY \`order\` ASC`,
+            [question.id]
+        );
+
         await connection.end();
 
-        console.log('questionsquestions', questions[0]);
+        console.log('questionsquestions', question);
 
-        return questions.length > 0 ? questions[0] : null;
+        return {
+            ...question,
+            answers: answers
+        };
     } catch (error) {
         await connection.end();
         throw error;

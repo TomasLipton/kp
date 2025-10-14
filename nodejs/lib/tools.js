@@ -90,7 +90,14 @@ export async function handleToolCall(toolName, args, quizSessionId) {
                 question_id: question.id,
                 question: question.question_pl,
                 question_type: question.question_type,
-                picture: question.picture
+                picture: question.picture,
+                answers: question.answers.map(answer => ({
+                    id: answer.id,
+                    text: answer.text,
+                    picture: answer.picture,
+                    is_correct: answer.is_correct,
+                    order: answer.order
+                }))
             };
         } catch (error) {
             console.error("Error getting next question:", error);
