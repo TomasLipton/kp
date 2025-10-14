@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Quiz extends Model
@@ -28,6 +29,11 @@ class Quiz extends Model
     public function topics(): BelongsTo
     {
         return $this->belongsTo(Topics::class);
+    }
+
+    public function aiQuiz(): HasOne
+    {
+        return $this->hasOne(AIQuiz::class);
     }
 
     public function answers()

@@ -12,6 +12,7 @@ class AIQuiz extends Model
     use HasUuids;
 
     protected $fillable = [
+        'quiz_id',
         'user_id',
         'topic_id',
         'openai_conversation_id',
@@ -35,6 +36,11 @@ class AIQuiz extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function quiz(): BelongsTo
+    {
+        return $this->belongsTo(Quiz::class);
     }
 
     public function topic(): BelongsTo
