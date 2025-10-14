@@ -11,9 +11,9 @@ console.log(__dirname);
 const envPath = path.join(__dirname, '.env');
 if (fs.existsSync(envPath)) {
     dotenv.config({ path: envPath });
-    console.log('✅ Loaded .env file');
+    console.log('✅ Loaded .env file', envPath);
 } else {
-    console.log('⚠️ No .env file found, using environment variables');
+    console.log('⚠️ No .env file found, using environment variables', envPath);
 }
 
 import fs from "fs";
