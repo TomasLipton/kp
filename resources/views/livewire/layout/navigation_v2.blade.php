@@ -130,6 +130,12 @@ new class extends Component {
                                 {{ __('Analytics') }}
                             </span>
                         </x-dropdown-link>
+                        <x-dropdown-link :href="route('ai-quiz-history')" wire:navigate>
+                            <span class="flex items-center gap-2">
+                                @svg('lucide-history', 'w-4 h-4 text-blue-500')
+                                {{ __('Historia Quizów') }}
+                            </span>
+                        </x-dropdown-link>
                         <button wire:click="logout" class="w-full text-start">
                             <x-dropdown-link>
                                 <span class="flex items-center gap-2">
