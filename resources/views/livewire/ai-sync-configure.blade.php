@@ -95,13 +95,13 @@ TEXT;
         $aiQuiz = $quiz->aiQuiz()->create([
             'user_id' => auth()->id(),
             'type' => 'sync',
+            'status' => 'in_progress',
             'topic_id' => $this->topic_id,
             'speed' => $this->speed,
             'difficulty' => $this->difficulty,
             'gender' => $this->gender,
             'voice' => $selectedVoice,
             'openai_conversation_id' => $response->id,
-            'status' => 'preparing',
         ]);
 
         // Redirect to AI quiz session

@@ -30,8 +30,10 @@ Route::group([
     //        ->name('ai');
     //
     //    Volt::route('ai-realtime-configure', 'ai-realtime-configure')->name('ai-quiz');
+    Volt::route('history', 'ai-quiz-history')->name('ai-quiz-history');
     Volt::route('ai-voice-quiz', 'ai-sync-configure')->name('ai-sync-configure');
     Volt::route('ai-voice-quiz/{quiz}', 'ai-sync-play')->name('voice-quiz');
+    Volt::route('ai-voice-quiz/{quiz}/summary', 'ai-quiz-summary')->name('ai-quiz-summary');
 
     require __DIR__.'/auth.php';
 
