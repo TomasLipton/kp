@@ -20,10 +20,13 @@ class extends Component {
 
     public function endQuiz(): void
     {
-        // TODO: Implement quiz ending logic
-        // - Save quiz completion status
-        // - Calculate final score
-        // - Redirect to results page
+        // Update quiz status to completed
+        $this->quiz->update([
+            'status' => 'completed'
+        ]);
+
+        // Redirect to summary page
+        $this->redirect(route('ai-quiz-summary', ['quiz' => $this->quiz->id]));
     }
 
     public function with(): array
@@ -45,12 +48,12 @@ class extends Component {
 
 <div x-data="{ loading: true }" x-init="setTimeout(() => loading = false, 500)">
     <!-- Loading Overlay -->
-    <div x-show="loading" x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 bg-white z-50 flex items-center justify-center">
-        <div class="text-center">
-            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <p class="text-gray-600 font-medium">Loading...</p>
-        </div>
-    </div>
+{{--    <div x-show="loading" x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 bg-white z-50 flex items-center justify-center">--}}
+{{--        <div class="text-center">--}}
+{{--            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>--}}
+{{--            <p class="text-gray-600 font-medium">Loading...</p>--}}
+{{--        </div>--}}
+{{--    </div>--}}
 
     <div class="max-w-7xl mx-auto px-4 mt-4">
         <!-- Compact Header with Status -->
@@ -128,12 +131,12 @@ class extends Component {
                 <!-- End Quiz Button -->
                 <button
                     wire:click="endQuiz"
-                    wire:confirm="Are you sure you want to end this quiz? You won't be able to return."
+                    wire:confirm="Czy na pewno chcesz zakończyć ten quiz? Nie będziesz mógł wrócić."
                     class="w-full inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-sm font-medium
                            bg-red-50 hover:bg-red-100 border border-red-200 hover:border-red-300
                            text-red-700 transition-all duration-200">
                     @svg('lucide-flag', 'w-4 h-4')
-                    End Quiz
+                    Zakończ Quiz
                 </button>
 
                 <audio id="player" class="hidden"></audio>
