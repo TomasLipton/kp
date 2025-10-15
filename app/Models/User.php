@@ -6,6 +6,7 @@ namespace App\Models;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -58,12 +59,12 @@ class User extends Authenticatable implements FilamentUser
         return $this->is_admin;
     }
 
-    public function quizzes()
+    public function quizzes(): HasMany
     {
         return $this->hasMany(Quiz::class);
     }
 
-    public function socialiteUsers()
+    public function socialiteUsers(): HasMany
     {
         return $this->hasMany(SocialiteUser::class);
     }
