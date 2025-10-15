@@ -171,8 +171,8 @@ class QuestionResource extends Resource
                             ->required(),
 
                         Select::make('user_id')
-                            ->label('User')
-                            ->relationship('user', 'email')
+                            ->label('Author')
+                            ->relationship('user', 'name')
                             ->searchable()
                             ->nullable(),
 
@@ -241,11 +241,11 @@ class QuestionResource extends Resource
                     ->searchable(isIndividual: true)
                     ->sortable(),
 
-                TextColumn::make('user.email')
-                    ->label('User')
+                TextColumn::make('user.name')
+                    ->label('Author')
                     ->searchable()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: false),
             ])
             ->groups([
                 TableGroup::make('question_type')
