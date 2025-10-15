@@ -22,11 +22,17 @@ class Question extends Model
         'explanation_ru',
         'topics_id',
         'is_reviewed',
+        'user_id',
     ];
 
     public function topics(): BelongsTo
     {
         return $this->belongsTo(Topics::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function answers()

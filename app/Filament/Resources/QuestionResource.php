@@ -12,6 +12,7 @@ use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -169,6 +170,12 @@ class QuestionResource extends Resource
                             ->options(Topics::all()->pluck('name_pl', 'id'))
                             ->required(),
 
+                        Select::make('user_id')
+                            ->label('User')
+                            ->relationship('user', 'email')
+                            ->searchable()
+                            ->nullable(),
+
                         FileUpload::make('picture')
                             ->image()
                             ->imageEditor()
@@ -233,6 +240,12 @@ class QuestionResource extends Resource
                     ->label('Temat')
                     ->searchable(isIndividual: true)
                     ->sortable(),
+
+                TextColumn::make('user.email')
+                    ->label('User')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->groups([
                 TableGroup::make('question_type')
