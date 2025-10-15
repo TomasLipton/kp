@@ -33,7 +33,7 @@ class QuizzesRelationManager extends RelationManager
     {
         return $table
             ->recordTitleAttribute('uuid')
-            ->modifyQueryUsing(fn (Builder $query) => $query->whereNotNull('completed_at'))
+//            ->modifyQueryUsing(fn (Builder $query) => $query->whereNotNull('completed_at'))
             ->columns([
                 Tables\Columns\TextColumn::make('uuid')
                     ->label('UUID')
