@@ -1,6 +1,6 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-NiNeSX3Y.css",
+    "file": "assets/app-DPFwp49O.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
@@ -20,7 +20,8 @@
     "isEntry": true
   },
   "resources/css/start-survey.scss": {
-    "file": "assets/start-survey-C5pU8IWN.css",
+    "file": "assets/start-survey-l0sNRNKZ.js",
+    "name": "start-survey",
     "src": "resources/css/start-survey.scss",
     "isEntry": true
   },
