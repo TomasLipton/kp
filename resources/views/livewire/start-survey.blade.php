@@ -22,72 +22,77 @@
         <div class="bg-card border border-border/50 rounded-2xl shadow-xl overflow-hidden
             transform transition-all duration-300 hover:shadow-2xl">
 
-            <!-- Hero Image Section with Gradient Overlay -->
-            <div class="relative h-48 sm:h-56 overflow-hidden group">
-                <img
-                    id="quiz-image"
-                    src="{{url('storage/' . $topic->picture)}}"
-                    alt="{{ __('app.quiz_title_alt') }}"
-                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <!-- Gradient Overlays -->
-                <div class="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent"></div>
-                <div class="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-orange-500/10"></div>
-
-                <!-- Floating Badge -->
-                <div class="absolute top-6 right-6 animate-in fade-in slide-in-from-top-2 duration-500">
-                    <span
-                        id="difficulty-badge"
-                        class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full
-                            text-xs font-semibold bg-orange-500 text-white
-                            shadow-lg shadow-orange-500/30 backdrop-blur-md
-                            ring-2 ring-white/20
-                            transform transition-all duration-300 hover:scale-105"
-                    >
-                        @svg('lucide-zap', 'w-3.5 h-3.5')
-                        {{ __('app.difficulty_medium') }}
-                    </span>
-                </div>
-            </div>
-
             <!-- Content Section -->
             <div class="p-6 sm:p-8 lg:p-10 space-y-8">
                 <!-- Quiz Title -->
-                <div class="space-y-3">
-                    <h1 id="quiz-title" class="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground
-                        bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text
-                        leading-tight tracking-tight">
-                        @switch(LaravelLocalization::getCurrentLocale())
-                            @case('ru')
-                                {{trim($topic->name_ru ?? $topic->name_pl)}}
-                                @break
-                            @case('uk')
-                                {{trim($topic->name_uk ?? $topic->name_pl)}}
-                                @break
-                            @case('be')
-                                {{trim($topic->name_by ?? $topic->name_pl)}}
-                                @break
-                            @default
-                                {{trim($topic->name_pl)}}
-                        @endswitch
-                    </h1>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between gap-4">
+                        <h1 id="quiz-title" class="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground
+                            bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text
+                            leading-tight tracking-tight">
+                            @switch(LaravelLocalization::getCurrentLocale())
+                                @case('ru')
+                                    {{trim($topic->name_ru ?? $topic->name_pl)}}
+                                    @break
+                                @case('uk')
+                                    {{trim($topic->name_uk ?? $topic->name_pl)}}
+                                    @break
+                                @case('be')
+                                    {{trim($topic->name_by ?? $topic->name_pl)}}
+                                    @break
+                                @default
+                                    {{trim($topic->name_pl)}}
+                            @endswitch
+                        </h1>
 
-                    <!-- Description -->
-                    <p id="quiz-description" class="text-base sm:text-lg text-muted-foreground leading-relaxed ">
-                        @switch(LaravelLocalization::getCurrentLocale())
-                            @case('ru')
-                                {!! str_replace("\n", '<br>', $topic->description_ru ?? $topic->description_pl) !!}
-                                @break
-                            @case('uk')
-                                {!! str_replace("\n", '<br>', $topic->description_uk ?? $topic->description_pl) !!}
-                                @break
-                            @case('be')
-                                {!! str_replace("\n", '<br>', $topic->description_by ?? $topic->description_pl) !!}
-                                @break
-                            @default
-                                {!! str_replace("\n", '<br>', $topic->description_pl) !!}
-                        @endswitch
-                    </p>
+                        <!-- Floating Badge -->
+                        <span
+                            id="difficulty-badge"
+                            class="flex-shrink-0 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full
+                                text-xs font-semibold bg-orange-500 text-white
+                                shadow-lg shadow-orange-500/30
+                                ring-2 ring-orange-500/20"
+                        >
+                            @svg('lucide-zap', 'w-3.5 h-3.5')
+                            {{ __('app.difficulty_medium') }}
+                        </span>
+                    </div>
+
+                    <!-- Image and Description Section -->
+                    <div>
+                        <!-- Image floated left -->
+                        <div class="float-left w-full sm:w-64 lg:w-80 mr-0 sm:mr-6 mb-4">
+                            <div class="relative overflow-hidden rounded-xl group">
+                                <img
+                                    id="quiz-image"
+                                    src="{{url('storage/' . $topic->picture)}}"
+                                    alt="{{ __('app.quiz_title_alt') }}"
+                                    class="w-full h-48 sm:h-56 object-cover transition-transform duration-700 group-hover:scale-105"
+                                />
+                                <!-- Gradient Overlay -->
+                                <div class="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent"></div>
+                            </div>
+                        </div>
+
+                        <!-- Description wraps around image -->
+                        <p id="quiz-description" class="text-base sm:text-lg text-muted-foreground leading-relaxed">
+                            @switch(LaravelLocalization::getCurrentLocale())
+                                @case('ru')
+                                    {!! str_replace("\n", '<br>', $topic->description_ru ?? $topic->description_pl) !!}
+                                    @break
+                                @case('uk')
+                                    {!! str_replace("\n", '<br>', $topic->description_uk ?? $topic->description_pl) !!}
+                                    @break
+                                @case('be')
+                                    {!! str_replace("\n", '<br>', $topic->description_by ?? $topic->description_pl) !!}
+                                    @break
+                                @default
+                                    {!! str_replace("\n", '<br>', $topic->description_pl) !!}
+                            @endswitch
+                        </p>
+
+                        <div class="clear-both"></div>
+                    </div>
                 </div>
 
                 <!-- Stats Row with Cards -->
