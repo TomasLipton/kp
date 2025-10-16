@@ -4,6 +4,7 @@
 {{--    <script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/b2e695576b04046a5a433e90/script.js"></script>--}}
 
 {{--    <!-- Google tag (gtag.js) -->--}}
+    @production
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7N1F5NBJY1"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -12,6 +13,7 @@
 
         gtag('config', 'G-7N1F5NBJY1');
     </script>
+    @endproduction
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#e9e8e7">
