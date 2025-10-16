@@ -109,6 +109,9 @@ return [
     'start' => 'Почати',
     'start_all_questions' => 'Почати всі питання',
     'start_10_questions' => 'Почати 10 питань',
+    'your_attempts' => 'Ваші спроби',
+    'completed' => 'Завершено',
+    'total_attempts' => 'Усього спроб',
 
     // New Survey Results translations
     'quiz_completed_successfully' => 'Вікторина завершена успішно!',

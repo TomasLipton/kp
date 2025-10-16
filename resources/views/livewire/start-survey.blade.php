@@ -96,7 +96,8 @@
                 </div>
 
                 <!-- Stats Row with Cards -->
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+                    <!-- Questions Count -->
                     <div class="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-br from-primary/5 to-primary/10
                         border border-primary/20 transition-all duration-300 hover:shadow-md hover:scale-105 group">
                         @svg('lucide-book-open', 'w-5 h-5 text-primary transition-transform group-hover:scale-110')
@@ -113,21 +114,42 @@
                         </div>
                     </div>
 
+                    <!-- User Attempts -->
                     <div class="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-br from-blue-500/5 to-blue-500/10
                         border border-blue-500/20 transition-all duration-300 hover:shadow-md hover:scale-105 group">
-                        @svg('lucide-clock', 'w-5 h-5 text-blue-500 transition-transform group-hover:scale-110')
+                        @svg('lucide-rotate-cw', 'w-5 h-5 text-blue-500 transition-transform group-hover:scale-110')
                         <div class="flex-1">
-                            <span id="quiz-duration" class="text-lg font-bold text-foreground block">30</span>
-                            <span class="text-xs text-muted-foreground">{{ __('app.minutes') ?? 'min' }}</span>
+                            @php
+                                $userAttempts = auth()->check() ? $topic->quizzes()->where('user_id', auth()->id())->count() : 0;
+                            @endphp
+                            <span class="text-lg font-bold text-foreground block">{{ $userAttempts }}</span>
+                            <span class="text-xs text-muted-foreground">{{ __('app.your_attempts') ?? 'попыток' }}</span>
                         </div>
                     </div>
 
+                    <!-- Completed Count -->
+                    <div class="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-br from-green-500/5 to-green-500/10
+                        border border-green-500/20 transition-all duration-300 hover:shadow-md hover:scale-105 group">
+                        @svg('lucide-check-circle', 'w-5 h-5 text-green-500 transition-transform group-hover:scale-110')
+                        <div class="flex-1">
+                            @php
+                                $completedCount = $topic->quizzes()->whereNotNull('completed_at')->count();
+                            @endphp
+                            <span class="text-lg font-bold text-foreground block">{{ $completedCount }}</span>
+                            <span class="text-xs text-muted-foreground">{{ __('app.completed') ?? 'завершено' }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Total Attempts -->
                     <div class="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-br from-yellow-500/5 to-yellow-500/10
                         border border-yellow-500/20 transition-all duration-300 hover:shadow-md hover:scale-105 group">
-                        @svg('lucide-star', 'w-5 h-5 text-yellow-500 fill-current transition-transform group-hover:scale-110')
+                        @svg('lucide-users', 'w-5 h-5 text-yellow-500 transition-transform group-hover:scale-110')
                         <div class="flex-1">
-                            <span id="quiz-rating" class="text-lg font-bold text-foreground block">4.5</span>
-                            <span class="text-xs text-muted-foreground">{{ __('app.rating') ?? 'rating' }}</span>
+                            @php
+                                $totalAttempts = $topic->quizzes()->count();
+                            @endphp
+                            <span class="text-lg font-bold text-foreground block">{{ $totalAttempts }}</span>
+                            <span class="text-xs text-muted-foreground">{{ __('app.total_attempts') ?? 'всего попыток' }}</span>
                         </div>
                     </div>
                 </div>

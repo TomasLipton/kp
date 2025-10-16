@@ -109,6 +109,9 @@ return [
     'start' => 'Rozpocznij',
     'start_all_questions' => 'Rozpocznij wszystkie pytania',
     'start_10_questions' => 'Rozpocznij 10 pytań',
+    'your_attempts' => 'Twoje próby',
+    'completed' => 'Ukończono',
+    'total_attempts' => 'Wszystkie próby',
 
     // New Survey Results translations
     'quiz_completed_successfully' => 'Quiz zakończony pomyślnie!',

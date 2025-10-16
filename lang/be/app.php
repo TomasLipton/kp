@@ -109,6 +109,9 @@ return [
     'start' => 'Пачні',
     'start_all_questions' => 'Пачні усе пытанні',
     'start_10_questions' => 'Пачні 10 пытанняў',
+    'your_attempts' => 'Вашыя спробы',
+    'completed' => 'Завершана',
+    'total_attempts' => 'Усяго спроб',
 
     // New Survey Results translations
     'quiz_completed_successfully' => 'Віктарына завершана паспяхова!',
