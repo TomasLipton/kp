@@ -110,36 +110,39 @@
                 </div>
 
                 <!-- Stats Row with Cards -->
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+                <div class="grid grid-cols-2 {{ auth()->check() ? 'sm:grid-cols-4' : 'sm:grid-cols-3' }} gap-3 sm:gap-4">
                     <!-- Questions Count -->
                     <div class="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-br from-primary/5 to-primary/10
                         border border-primary/20 transition-all duration-300 hover:shadow-md hover:scale-105 group">
                         @svg('lucide-book-open', 'w-5 h-5 text-primary transition-transform group-hover:scale-110')
                         <div class="flex-1">
+                            @php
+                                $count = $topic->questions()->count();
+                                $displayCount = ($topic->isVisibleToPublic && $count < 10) ? '<10' : $count;
+                                $questionText = $count == 1 ? __('app.question') :
+                                    (($count % 10 >= 2 && $count % 10 <= 4 && ($count % 100 < 10 || $count % 100 >= 20)) ? __('app.questions_few') : __('app.questions_many'));
+                            @endphp
                             <span id="quiz-questions" class="text-lg font-bold text-foreground block">
-                                @php
-                                    $count = $topic->questions()->count();
-                                    $questionText = $count == 1 ? __('app.question') :
-                                        (($count % 10 >= 2 && $count % 10 <= 4 && ($count % 100 < 10 || $count % 100 >= 20)) ? __('app.questions_few') : __('app.questions_many'));
-                                @endphp
-                                {{ $count }}
+                                {{ $displayCount }}
                             </span>
                             <span class="text-xs text-muted-foreground">{{ $questionText }}</span>
                         </div>
                     </div>
 
-                    <!-- User Attempts -->
-                    <div class="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-br from-blue-500/5 to-blue-500/10
-                        border border-blue-500/20 transition-all duration-300 hover:shadow-md hover:scale-105 group">
-                        @svg('lucide-rotate-cw', 'w-5 h-5 text-blue-500 transition-transform group-hover:scale-110')
-                        <div class="flex-1">
-                            @php
-                                $userAttempts = auth()->check() ? $topic->quizzes()->where('user_id', auth()->id())->count() : 0;
-                            @endphp
-                            <span class="text-lg font-bold text-foreground block">{{ $userAttempts }}</span>
-                            <span class="text-xs text-muted-foreground">{{ __('app.your_attempts') ?? 'попыток' }}</span>
+                    <!-- User Attempts (Only for authenticated users) -->
+                    @auth
+                        <div class="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-br from-blue-500/5 to-blue-500/10
+                            border border-blue-500/20 transition-all duration-300 hover:shadow-md hover:scale-105 group">
+                            @svg('lucide-rotate-cw', 'w-5 h-5 text-blue-500 transition-transform group-hover:scale-110')
+                            <div class="flex-1">
+                                @php
+                                    $userAttempts = $topic->quizzes()->where('user_id', auth()->id())->count();
+                                @endphp
+                                <span class="text-lg font-bold text-foreground block">{{ $userAttempts }}</span>
+                                <span class="text-xs text-muted-foreground">{{ __('app.your_attempts') }}</span>
+                            </div>
                         </div>
-                    </div>
+                    @endauth
 
                     <!-- Completed Count -->
                     <div class="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-br from-green-500/5 to-green-500/10
@@ -148,9 +151,10 @@
                         <div class="flex-1">
                             @php
                                 $completedCount = $topic->quizzes()->whereNotNull('completed_at')->count();
+                                $completedCount = $completedCount > 0 ? $completedCount : '<10';
                             @endphp
                             <span class="text-lg font-bold text-foreground block">{{ $completedCount }}</span>
-                            <span class="text-xs text-muted-foreground">{{ __('app.completed') ?? 'завершено' }}</span>
+                            <span class="text-xs text-muted-foreground">{{ __('app.completed') }}</span>
                         </div>
                     </div>
 
@@ -161,9 +165,10 @@
                         <div class="flex-1">
                             @php
                                 $totalAttempts = $topic->quizzes()->count();
+                             $totalAttempts =   $totalAttempts > 0 ? $totalAttempts : '<10';
                             @endphp
                             <span class="text-lg font-bold text-foreground block">{{ $totalAttempts }}</span>
-                            <span class="text-xs text-muted-foreground">{{ __('app.total_attempts') ?? 'всего попыток' }}</span>
+                            <span class="text-xs text-muted-foreground">{{ __('app.total_attempts') }}</span>
                         </div>
                     </div>
                 </div>
@@ -235,38 +240,38 @@
                 </div>
 
                 <!-- Selected Mode Info -->
-{{--                <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/10 via-primary/5 to-transparent--}}
-{{--                    border border-primary/30 p-5 backdrop-blur-sm">--}}
-{{--                    <!-- Decorative Background Elements -->--}}
-{{--                    <div class="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl"></div>--}}
-{{--                    <div class="absolute bottom-0 left-0 w-24 h-24 bg-primary/5 rounded-full blur-2xl"></div>--}}
+                {{--                <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/10 via-primary/5 to-transparent--}}
+                {{--                    border border-primary/30 p-5 backdrop-blur-sm">--}}
+                {{--                    <!-- Decorative Background Elements -->--}}
+                {{--                    <div class="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl"></div>--}}
+                {{--                    <div class="absolute bottom-0 left-0 w-24 h-24 bg-primary/5 rounded-full blur-2xl"></div>--}}
 
-{{--                    <div class="relative flex items-center gap-3">--}}
-{{--                        <div class="flex-shrink-0 p-2.5 rounded-lg bg-primary/20">--}}
-{{--                            @svg('lucide-info', 'w-5 h-5 text-primary')--}}
-{{--                        </div>--}}
-{{--                        <div class="flex-1">--}}
-{{--                            <div class="flex flex-wrap items-center gap-2 text-sm">--}}
-{{--                                <span id="current-mode-questions" class="font-bold text-foreground text-base">--}}
-{{--                                    @php--}}
-{{--                                        if ($surveyMode === '10 pytań') {--}}
-{{--                                            $count = 10;--}}
-{{--                                        } else {--}}
-{{--                                            $count = $topic->questions()->count();--}}
-{{--                                        }--}}
-{{--                                        $questionText = $count == 1 ? __('app.question') :--}}
-{{--                                            (($count % 10 >= 2 && $count % 10 <= 4 && ($count % 100 < 10 || $count % 100 >= 20)) ? __('app.questions_few') : __('app.questions_many'));--}}
-{{--                                    @endphp--}}
-{{--                                    {{ $count }} {{ $questionText }}--}}
-{{--                                </span>--}}
-{{--                                <span class="text-primary/50 font-bold">•</span>--}}
-{{--                                <span id="current-mode-desc" class="text-muted-foreground">--}}
-{{--                                    {{ $surveyMode === '10 pytań' ? __('app.test_yourself_with_10_random_questions') : __('app.complete_quiz_with_all_questions') }}--}}
-{{--                                </span>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
+                {{--                    <div class="relative flex items-center gap-3">--}}
+                {{--                        <div class="flex-shrink-0 p-2.5 rounded-lg bg-primary/20">--}}
+                {{--                            @svg('lucide-info', 'w-5 h-5 text-primary')--}}
+                {{--                        </div>--}}
+                {{--                        <div class="flex-1">--}}
+                {{--                            <div class="flex flex-wrap items-center gap-2 text-sm">--}}
+                {{--                                <span id="current-mode-questions" class="font-bold text-foreground text-base">--}}
+                {{--                                    @php--}}
+                {{--                                        if ($surveyMode === '10 pytań') {--}}
+                {{--                                            $count = 10;--}}
+                {{--                                        } else {--}}
+                {{--                                            $count = $topic->questions()->count();--}}
+                {{--                                        }--}}
+                {{--                                        $questionText = $count == 1 ? __('app.question') :--}}
+                {{--                                            (($count % 10 >= 2 && $count % 10 <= 4 && ($count % 100 < 10 || $count % 100 >= 20)) ? __('app.questions_few') : __('app.questions_many'));--}}
+                {{--                                    @endphp--}}
+                {{--                                    {{ $count }} {{ $questionText }}--}}
+                {{--                                </span>--}}
+                {{--                                <span class="text-primary/50 font-bold">•</span>--}}
+                {{--                                <span id="current-mode-desc" class="text-muted-foreground">--}}
+                {{--                                    {{ $surveyMode === '10 pytań' ? __('app.test_yourself_with_10_random_questions') : __('app.complete_quiz_with_all_questions') }}--}}
+                {{--                                </span>--}}
+                {{--                            </div>--}}
+                {{--                        </div>--}}
+                {{--                    </div>--}}
+                {{--                </div>--}}
 
                 <!-- Start Button -->
                 <button

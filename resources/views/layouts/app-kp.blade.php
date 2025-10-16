@@ -77,8 +77,8 @@
 
 <div class="app_container shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)]_">
 
-    <livewire:layout.navigation />
-{{--    <livewire:layout.navigation_v2 />--}}
+{{--    <livewire:layout.navigation />--}}
+    <livewire:layout.navigation_v2 />
 
     @yield('content')
     @if(isset($slot))
