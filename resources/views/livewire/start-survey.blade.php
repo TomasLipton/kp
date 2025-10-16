@@ -33,9 +33,9 @@
     @section('description', $topicSeoDescription)
 @endif
 
-<div class="min-h-screen ">
+<div class="">
     <!-- Back Button -->
-    <div class="m-2">
+    <div class="m-4">
         <a
             href="{{ route('dashboard') }}"
             wire:navigate
@@ -101,26 +101,26 @@
                         </div>
 
                         <!-- Description wraps around image -->
-                        <p id="quiz-description" class="text-base sm:text-lg text-muted-foreground leading-relaxed">
+                        <div id="quiz-descriptiasdon" class="text-base sm:text-lg text-muted-foreground leading-relaxed">
                             {!! $topicDescription !!}
-                        </p>
+                        </div>
 
-                        <div class="clear-both"></div>
-                    </div>
-                </div>
+                             <div class="clear-both"></div>
+                         </div>
+                     </div>
 
-                <!-- Stats Row with Cards -->
-                <div class="grid grid-cols-2 {{ auth()->check() ? 'sm:grid-cols-4' : 'sm:grid-cols-3' }} gap-3 sm:gap-4">
-                    <!-- Questions Count -->
-                    <div class="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-br from-primary/5 to-primary/10
-                        border border-primary/20 transition-all duration-300 hover:shadow-md hover:scale-105 group">
-                        @svg('lucide-book-open', 'w-5 h-5 text-primary transition-transform group-hover:scale-110')
-                        <div class="flex-1">
-                            @php
-                                $count = $topic->questions()->count();
-                                $displayCount = ($topic->isVisibleToPublic && $count < 10) ? '<10' : $count;
-                                $questionText = $count == 1 ? __('app.question') :
-                                    (($count % 10 >= 2 && $count % 10 <= 4 && ($count % 100 < 10 || $count % 100 >= 20)) ? __('app.questions_few') : __('app.questions_many'));
+                     <!-- Stats Row with Cards -->
+                     <div class="grid grid-cols-2 {{ auth()->check() ? 'sm:grid-cols-4' : 'sm:grid-cols-3' }} gap-3 sm:gap-4">
+                         <!-- Questions Count -->
+                         <div class="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-br from-primary/5 to-primary/10
+                             border border-primary/20 transition-all duration-300 hover:shadow-md hover:scale-105 group">
+                             @svg('lucide-book-open', 'w-5 h-5 text-primary transition-transform group-hover:scale-110')
+                             <div class="flex-1">
+                                 @php
+                                     $count = $topic->questions()->count();
+                                     $displayCount = ($topic->isVisibleToPublic && $count < 10) ? '<10' : $count;
+                                     $questionText = $count == 1 ? __('app.question') :
+                                         (($count % 10 >= 2 && $count % 10 <= 4 && ($count % 100 < 10 || $count % 100 >= 20)) ? __('app.questions_few') : __('app.questions_many'));
                             @endphp
                             <span id="quiz-questions" class="text-lg font-bold text-foreground block">
                                 {{ $displayCount }}

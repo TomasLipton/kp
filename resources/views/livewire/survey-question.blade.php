@@ -33,7 +33,7 @@
     @if($question) data-question-type="{{$question->question_type}}" @endif
     @if($question) data-is-answered="{!! $chosenAnswer ? 'true' : 'false' !!}" @endif
     id="wrap"
-    class="min-h-[calc(100vh-4rem)] py-4"
+    class="py-4"
 >
     @if(!$quiz->completed_at)
         {{-- Header with Quit Button --}}
