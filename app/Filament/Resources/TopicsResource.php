@@ -47,9 +47,10 @@ class TopicsResource extends Resource
 
                 Forms\Components\Grid::make(3)
                     ->schema([
-                        Forms\Components\Section::make('Translations')
+                        Forms\Components\Group::make()
                             ->schema([
-                                Forms\Components\Fieldset::make('Polish (PL)')
+                                Forms\Components\Section::make('Polish (PL)')
+                                    ->columns(1)
                                     ->schema([
                                         Forms\Components\TextInput::make('name_pl')
                                             ->label('Name')
@@ -60,9 +61,11 @@ class TopicsResource extends Resource
                                                 }
                                             })
                                             ->reactive(),
+
                                         Forms\Components\RichEditor::make('description_pl')
                                             ->label('Description')
                                             ->required(),
+
                                         Forms\Components\Textarea::make('seo_description_pl')
                                             ->label('SEO Description')
                                             ->maxLength(160)
@@ -71,55 +74,64 @@ class TopicsResource extends Resource
                                             ->placeholder('Brief description for search results...'),
                                     ]),
 
-                                Forms\Components\Fieldset::make('Russian (RU)')
+                                Forms\Components\Section::make('Russian (RU)')
+                                    ->columns(1)
                                     ->schema([
                                         Forms\Components\TextInput::make('name_ru')
                                             ->label('Name')
                                             ->default('-')
                                             ->required(),
-                                        Forms\Components\Textarea::make('description_ru')
+
+                                        Forms\Components\RichEditor::make('description_ru')
                                             ->label('Description')
                                             ->default('-')
-                                            ->required()
-                                            ->rows(3),
-                                        Forms\Components\TextInput::make('seo_description_ru')
+                                            ->required(),
+
+                                        Forms\Components\Textarea::make('seo_description_ru')
                                             ->label('SEO Description')
                                             ->maxLength(160)
+                                            ->rows(3)
                                             ->helperText('Max 160 characters for search engines')
                                             ->placeholder('Brief description for search results...'),
                                     ]),
 
-                                Forms\Components\Fieldset::make('Belarusian (BY)')
+                                Forms\Components\Section::make('Belarusian (BY)')
+                                    ->columns(1)
                                     ->schema([
                                         Forms\Components\TextInput::make('name_by')
                                             ->label('Name')
                                             ->default('-')
                                             ->required(),
-                                        Forms\Components\Textarea::make('description_by')
+
+                                        Forms\Components\RichEditor::make('description_by')
                                             ->label('Description')
                                             ->default('-')
-                                            ->required()
-                                            ->rows(3),
-                                        Forms\Components\TextInput::make('seo_description_by')
+                                            ->required(),
+
+                                        Forms\Components\Textarea::make('seo_description_by')
                                             ->label('SEO Description')
                                             ->maxLength(160)
+                                            ->rows(3)
                                             ->helperText('Max 160 characters for search engines')
                                             ->placeholder('Brief description for search results...'),
                                     ]),
 
-                                Forms\Components\Fieldset::make('Ukrainian (UK)')
+                                Forms\Components\Section::make('Ukrainian (UK)')
+                                    ->columns(1)
                                     ->schema([
                                         Forms\Components\TextInput::make('name_uk')
                                             ->label('Name')
                                             ->default('-')
                                             ->required(),
-                                        Forms\Components\Textarea::make('description_uk')
+
+                                        Forms\Components\RichEditor::make('description_uk')
                                             ->label('Description')
                                             ->default('-')
-                                            ->required()
-                                            ->rows(3),
-                                        Forms\Components\TextInput::make('seo_description_uk')
+                                            ->required(),
+
+                                        Forms\Components\Textarea::make('seo_description_uk')
                                             ->label('SEO Description')
+                                            ->rows(3)
                                             ->maxLength(160)
                                             ->helperText('Max 160 characters for search engines')
                                             ->placeholder('Brief description for search results...'),
@@ -133,6 +145,7 @@ class TopicsResource extends Resource
                                     ->schema([
                                         Forms\Components\Select::make('parent_id')
                                             ->relationship('parent', 'name_ru'),
+
                                         Forms\Components\Select::make('difficulty')
                                             ->label('Difficulty Level')
                                             ->options([
@@ -142,6 +155,7 @@ class TopicsResource extends Resource
                                             ])
                                             ->default('medium')
                                             ->required(),
+
                                         Forms\Components\Toggle::make('isVisibleToPublic')
                                             ->label('Visible to Public')
                                             ->default(true),
