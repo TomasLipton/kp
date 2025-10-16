@@ -60,10 +60,15 @@ class TopicsResource extends Resource
                                                 }
                                             })
                                             ->reactive(),
-                                        Forms\Components\Textarea::make('description_pl')
+                                        Forms\Components\RichEditor::make('description_pl')
                                             ->label('Description')
-                                            ->required()
-                                            ->rows(3),
+                                            ->required(),
+                                        Forms\Components\Textarea::make('seo_description_pl')
+                                            ->label('SEO Description')
+                                            ->maxLength(160)
+                                            ->rows(6)
+                                            ->helperText('Max 160 characters for search engines')
+                                            ->placeholder('Brief description for search results...'),
                                     ]),
 
                                 Forms\Components\Fieldset::make('Russian (RU)')
@@ -77,6 +82,11 @@ class TopicsResource extends Resource
                                             ->default('-')
                                             ->required()
                                             ->rows(3),
+                                        Forms\Components\TextInput::make('seo_description_ru')
+                                            ->label('SEO Description')
+                                            ->maxLength(160)
+                                            ->helperText('Max 160 characters for search engines')
+                                            ->placeholder('Brief description for search results...'),
                                     ]),
 
                                 Forms\Components\Fieldset::make('Belarusian (BY)')
@@ -90,6 +100,11 @@ class TopicsResource extends Resource
                                             ->default('-')
                                             ->required()
                                             ->rows(3),
+                                        Forms\Components\TextInput::make('seo_description_by')
+                                            ->label('SEO Description')
+                                            ->maxLength(160)
+                                            ->helperText('Max 160 characters for search engines')
+                                            ->placeholder('Brief description for search results...'),
                                     ]),
 
                                 Forms\Components\Fieldset::make('Ukrainian (UK)')
@@ -103,6 +118,11 @@ class TopicsResource extends Resource
                                             ->default('-')
                                             ->required()
                                             ->rows(3),
+                                        Forms\Components\TextInput::make('seo_description_uk')
+                                            ->label('SEO Description')
+                                            ->maxLength(160)
+                                            ->helperText('Max 160 characters for search engines')
+                                            ->placeholder('Brief description for search results...'),
                                     ]),
                             ])
                             ->columnSpan(2),
