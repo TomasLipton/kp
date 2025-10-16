@@ -15,7 +15,7 @@ class StartSurvey extends Component
 {
     public Topics $topic;
 
-    public string $surveyMode = 'Wszystkie pytania';
+    public string $surveyMode = '10 pytań';
 
     public function render()
     {
