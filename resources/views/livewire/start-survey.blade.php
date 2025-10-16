@@ -2,6 +2,17 @@
 @vite('resources/css/start-survey.scss')
 @endassets
 
+@php
+    $topicName = match(LaravelLocalization::getCurrentLocale()) {
+        'ru' => trim($topic->name_ru ?? $topic->name_pl),
+        'uk' => trim($topic->name_uk ?? $topic->name_pl),
+        'be' => trim($topic->name_by ?? $topic->name_pl),
+        default => trim($topic->name_pl),
+    };
+@endphp
+
+@section('title', $topicName . ' - ' . __('app.polish_card_tests'))
+
 <div class="min-h-screen ">
     <!-- Back Button -->
     <div class="m-2">

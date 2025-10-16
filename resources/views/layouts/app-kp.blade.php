@@ -29,12 +29,12 @@
 
     <link rel="icon" type="image/png" href="/favicon.png"/>
 
-    <title>{{ $title ?? __('Quiz Polaka - Testy przygotowujące do rozmowy na karcie Polaka') }}</title>
+    <title>@yield('title', $title ?? __('Quiz Polaka - Testy przygotowujące do rozmowy na karcie Polaka'))</title>
 
     <meta name="description" content="{{ $description ?? __('Przygotuj się do egzaminu na Kartę Polaka z naszym interaktywnym testem! Sprawdź swoją wiedzę o polskiej historii, kulturze i języku. Rozwiązuj testy, aby zwiększyć swoje szanse na uzyskanie Karty Polaka.') }}" />
 
 {{--    <!-- Open Graph tags -->--}}
-    <meta property="og:title" content="{{ $title ?? __('Quiz Polaka - Testy przygotowujące do rozmowy na karcie Polaka') }}">
+    <meta property="og:title" content="@yield('title', $title ?? __('Quiz Polaka - Testy przygotowujące do rozmowy na karcie Polaka'))">
     <meta property="og:description" content="{{ $description ?? __('Przygotuj się do egzaminu na Kartę Polaka z naszym interaktywnym testem! Sprawdź swoją wiedzę o polskiej historii, kulturze i języku. Rozwiązuj testy, aby zwiększyć swoje szanse na uzyskanie Karty Polaka.') }}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale()) }}">
@@ -48,7 +48,7 @@
 
 {{--    <!-- Twitter Card tags -->--}}
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ $title ?? __('Quiz Polaka - Testy przygotowujące do rozmowy na karcie Polaka') }}">
+    <meta name="twitter:title" content="@yield('title', $title ?? __('Quiz Polaka - Testy przygotowujące do rozmowy na karcie Polaka'))">
     <meta name="twitter:description" content="{{ $description ?? __('Przygotuj się do egzaminu na Kartę Polaka z naszym interaktywnym testem! Sprawdź swoją wiedzę o polskiej historii, kulturze i języku. Rozwiązuj testy, aby zwiększyć swoje szanse na uzyskanie Karty Polaka.') }}">
 
 {{--    <!-- Language and content locale -->--}}
