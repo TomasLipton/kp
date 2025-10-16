@@ -10,7 +10,9 @@ use Livewire\Component;
 class AiPage extends Component
 {
     public bool $isAdmin = false;
+
     public ?string $token = null;
+
     public AIQuiz $quiz;
 
     public function mount(AIQuiz $quiz): void
@@ -19,7 +21,6 @@ class AiPage extends Component
         if ($quiz->user_id !== auth()->id()) {
             abort(403, 'Unauthorized access to this quiz');
         }
-
 
         $this->quiz = $quiz;
     }

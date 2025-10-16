@@ -66,10 +66,6 @@ class TopicsResource extends Resource
                                             ->label('Description')
                                             ->required(),
 
-                                        Forms\Components\Textarea::make('description_pl')
-                                            ->label('Description')
-                                            ->required(),
-
                                         Forms\Components\Textarea::make('seo_description_pl')
                                             ->label('SEO Description')
                                             ->maxLength(160)
