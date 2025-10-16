@@ -57,15 +57,22 @@
                         </h1>
 
                         <!-- Floating Badge -->
+                        @php
+                            $difficultyColors = [
+                                'easy' => 'bg-green-500 shadow-green-500/30 ring-green-500/20',
+                                'medium' => 'bg-orange-500 shadow-orange-500/30 ring-orange-500/20',
+                                'hard' => 'bg-red-500 shadow-red-500/30 ring-red-500/20',
+                            ];
+                            $difficulty = $topic->difficulty ?? 'medium';
+                        @endphp
                         <span
                             id="difficulty-badge"
                             class="flex-shrink-0 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full
-                                text-xs font-semibold bg-orange-500 text-white
-                                shadow-lg shadow-orange-500/30
-                                ring-2 ring-orange-500/20"
+                                text-xs font-semibold text-white shadow-lg ring-2
+                                {{ $difficultyColors[$difficulty] }}"
                         >
                             @svg('lucide-zap', 'w-3.5 h-3.5')
-                            {{ __('app.difficulty_medium') }}
+                            {{ __('app.difficulty_' . $difficulty) }}
                         </span>
                     </div>
 

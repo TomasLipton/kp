@@ -95,7 +95,9 @@ return [
     // Start Survey translations
     'back_to_topics' => 'Назад до Тем',
     'quiz_title_alt' => 'Заголовок Вікторини',
+    'difficulty_easy' => 'Легкий',
     'difficulty_medium' => 'Середній',
+    'difficulty_hard' => 'Складний',
     'duration_30min' => '30 хв',
     'choose_mode' => 'Оберіть режим:',
     'all_questions_mode' => 'Усі питання',

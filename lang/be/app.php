@@ -95,7 +95,9 @@ return [
     // Start Survey translations
     'back_to_topics' => 'Назад да Тэм',
     'quiz_title_alt' => 'Назва Віктарыны',
+    'difficulty_easy' => 'Лёгкі',
     'difficulty_medium' => 'Серадні',
+    'difficulty_hard' => 'Складаны',
     'duration_30min' => '30 хв',
     'choose_mode' => 'Абярыце рэжым:',
     'all_questions_mode' => 'Усе пытанні',

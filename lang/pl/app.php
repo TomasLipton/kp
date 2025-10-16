@@ -95,7 +95,9 @@ return [
     // Start Survey translations
     'back_to_topics' => 'Powrót do Tematów',
     'quiz_title_alt' => 'Tytuł Quiz',
+    'difficulty_easy' => 'Łatwy',
     'difficulty_medium' => 'Średni',
+    'difficulty_hard' => 'Trudny',
     'duration_30min' => '30 min',
     'choose_mode' => 'Wybierz tryb:',
     'all_questions_mode' => 'Wszystkie pytania',

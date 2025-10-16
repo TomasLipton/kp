@@ -38,6 +38,8 @@ class TopicsResource extends Resource
                         $set('is_slug_changed_manually', true);
                     })
                     ->required()
+                    ->disabled(fn ($record) => $record !== null)
+                    ->dehydrated()
                     ->columnSpan('full'),
                 Hidden::make('is_slug_changed_manually')
                     ->default(false)
@@ -111,6 +113,15 @@ class TopicsResource extends Resource
                                     ->schema([
                                         Forms\Components\Select::make('parent_id')
                                             ->relationship('parent', 'name_ru'),
+                                        Forms\Components\Select::make('difficulty')
+                                            ->label('Difficulty Level')
+                                            ->options([
+                                                'easy' => 'Easy',
+                                                'medium' => 'Medium',
+                                                'hard' => 'Hard',
+                                            ])
+                                            ->default('medium')
+                                            ->required(),
                                         Forms\Components\Toggle::make('isVisibleToPublic')
                                             ->label('Visible to Public')
                                             ->default(true),
@@ -147,6 +158,13 @@ class TopicsResource extends Resource
                     ->label('Questions')
                     ->counts('questions')
                     ->badge(),
+                Tables\Columns\TextColumn::make('difficulty')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'easy' => 'success',
+                        'medium' => 'warning',
+                        'hard' => 'danger',
+                    }),
                 Tables\Columns\IconColumn::make('isVisibleToPublic')
                     ->label('Public')
                     ->boolean(),

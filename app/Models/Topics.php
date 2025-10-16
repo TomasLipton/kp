@@ -24,6 +24,7 @@ class Topics extends Model
         'picture',
         'parent_id',
         'isVisibleToPublic',
+        'difficulty',
     ];
 
     protected function casts(): array
