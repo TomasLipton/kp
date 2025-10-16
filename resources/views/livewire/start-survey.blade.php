@@ -3,15 +3,35 @@
 @endassets
 
 @php
-    $topicName = match(LaravelLocalization::getCurrentLocale()) {
+    $locale = LaravelLocalization::getCurrentLocale();
+
+    $topicName = match($locale) {
         'ru' => trim($topic->name_ru ?? $topic->name_pl),
         'uk' => trim($topic->name_uk ?? $topic->name_pl),
         'be' => trim($topic->name_by ?? $topic->name_pl),
         default => trim($topic->name_pl),
     };
+
+    $topicDescription = match($locale) {
+        'ru' => $topic->description_ru ?? $topic->description_pl,
+        'uk' => $topic->description_uk ?? $topic->description_pl,
+        'be' => $topic->description_by ?? $topic->description_pl,
+        default => $topic->description_pl,
+    };
+
+    $topicSeoDescription = match($locale) {
+        'ru' => $topic->seo_description_ru ?? $topic->seo_description_pl,
+        'uk' => $topic->seo_description_uk ?? $topic->seo_description_pl,
+        'be' => $topic->seo_description_by ?? $topic->seo_description_pl,
+        default => $topic->seo_description_pl,
+    };
 @endphp
 
 @section('title', $topicName . ' - ' . __('app.polish_card_tests'))
+
+@if($topicSeoDescription)
+    @section('description', $topicSeoDescription)
+@endif
 
 <div class="min-h-screen ">
     <!-- Back Button -->
@@ -41,19 +61,7 @@
                         <h1 id="quiz-title" class="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground
                             bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text
                             leading-tight tracking-tight">
-                            @switch(LaravelLocalization::getCurrentLocale())
-                                @case('ru')
-                                    {{trim($topic->name_ru ?? $topic->name_pl)}}
-                                    @break
-                                @case('uk')
-                                    {{trim($topic->name_uk ?? $topic->name_pl)}}
-                                    @break
-                                @case('be')
-                                    {{trim($topic->name_by ?? $topic->name_pl)}}
-                                    @break
-                                @default
-                                    {{trim($topic->name_pl)}}
-                            @endswitch
+                            {{ $topicName }}
                         </h1>
 
                         <!-- Floating Badge -->
@@ -94,19 +102,7 @@
 
                         <!-- Description wraps around image -->
                         <p id="quiz-description" class="text-base sm:text-lg text-muted-foreground leading-relaxed">
-                            @switch(LaravelLocalization::getCurrentLocale())
-                                @case('ru')
-                                    {!! str_replace("\n", '<br>', $topic->description_ru ?? $topic->description_pl) !!}
-                                    @break
-                                @case('uk')
-                                    {!! str_replace("\n", '<br>', $topic->description_uk ?? $topic->description_pl) !!}
-                                    @break
-                                @case('be')
-                                    {!! str_replace("\n", '<br>', $topic->description_by ?? $topic->description_pl) !!}
-                                    @break
-                                @default
-                                    {!! str_replace("\n", '<br>', $topic->description_pl) !!}
-                            @endswitch
+                            {!! $topicDescription !!}
                         </p>
 
                         <div class="clear-both"></div>

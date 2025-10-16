@@ -31,11 +31,11 @@
 
     <title>@yield('title', $title ?? __('Quiz Polaka - Testy przygotowujące do rozmowy na karcie Polaka'))</title>
 
-    <meta name="description" content="{{ $description ?? __('Przygotuj się do egzaminu na Kartę Polaka z naszym interaktywnym testem! Sprawdź swoją wiedzę o polskiej historii, kulturze i języku. Rozwiązuj testy, aby zwiększyć swoje szanse na uzyskanie Karty Polaka.') }}" />
+    <meta name="description" content="@yield('description', $description ?? __('Przygotuj się do egzaminu na Kartę Polaka z naszym interaktywnym testem! Sprawdź swoją wiedzę o polskiej historii, kulturze i języku. Rozwiązuj testy, aby zwiększyć swoje szanse na uzyskanie Karty Polaka.'))" />
 
 {{--    <!-- Open Graph tags -->--}}
     <meta property="og:title" content="@yield('title', $title ?? __('Quiz Polaka - Testy przygotowujące do rozmowy na karcie Polaka'))">
-    <meta property="og:description" content="{{ $description ?? __('Przygotuj się do egzaminu na Kartę Polaka z naszym interaktywnym testem! Sprawdź swoją wiedzę o polskiej historii, kulturze i języku. Rozwiązuj testy, aby zwiększyć swoje szanse na uzyskanie Karty Polaka.') }}">
+    <meta property="og:description" content="@yield('description', $description ?? __('Przygotuj się do egzaminu na Kartę Polaka z naszym interaktywnym testem! Sprawdź swoją wiedzę o polskiej historii, kulturze i języku. Rozwiązuj testy, aby zwiększyć swoje szanse na uzyskanie Karty Polaka.'))">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ LaravelLocalization::getLocalizedURL(LaravelLocalization::getCurrentLocale()) }}">
     <meta property="og:locale" content="{{ str_replace('_', '-', LaravelLocalization::getSupportedLocales()[LaravelLocalization::getCurrentLocale()]['regional']) }}">
@@ -49,7 +49,7 @@
 {{--    <!-- Twitter Card tags -->--}}
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="@yield('title', $title ?? __('Quiz Polaka - Testy przygotowujące do rozmowy na karcie Polaka'))">
-    <meta name="twitter:description" content="{{ $description ?? __('Przygotuj się do egzaminu na Kartę Polaka z naszym interaktywnym testem! Sprawdź swoją wiedzę o polskiej historii, kulturze i języku. Rozwiązuj testy, aby zwiększyć swoje szanse na uzyskanie Karty Polaka.') }}">
+    <meta name="twitter:description" content="@yield('description', $description ?? __('Przygotuj się do egzaminu na Kartę Polaka z naszym interaktywnym testem! Sprawdź swoją wiedzę o polskiej historii, kulturze i języku. Rozwiązuj testy, aby zwiększyć swoje szanse na uzyskanie Karty Polaka.'))">
 
 {{--    <!-- Language and content locale -->--}}
     <meta http-equiv="Content-Language" content="{{ LaravelLocalization::getCurrentLocale() }}"  />
@@ -77,8 +77,8 @@
 
 <div class="app_container shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)]_">
 
-{{--    <livewire:layout.navigation />--}}
-    <livewire:layout.navigation_v2 />
+    <livewire:layout.navigation />
+{{--    <livewire:layout.navigation_v2 />--}}
 
     @yield('content')
     @if(isset($slot))
