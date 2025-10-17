@@ -45,6 +45,7 @@ class Quiz extends Model
     {
         return [
             'uuid' => 'string',
+            'completed_at' => 'datetime',
         ];
     }
 }
