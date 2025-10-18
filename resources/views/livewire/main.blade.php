@@ -72,105 +72,38 @@
                 </p>
             </div>
 
-            {{-- Featured Topics (Large Cards with Images) --}}
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            @foreach($topics->take(2) as $topic)
-                <a href="/{{$topic->slug}}" wire:navigate wire:navigate.hover
-                   class="group relative overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] h-80">
+            {{-- Topic Cards - Image Focused --}}
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                @foreach($topics->take(4) as $topic)
+                    <a href="/{{$topic->slug}}" wire:navigate wire:navigate.hover
+                       class="group bg-gradient-card backdrop-blur-sm rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] border border-white/40 p-3">
 
-                    {{-- Background Image with Overlay --}}
-                    <div class="absolute inset-0">
-                        <img src="{{url('storage/' . $topic->picture)}}" alt="{{$topic->name_pl}}"
-                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20 group-hover:from-black/90 transition-all duration-300"></div>
-                    </div>
+                        {{-- Image Section --}}
+                        <div class="relative overflow-hidden h-48 rounded-lg">
+                            <img src="{{url('storage/' . $topic->picture)}}" alt="{{$topic->name_pl}}"
+                                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
 
-                    {{-- Content --}}
-                    <div class="relative h-full flex flex-col justify-end p-6 text-white">
-                        {{-- Question Count Badge --}}
-                        <div class="absolute top-6 right-6">
-                            <span class="px-3 py-1.5 rounded-full bg-white/20 backdrop-blur-sm text-sm font-medium border border-white/30">
-                                {{$topic->questions()->count()}}
-                                @php
-                                    $count = $topic->questions()->count();
-                                @endphp
-                                @if($count === 1)
-                                    {{ __('app.question') }}
-                                @elseif($count % 10 >= 2 && $count % 10 <= 4 && ($count % 100 < 10 || $count % 100 >= 20))
-                                    {{ __('app.questions_few') }}
-                                @else
-                                    {{ __('app.questions_many') }}
-                                @endif
-                            </span>
+                            {{-- Question Count Badge on Image --}}
+                            <div class="absolute top-3 right-3">
+                                <span class="px-3 py-1.5 rounded-full bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm text-xs font-semibold border border-primary/30 text-foreground">
+                                    {{$topic->questions()->count()}}
+                                    @php
+                                        $count = $topic->questions()->count();
+                                    @endphp
+                                    @if($count === 1)
+                                        {{ __('app.question') }}
+                                    @elseif($count % 10 >= 2 && $count % 10 <= 4 && ($count % 100 < 10 || $count % 100 >= 20))
+                                        {{ __('app.questions_few') }}
+                                    @else
+                                        {{ __('app.questions_many') }}
+                                    @endif
+                                </span>
+                            </div>
                         </div>
 
-                        {{-- Title --}}
-                        <h3 class="text-2xl md:text-3xl font-bold mb-3 group-hover:text-primary transition-colors">
-                            @switch(LaravelLocalization::getCurrentLocale())
-                                @case('ru')
-                                    {{trim($topic->name_ru ?? $topic->name_pl)}}
-                                    @break
-                                @case('uk')
-                                    {{trim($topic->name_uk ?? $topic->name_pl)}}
-                                    @break
-                                @case('be')
-                                    {{trim($topic->name_be ?? $topic->name_pl)}}
-                                    @break
-                                @default
-                                    {{trim($topic->name_pl)}}
-                            @endswitch
-                        </h3>
-
-                        {{-- CTA --}}
-                        <div class="flex items-center gap-2 text-sm font-medium">
-                            <span>{{ __('app.start_quiz') }}</span>
-                            <svg class="w-4 h-4 transition-transform group-hover:translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                            </svg>
-                        </div>
-                    </div>
-
-                    {{-- Hover Border Effect --}}
-                    <div class="absolute inset-0 rounded-2xl ring-2 ring-primary/0 group-hover:ring-primary/50 transition-all duration-300"></div>
-                </a>
-            @endforeach
-        </div>
-
-        {{-- More Topics (Smaller Cards) --}}
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-            @foreach($topics->skip(2)->take(3) as $topic)
-                <a href="/{{$topic->slug}}" wire:navigate wire:navigate.hover
-                   class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] h-48">
-
-                    {{-- Background Image with Overlay --}}
-                    <div class="absolute inset-0">
-                        <img src="{{url('storage/' . $topic->picture)}}" alt="{{$topic->name_pl}}"
-                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent"></div>
-                    </div>
-
-                    {{-- Content --}}
-                    <div class="relative h-full flex flex-col justify-between p-4 text-white">
-                        {{-- Question Count --}}
-                        <div class="flex justify-end">
-                            <span class="text-xs px-2 py-1 rounded-full bg-white/20 backdrop-blur-sm border border-white/30">
-                                {{$topic->questions()->count()}}
-                                @php
-                                    $count = $topic->questions()->count();
-                                @endphp
-                                @if($count === 1)
-                                    {{ __('app.question') }}
-                                @elseif($count % 10 >= 2 && $count % 10 <= 4 && ($count % 100 < 10 || $count % 100 >= 20))
-                                    {{ __('app.questions_few') }}
-                                @else
-                                    {{ __('app.questions_many') }}
-                                @endif
-                            </span>
-                        </div>
-
-                        {{-- Title --}}
-                        <div>
-                            <h3 class="text-lg font-bold mb-2 group-hover:text-primary transition-colors">
+                        {{-- Content Section Below Image --}}
+                        <div class="p-4">
+                            <h3 class="text-lg font-bold mb-3 text-foreground group-hover:text-primary transition-colors line-clamp-2">
                                 @switch(LaravelLocalization::getCurrentLocale())
                                     @case('ru')
                                         {{trim($topic->name_ru ?? $topic->name_pl)}}
@@ -185,20 +118,20 @@
                                         {{trim($topic->name_pl)}}
                                 @endswitch
                             </h3>
-                            <div class="flex items-center gap-1 text-xs opacity-0 group-hover:opacity-100 transition-opacity">
+
+                            <div class="flex items-center gap-2 text-sm font-medium text-primary">
                                 <span>{{ __('app.start_quiz') }}</span>
-                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                <svg class="w-4 h-4 transition-transform group-hover:translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                                 </svg>
                             </div>
                         </div>
-                    </div>
 
-                    {{-- Hover Border Effect --}}
-                    <div class="absolute inset-0 rounded-xl ring-2 ring-primary/0 group-hover:ring-primary/50 transition-all duration-300"></div>
-                </a>
-            @endforeach
-        </div>
+                        {{-- Hover Border Effect --}}
+                        <div class="absolute inset-0 rounded-xl ring-2 ring-primary/0 group-hover:ring-primary/50 transition-all duration-300 pointer-events-none"></div>
+                    </a>
+                @endforeach
+            </div>
 
             {{-- View All Button --}}
             <div class="text-center mt-10">
