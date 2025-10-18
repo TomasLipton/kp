@@ -3,20 +3,32 @@
 namespace App\Filament\Widgets;
 
 use App\Models\Quiz;
+use Carbon\Carbon;
+use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
 class QuizStatsWidget extends BaseWidget
 {
+    use InteractsWithPageFilters;
+
     protected function getStats(): array
     {
-        $authorizedQuizzes = Quiz::whereNotNull('user_id')->count();
-        $unauthorizedQuizzes = Quiz::whereNull('user_id')->count();
-        $totalQuizzes = $authorizedQuizzes + $unauthorizedQuizzes;
+        $startDate = $this->filters['startDate'] ?? now()->subDays(7);
+        $endDate = $this->filters['endDate'] ?? now();
 
-        // Get chart data for the last 7 days
-        $authorizedChartData = $this->getChartData(true);
-        $unauthorizedChartData = $this->getChartData(false);
+        // Apply date range filter to the queries
+        $authorizedQuizzes = Quiz::whereNotNull('user_id')
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->count();
+
+        $unauthorizedQuizzes = Quiz::whereNull('user_id')
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->count();
+
+        // Get chart data for the selected date range
+        $authorizedChartData = $this->getChartData(true, $startDate, $endDate);
+        $unauthorizedChartData = $this->getChartData(false, $startDate, $endDate);
 
         return [
             Stat::make('Quizy autoryzowanych użytkowników', $authorizedQuizzes)
@@ -33,12 +45,18 @@ class QuizStatsWidget extends BaseWidget
         ];
     }
 
-    protected function getChartData(bool $authorized): array
+    protected function getChartData(bool $authorized, $startDate, $endDate): array
     {
         $data = [];
+        $start = Carbon::parse($startDate);
+        $end = Carbon::parse($endDate);
+        $daysDiff = $start->diffInDays($end);
 
-        for ($i = 6; $i >= 0; $i--) {
-            $date = now()->subDays($i)->startOfDay();
+        // Limit to maximum 30 data points for chart readability
+        $interval = max(1, ceil($daysDiff / 30));
+
+        for ($i = 0; $i <= $daysDiff; $i += $interval) {
+            $date = $start->copy()->addDays($i);
 
             $count = Quiz::query()
                 ->when($authorized, fn ($query) => $query->whereNotNull('user_id'))
