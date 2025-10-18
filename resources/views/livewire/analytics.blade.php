@@ -14,12 +14,14 @@ class extends Component {
         <div class=" mx-auto  space-y-6">
 
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <header>
-                    <h2 class="text-lg font-medium text-gray-900">
-                        {{ __('Statystyki Quizów') }}
-                    </h2>
-
-                    <p class="mt-1 text-sm text-gray-600">
+                <header class="border-l-4 border-primary pl-4">
+                    <div class="flex items-center gap-3">
+                        @svg('lucide-bar-chart-3', 'w-6 h-6 text-primary')
+                        <h2 class="text-2xl font-semibold bg-gradient-primary bg-clip-text text-transparent">
+                            {{ __('Statystyki Quizów') }}
+                        </h2>
+                    </div>
+                    <p class="mt-2 text-sm text-muted-foreground">
                         {{ __('Przeglądaj wyniki swoich quizów, w tym poprawne i niepoprawne odpowiedzi oraz średni czas trwania.') }}
                     </p>
                 </header>

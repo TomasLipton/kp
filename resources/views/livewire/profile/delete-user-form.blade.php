@@ -24,12 +24,14 @@ new class extends Component
 }; ?>
 
 <section class="space-y-6">
-    <header>
-        <h2 class="text-lg font-medium text-gray-900">
-            {{ __('Delete Account') }}
-        </h2>
-
-        <p class="mt-1 text-sm text-gray-600">
+    <header class="border-l-4 border-primary pl-4">
+        <div class="flex items-center gap-3">
+            @svg('lucide-trash-2', 'w-6 h-6 text-primary')
+            <h2 class="text-2xl font-semibold bg-gradient-primary bg-clip-text text-transparent">
+                {{ __('Delete Account') }}
+            </h2>
+        </div>
+        <p class="mt-2 text-sm text-muted-foreground">
             {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.') }}
         </p>
     </header>
