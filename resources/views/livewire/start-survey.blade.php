@@ -178,7 +178,7 @@
                         <h3 class="text-lg font-bold text-foreground">{{ __('app.choose_mode') }}</h3>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                         <!-- 10 Questions Mode -->
                         <button
                             wire:click="setMode('10 pytań')"
@@ -234,6 +234,37 @@
                                 </div>
                             </div>
                         </button>
+
+                        <!-- 10 Minutes Mode -->
+                        <button
+                            wire:click="setMode('10 minut')"
+                            class="group relative p-5 rounded-xl border-2 text-left
+                                transition-all duration-300 transform hover:scale-[1.02]
+                                {{ $surveyMode === '10 minut'
+                                    ? 'border-primary bg-gradient-to-br from-primary/10 to-primary/5 shadow-lg shadow-primary/20 ring-2 ring-primary/30'
+                                    : 'border-border/50 bg-card hover:border-primary/50 hover:bg-primary/5 hover:shadow-md' }}"
+                        >
+                            <div class="flex items-start gap-3">
+                                <div class="flex-shrink-0 p-2 rounded-lg {{ $surveyMode === '10 minut' ? 'bg-primary/20' : 'bg-primary/10' }}
+                                    transition-colors">
+                                    @svg('lucide-timer', 'w-5 h-5 text-primary')
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="font-semibold text-foreground mb-1 flex items-center gap-2">
+                                        {{ __('app.10_minutes_mode') }}
+                                        <span class="px-2 py-0.5 text-xs font-bold text-white bg-gradient-to-r from-orange-500 to-red-500 rounded-full shadow-sm">
+                                            NEW
+                                        </span>
+                                        @if($surveyMode === '10 minut')
+                                            @svg('lucide-check-circle-2', 'w-4 h-4 text-primary')
+                                        @endif
+                                    </div>
+                                    <div class="text-sm text-muted-foreground">
+                                        {{ __('app.answer_as_many_questions_as_possible_in_10_minutes') }}
+                                    </div>
+                                </div>
+                            </div>
+                        </button>
                     </div>
                 </div>
 
@@ -280,7 +311,13 @@
                 >
                     <span class="block sm:hidden">{{ __('app.start') }}</span>
                     <span class="hidden sm:block">
-                        {{ $surveyMode === '10 pytań' ? __('app.start_10_questions') : __('app.start_all_questions') }}
+                        @if($surveyMode === '10 pytań')
+                            {{ __('app.start_10_questions') }}
+                        @elseif($surveyMode === '10 minut')
+                            {{ __('app.start_10_minutes') }}
+                        @else
+                            {{ __('app.start_all_questions') }}
+                        @endif
                     </span>
                     @svg('lucide-arrow-right', 'w-5 h-5')
                 </button>

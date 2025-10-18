@@ -48,6 +48,13 @@ class SurveyQuestion extends Component
             return;
         }
 
+        // Check if time limit has been reached for 10_minutes mode
+        if ($this->quiz->type === '10_minutes' && $this->isTimeLimitReached()) {
+            $this->finish();
+
+            return;
+        }
+
         // Check if we've reached the question limit for this quiz type
         if ($this->quiz->type === '10_questions' && $this->questionsAnswered >= $this->quiz->questions_amount) {
             $this->finish();
@@ -207,6 +214,13 @@ class SurveyQuestion extends Component
 
         $this->questionsAnswered = count($answeredQuestionIds);
 
+        // Check if time limit has been reached for 10_minutes mode
+        if ($this->quiz->type === '10_minutes' && $this->isTimeLimitReached()) {
+            $this->finish();
+
+            return;
+        }
+
         // Check if we've reached the question limit for this quiz type
         if ($this->quiz->type === '10_questions' && $this->questionsAnswered >= $this->quiz->questions_amount) {
             $this->finish();
@@ -248,5 +262,21 @@ class SurveyQuestion extends Component
             session()->forget('keyboard_help_hidden_until');
             $this->showKeyboardHelp = true;
         }
+    }
+
+    private function isTimeLimitReached(): bool
+    {
+        // Check if 10 minutes have passed since quiz creation
+        $timeLimit = 10 * 60; // 10 minutes in seconds
+        $elapsedSeconds = now()->diffInSeconds($this->quiz->created_at);
+
+        return $elapsedSeconds >= $timeLimit;
+    }
+
+    public function checkTimeLimit(): void
+    {
+        // Called from frontend when timer expires
+        // Don't finish immediately - let user complete current question
+        // The finish will happen in nextQuestion() method
     }
 }

@@ -87,19 +87,45 @@
                         </div>
 
                         {{-- Timer --}}
-                        <div class="flex items-center justify-end gap-2" x-data="{
-                            createdAt: new Date('{{$quiz->created_at}}'),
-                            timeElapsed: '00:00',
-                            updateSecondsElapsed() {
-                                const totalSeconds = Math.floor((new Date() - this.createdAt) / 1000);
-                                const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
-                                const seconds = String(totalSeconds % 60).padStart(2, '0');
-                                this.timeElapsed = `${minutes}:${seconds}`;
-                            }
-                        }" x-init="setInterval(() => updateSecondsElapsed(), 1000)">
-                            @svg('lucide-timer', 'w-5 h-5 text-primary')
-                            <span class="text-sm font-medium text-foreground" x-text="timeElapsed"></span>
-                        </div>
+                        @if($quiz->type === '10_minutes')
+                            <div class="flex items-center justify-end gap-2" x-data="{
+                                createdAt: new Date('{{$quiz->created_at}}'),
+                                timeRemaining: '10:00',
+                                isExpiring: false,
+                                isExpired: false,
+                                updateTimeRemaining() {
+                                    const totalSeconds = Math.floor((new Date() - this.createdAt) / 1000);
+                                    const remainingSeconds = Math.max(0, (10 * 60) - totalSeconds);
+                                    const minutes = String(Math.floor(remainingSeconds / 60)).padStart(2, '0');
+                                    const seconds = String(remainingSeconds % 60).padStart(2, '0');
+                                    this.timeRemaining = `${minutes}:${seconds}`;
+                                    this.isExpiring = remainingSeconds <= 60 && remainingSeconds > 0;
+                                    this.isExpired = remainingSeconds === 0;
+                                    if (this.isExpired) {
+                                        $wire.call('checkTimeLimit');
+                                    }
+                                }
+                            }" x-init="setInterval(() => updateTimeRemaining(), 1000)">
+                                @svg('lucide-timer', 'w-5 h-5', [':class' => "isExpired ? 'text-red-600' : (isExpiring ? 'text-orange-600' : 'text-primary')"])
+                                <span class="text-sm font-medium"
+                                    :class="isExpired ? 'text-red-600 font-bold' : (isExpiring ? 'text-orange-600 font-bold' : 'text-foreground')"
+                                    x-text="timeRemaining"></span>
+                            </div>
+                        @else
+                            <div class="flex items-center justify-end gap-2" x-data="{
+                                createdAt: new Date('{{$quiz->created_at}}'),
+                                timeElapsed: '00:00',
+                                updateSecondsElapsed() {
+                                    const totalSeconds = Math.floor((new Date() - this.createdAt) / 1000);
+                                    const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
+                                    const seconds = String(totalSeconds % 60).padStart(2, '0');
+                                    this.timeElapsed = `${minutes}:${seconds}`;
+                                }
+                            }" x-init="setInterval(() => updateSecondsElapsed(), 1000)">
+                                @svg('lucide-timer', 'w-5 h-5 text-primary')
+                                <span class="text-sm font-medium text-foreground" x-text="timeElapsed"></span>
+                            </div>
+                        @endif
                     </div>
                 </div>
 

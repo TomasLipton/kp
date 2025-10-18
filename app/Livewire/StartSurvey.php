@@ -27,6 +27,7 @@ class StartSurvey extends Component
         $type = [
             'Wszystkie pytania' => 'all_questions',
             '10 pytań' => '10_questions',
+            '10 minut' => '10_minutes',
         ];
 
         $quiz = new Quiz([
