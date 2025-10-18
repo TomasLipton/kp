@@ -14,11 +14,8 @@ class QuestionStatsWidget extends BaseWidget
 
         return [
             Stat::make('Łączna liczba pytań', $totalQuestions)
-                ->description('Wszystkie pytania w bazie danych')
                 ->descriptionIcon('heroicon-m-question-mark-circle')
                 ->color('info'),
-
-
         ];
     }
 }
