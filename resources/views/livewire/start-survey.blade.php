@@ -85,9 +85,9 @@
                     </div>
 
                     <!-- Image and Description Section -->
-                    <div>
-                        <!-- Image floated left -->
-                        <div class="float-left w-full sm:w-64 lg:w-80 mr-0 sm:mr-6 mb-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-[auto_1fr] gap-4 sm:gap-6">
+                        <!-- Image Column -->
+                        <div class="w-full sm:w-64 lg:w-80">
                             <div class="relative overflow-hidden rounded-xl group">
                                 <img
                                     id="quiz-image"
@@ -100,13 +100,11 @@
                             </div>
                         </div>
 
-                        <!-- Description wraps around image -->
+                        <!-- Description Column -->
                         <div id="quiz-descriptiasdon" class="text-base sm:text-lg text-muted-foreground leading-relaxed">
                             {!! $topicDescription !!}
                         </div>
-
-                             <div class="clear-both"></div>
-                         </div>
+                    </div>
                      </div>
 
                      <!-- Stats Row with Cards -->
