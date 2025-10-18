@@ -24,11 +24,6 @@ class QuizStatsWidget extends BaseWidget
                 ->description('Quizy rozwiązane przez gości')
                 ->descriptionIcon('heroicon-m-user')
                 ->color('warning'),
-
-            Stat::make('Łączna liczba quizów', $totalQuizzes)
-                ->description('Wszystkie rozwiązane quizy')
-                ->descriptionIcon('heroicon-m-academic-cap')
-                ->color('info'),
         ];
     }
 }
