@@ -76,7 +76,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 @foreach($topics->take(4) as $topic)
                     <a href="/{{$topic->slug}}" wire:navigate wire:navigate.hover
-                       class="group bg-gradient-card backdrop-blur-sm rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] border border-white/40 p-3">
+                       class="group bg-gray-50 dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] border border-gray-200 dark:border-gray-700 p-3">
 
                         {{-- Image Section --}}
                         <div class="relative overflow-hidden h-48 rounded-lg">
@@ -361,10 +361,10 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                 {{-- Left Column --}}
                 <div class="flex flex-col items-center md:items-start gap-4">
-                    <div class="inline-flex items-center gap-2 px-2.5 py-1.5 rounded-full bg-primary/10 border border-primary/20">
-                        @svg('lucide-shield-check', 'w-3.5 h-3.5 text-primary')
-                        <span class="text-[10px] font-medium text-foreground">{{ __('Secure payments via Stripe') }}</span>
-                    </div>
+{{--                    <div class="inline-flex items-center gap-2 px-2.5 py-1.5 rounded-full bg-primary/10 border border-primary/20">--}}
+{{--                        @svg('lucide-shield-check', 'w-3.5 h-3.5 text-primary')--}}
+{{--                        <span class="text-[10px] font-medium text-foreground">{{ __('Secure payments via Stripe') }}</span>--}}
+{{--                    </div>--}}
 
                     <div class="text-center md:text-left space-y-2">
                         <p class="text-xs text-muted-foreground">
