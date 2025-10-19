@@ -83,8 +83,9 @@
                             <img src="{{url('storage/' . $topic->picture)}}" alt="{{$topic->name_pl}}"
                                  class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
 
-                            {{-- Question Count Badge on Image --}}
-                            <div class="absolute top-3 right-3">
+                            {{-- Badges on Image --}}
+                            <div class="absolute top-3 right-3 flex flex-col gap-2 items-end">
+                                {{-- Question Count Badge --}}
                                 <span class="px-3 py-1.5 rounded-full bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm text-xs font-semibold border border-primary/30 text-foreground">
                                     {{$topic->questions()->count()}}
                                     @php
@@ -97,6 +98,20 @@
                                     @else
                                         {{ __('app.questions_many') }}
                                     @endif
+                                </span>
+
+                                {{-- Difficulty Badge --}}
+                                @php
+                                    $difficultyColors = [
+                                        'easy' => 'border-green-500/50 text-green-700 dark:text-green-400',
+                                        'medium' => 'border-orange-500/50 text-orange-700 dark:text-orange-400',
+                                        'hard' => 'border-red-500/50 text-red-700 dark:text-red-400',
+                                    ];
+                                    $difficulty = $topic->difficulty ?? 'medium';
+                                @endphp
+                                <span class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm text-xs font-semibold border {{ $difficultyColors[$difficulty] }}">
+                                    @svg('lucide-zap', 'w-3 h-3')
+                                    <span class="hidden sm:inline">{{ __('app.difficulty_' . $difficulty) }}</span>
                                 </span>
                             </div>
                         </div>
@@ -139,7 +154,7 @@
                    class="inline-flex items-center gap-2 px-8 py-4 bg-gradient-primary text-white font-semibold text-lg rounded-xl
                           shadow-glow hover:shadow-[0_20px_60px_-15px_hsl(var(--primary))] transition-all duration-300 hover:scale-105">
                     {{ __('View all topics') }}
-                    <span class="px-2 py-0.5 rounded-full bg-white/20 text-sm">{{$topics->count()}}</span>
+{{--                    <span class="px-2 py-0.5 rounded-full bg-white/20 text-sm">{{$topics->count()}}</span>--}}
                     @svg('lucide-arrow-right', 'w-5 h-5')
                 </a>
             </div>
