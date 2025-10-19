@@ -93,7 +93,7 @@ new #[Layout('layouts.app-kp')] class extends Component
 
                         {{-- Telegram Login Widget --}}
                         <div class="relative w-full py-2 px-3 rounded-lg flex items-center justify-center transition-all mb-4">
-                            <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-login="quiz_polaka_bot" data-size="large" data-radius="12" data-auth-url="https://kp.test/auth/callback/telegram"></script>
+                            <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-login="quiz_polaka_bot" data-size="large" data-radius="12" data-auth-url="{{ route('auth.telegram.callback') }}"></script>
 
                             {{-- Overlay to block interaction until checkboxes are accepted --}}
                             <div id="telegram-overlay" class="group absolute inset-0 bg-transparent hover:bg-gray-500/20 hover:dark:bg-gray-900/30 backdrop-blur-0 hover:backdrop-blur-sm rounded-lg cursor-pointer transition-all duration-300 border-2 border-transparent hover:border-[#0088cc] flex items-center justify-center" onclick="handleOverlayClick()">
