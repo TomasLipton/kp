@@ -43,14 +43,20 @@ new #[Layout('layouts.app-kp')] class extends Component
         }
     }
 
-    // Initialize after page load
-    document.addEventListener('DOMContentLoaded', function() {
+    // Initialize event listeners
+    function initializeEventListeners() {
         // Add click handlers to provider buttons
         const providerButtons = document.querySelectorAll('button[name="provider"]');
         providerButtons.forEach(button => {
             button.addEventListener('click', handleProviderSubmit);
         });
-    });
+    }
+
+    // Initialize after page load
+    document.addEventListener('DOMContentLoaded', initializeEventListeners);
+
+    // Re-initialize after Livewire navigation
+    document.addEventListener('livewire:navigated', initializeEventListeners);
 </script>
 {{--<script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-login="quiz_polaka_bot" data-size="large" data-radius="12" data-auth-url="https://kp.test/auth/callback/telegram"></script>--}}
     <div class="min-h-[calc(100vh-4rem)] flex items-center justify-center py-8 px-4">
@@ -62,7 +68,7 @@ new #[Layout('layouts.app-kp')] class extends Component
                     <p class="text-sm text-muted-foreground">{{ __('app.choose_login_method') }}</p>
                 </div>
 
-                    <form method="GET" id="socialLoginForm" onsubmit="return validateForm()">
+                    <form method="GET" id="socialLoginForm">
                         @csrf
 
                         <!-- Hidden fields for tracking checkbox states -->
@@ -71,7 +77,7 @@ new #[Layout('layouts.app-kp')] class extends Component
 
                         <!-- Social login buttons -->
                         <button
-                            type="submit"
+                            type="button"
                             name="provider"
                             value="google"
                             class="w-full py-3 text-sm font-medium border-2 border-gray-200 dark:border-gray-700 rounded-lg flex items-center justify-center hover:border-primary hover:bg-primary/5 transition-all group mb-6"
@@ -86,8 +92,15 @@ new #[Layout('layouts.app-kp')] class extends Component
                         </button>
 
                         {{-- Telegram Login Widget --}}
-                        <div class="w-full py-2 px-3   rounded-lg flex items-center justify-center  transition-all mb-4">
+                        <div class="relative w-full py-2 px-3 rounded-lg flex items-center justify-center transition-all mb-4">
                             <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-login="quiz_polaka_bot" data-size="large" data-radius="12" data-auth-url="https://kp.test/auth/callback/telegram"></script>
+
+                            {{-- Overlay to block interaction until checkboxes are accepted --}}
+                            <div id="telegram-overlay" class="group absolute inset-0 bg-transparent hover:bg-gray-500/20 hover:dark:bg-gray-900/30 backdrop-blur-0 hover:backdrop-blur-sm rounded-lg cursor-pointer transition-all duration-300 border-2 border-transparent hover:border-[#0088cc] flex items-center justify-center" onclick="handleOverlayClick()">
+                                <span class="opacity-0 group-hover:opacity-100 text-xs font-medium text-gray-700 dark:text-gray-300 bg-white/90 dark:bg-gray-800/90 px-3 py-1.5 rounded-full shadow-sm transition-opacity duration-300">
+                                    {{ __('app.must_accept_conditions') }}
+                                </span>
+                            </div>
                         </div>
 
                         <div class="space-y-2 mb-4">
@@ -134,6 +147,41 @@ new #[Layout('layouts.app-kp')] class extends Component
                     </form>
 
                     <script>
+                        function handleOverlayClick() {
+                            const privacyChecked = document.getElementById('privacy').checked;
+                            const rulesChecked = document.getElementById('rules').checked;
+
+                            // Show errors on unchecked boxes
+                            if (!privacyChecked) {
+                                showError('privacy');
+                            }
+                            if (!rulesChecked) {
+                                showError('rules');
+                            }
+
+                            // Scroll to first error
+                            const firstError = !privacyChecked ? 'privacy' : 'rules';
+                            document.getElementById(`${firstError}-label`).scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+
+                        function updateTelegramOverlay() {
+                            const privacyChecked = document.getElementById('privacy').checked;
+                            const rulesChecked = document.getElementById('rules').checked;
+                            const overlay = document.getElementById('telegram-overlay');
+
+                            if (overlay) {
+                                if (privacyChecked && rulesChecked) {
+                                    // Hide overlay - allow interaction
+                                    overlay.style.opacity = '0';
+                                    overlay.style.pointerEvents = 'none';
+                                } else {
+                                    // Show overlay - block interaction
+                                    overlay.style.opacity = '1';
+                                    overlay.style.pointerEvents = 'all';
+                                }
+                            }
+                        }
+
                         function handleCheckboxChange(checkbox, name) {
                             const form = checkbox.form;
                             const hiddenInput = form.querySelector(`input[name=${name}_accepted][type=hidden]`);
@@ -143,6 +191,9 @@ new #[Layout('layouts.app-kp')] class extends Component
                             if (checkbox.checked) {
                                 clearError(name);
                             }
+
+                            // Update Telegram overlay visibility
+                            updateTelegramOverlay();
                         }
 
                         function clearError(name) {
@@ -195,6 +246,16 @@ new #[Layout('layouts.app-kp')] class extends Component
 
                             return isValid;
                         }
+
+                        // Initialize overlay state on page load
+                        document.addEventListener('DOMContentLoaded', function() {
+                            updateTelegramOverlay();
+                        });
+
+                        // Re-initialize overlay after Livewire navigation
+                        document.addEventListener('livewire:navigated', function() {
+                            updateTelegramOverlay();
+                        });
                     </script>
 
                     <div class="pt-4 border-t border-gray-200 dark:border-gray-700">

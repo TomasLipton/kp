@@ -261,7 +261,7 @@ class extends Component
                     <div class="pt-4 border-t border-gray-200 dark:border-gray-700 text-center">
                         <p class="text-xs text-muted-foreground">
                             {{ __('app.already_have_account') }}
-                            <a href="{{ route('login') }}" class="text-primary hover:underline font-medium">{{ __('app.sign_in') }}</a>
+                            <a href="{{ route('login') }}" wire:navigate class="text-primary hover:underline font-medium">{{ __('app.sign_in') }}</a>
                         </p>
                     </div>
                 </div>
