@@ -207,34 +207,6 @@
                             </div>
                         </button>
 
-                        <!-- All Questions Mode -->
-                        <button
-                            wire:click="setMode('Wszystkie pytania')"
-                            class="group relative p-5 rounded-xl border-2 text-left
-                                transition-all duration-300 transform hover:scale-[1.02]
-                                {{ $surveyMode === 'Wszystkie pytania'
-                                    ? 'border-primary bg-gradient-to-br from-primary/10 to-primary/5 shadow-lg shadow-primary/20 ring-2 ring-primary/30'
-                                    : 'border-border/50 bg-card hover:border-primary/50 hover:bg-primary/5 hover:shadow-md' }}"
-                        >
-                            <div class="flex items-start gap-3">
-                                <div class="flex-shrink-0 p-2 rounded-lg {{ $surveyMode === 'Wszystkie pytania' ? 'bg-primary/20' : 'bg-primary/10' }}
-                                    transition-colors">
-                                    @svg('lucide-list-checks', 'w-5 h-5 text-primary')
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <div class="font-semibold text-foreground mb-1 flex items-center gap-2">
-                                        {{ __('app.all_questions_mode') }}
-                                        @if($surveyMode === 'Wszystkie pytania')
-                                            @svg('lucide-check-circle-2', 'w-4 h-4 text-primary')
-                                        @endif
-                                    </div>
-                                    <div class="text-sm text-muted-foreground">
-                                        {{ __('app.complete_quiz_with_all_questions') }}
-                                    </div>
-                                </div>
-                            </div>
-                        </button>
-
                         <!-- 10 Minutes Mode -->
                         <button
                             wire:click="setMode('10 minut')"
@@ -265,6 +237,35 @@
                                 </div>
                             </div>
                         </button>
+
+                        <!-- All Questions Mode -->
+                        <button
+                            wire:click="setMode('Wszystkie pytania')"
+                            class="group relative p-5 rounded-xl border-2 text-left
+                                transition-all duration-300 transform hover:scale-[1.02]
+                                {{ $surveyMode === 'Wszystkie pytania'
+                                    ? 'border-primary bg-gradient-to-br from-primary/10 to-primary/5 shadow-lg shadow-primary/20 ring-2 ring-primary/30'
+                                    : 'border-border/50 bg-card hover:border-primary/50 hover:bg-primary/5 hover:shadow-md' }}"
+                        >
+                            <div class="flex items-start gap-3">
+                                <div class="flex-shrink-0 p-2 rounded-lg {{ $surveyMode === 'Wszystkie pytania' ? 'bg-primary/20' : 'bg-primary/10' }}
+                                    transition-colors">
+                                    @svg('lucide-list-checks', 'w-5 h-5 text-primary')
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="font-semibold text-foreground mb-1 flex items-center gap-2">
+                                        {{ __('app.all_questions_mode') }}
+                                        @if($surveyMode === 'Wszystkie pytania')
+                                            @svg('lucide-check-circle-2', 'w-4 h-4 text-primary')
+                                        @endif
+                                    </div>
+                                    <div class="text-sm text-muted-foreground">
+                                        {{ __('app.complete_quiz_with_all_questions') }}
+                                    </div>
+                                </div>
+                            </div>
+                        </button>
+
                     </div>
                 </div>
 

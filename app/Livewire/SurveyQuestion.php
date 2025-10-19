@@ -278,5 +278,6 @@ class SurveyQuestion extends Component
         // Called from frontend when timer expires
         // Don't finish immediately - let user complete current question
         // The finish will happen in nextQuestion() method
+        $this->dispatch('show-notification', message: 'Czas minął! Dokończ obecne pytanie.');
     }
 }
