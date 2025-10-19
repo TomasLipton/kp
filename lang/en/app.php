@@ -73,6 +73,8 @@ return [
     'start_learning_journey' => 'Start your learning journey today',
     'already_have_account' => 'Already have an account?',
     'sign_in' => 'Sign in',
+    'dont_have_account' => 'Don\'t have an account?',
+    'sign_up' => 'Sign up',
     'privacy_required' => 'Please accept the privacy policy to continue',
     'terms_required' => 'Please accept the terms of service to continue',
 
