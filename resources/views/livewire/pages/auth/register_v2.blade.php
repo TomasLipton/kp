@@ -256,6 +256,16 @@ class extends Component
 
                             return isValid;
                         }
+
+                        // Initialize on page load
+                        document.addEventListener('DOMContentLoaded', function() {
+                            // Page is ready
+                        });
+
+                        // Re-initialize after Livewire navigation
+                        document.addEventListener('livewire:navigated', function() {
+                            // Page is ready after navigation
+                        });
                     </script>
 
                     <div class="pt-4 border-t border-gray-200 dark:border-gray-700 text-center">
