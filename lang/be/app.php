@@ -45,6 +45,7 @@ return [
     'login_to_account' => 'Увайсці ў акаўнт',
     'choose_login_method' => 'Абярыце спосаб уваходу',
     'login_with_google' => 'Увайсці чараз Google',
+    'login_with_telegram' => 'Увайсці чараз Telegram',
     'accept' => 'Прымаю',
     'privacy_policy' => 'палітыку канфідэнцыяльнасці',
     'terms_of_service' => 'умовы выкарыстання',

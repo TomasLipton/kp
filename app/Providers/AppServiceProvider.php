@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+use SocialiteProviders\Manager\SocialiteWasCalled;
 use URL;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,8 +26,11 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme('https');
         }
 
-        Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
+        Event::listen(function (SocialiteWasCalled $event) {
             $event->extendSocialite('google', \SocialiteProviders\Google\Provider::class);
+        });
+        Event::listen(function (SocialiteWasCalled $event) {
+            $event->extendSocialite('telegram', \SocialiteProviders\Telegram\Provider::class);
         });
     }
 }

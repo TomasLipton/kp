@@ -45,6 +45,7 @@ return [
     'login_to_account' => 'Login to Account',
     'choose_login_method' => 'Choose Login Method',
     'login_with_google' => 'Login with Google',
+    'login_with_telegram' => 'Login with Telegram',
     'accept' => 'I Accept',
     'privacy_policy' => 'privacy policy',
     'terms_of_service' => 'terms of service',

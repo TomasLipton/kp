@@ -20,6 +20,7 @@
         "openai-php/laravel": "^0.17.1",
         "saade/filament-laravel-log": "^3.2",
         "socialiteproviders/google": "^4.1",
+        "socialiteproviders/telegram": "^4.1",
         "technikermathe/blade-lucide-icons": "^3.124"
     },
     "require-dev": {

@@ -43,10 +43,36 @@ new #[Layout('layouts.app-kp')] class extends Component
         }
     }
 
-    // Initialize after page load
-    document.addEventListener('DOMContentLoaded', updateButtonStates);
-</script>
+    // Handle provider button clicks
+    function handleProviderSubmit(event) {
+        event.preventDefault();
+        const provider = event.target.value;
+        const form = document.getElementById('socialLoginForm');
 
+        // Set the form action based on provider
+        if (provider === 'google') {
+            form.action = "{{ route('auth.google.redirect') }}";
+        } else if (provider === 'telegram') {
+            form.action = "{{ route('auth.telegram.redirect') }}";
+        }
+
+        // form.submit();
+    }
+
+    // Initialize after page load
+    document.addEventListener('DOMContentLoaded', function() {
+        updateButtonStates();
+
+        // Add click handlers to provider buttons
+        const providerButtons = document.querySelectorAll('button[name="provider"]');
+        providerButtons.forEach(button => {
+            button.addEventListener('click', handleProviderSubmit);
+        });
+    });
+
+
+</script>
+{{--<script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-login="quiz_polaka_bot" data-size="large" data-radius="12" data-auth-url="https://kp.test/auth/callback/telegram"></script>--}}
     <div class="min-h-[calc(100vh-4rem)] flex items-center justify-center">
 
         <main class="px-4 w-full">
@@ -61,7 +87,7 @@ new #[Layout('layouts.app-kp')] class extends Component
                         </p>
                     </div>
 
-                    <form method="GET" action="{{ route('auth.google.redirect') }}">
+                    <form method="GET" id="socialLoginForm">
                         @csrf
 
                         <!-- Hidden fields for tracking checkbox states -->
@@ -90,6 +116,12 @@ new #[Layout('layouts.app-kp')] class extends Component
                                 </svg>
                                 {{ __('app.login_with_google') }}
                             </button>
+
+
+<div class="text-center">
+    <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-login="quiz_polaka_bot" data-size="large" data-radius="12" data-auth-url="https://kp.test/auth/callback/telegram"></script>
+
+</div>
 
                             {{--                            <button--}}
                             {{--                                type="submit"--}}

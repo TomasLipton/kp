@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\Google;
+use App\Http\Controllers\Auth\Telegram;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
@@ -21,11 +22,15 @@ Route::middleware('guest')->group(function () {
     Volt::route('reset-password/{token}', 'pages.auth.reset-password')
         ->name('password.reset');
 
+    // Google Authentication
     Route::get('/auth/redirect/google', function () {
         return Socialite::driver('google')->redirect();
     })->name('auth.google.redirect');
 
     Route::get('/auth/callback/google', [Google::class, 'callback'])->name('auth.google.callback');
+
+    // Telegram Authentication
+    Route::get('/auth/callback/telegram', [Telegram::class, 'callback'])->name('auth.telegram.callback');
 });
 
 Route::middleware('auth')->group(function () {
