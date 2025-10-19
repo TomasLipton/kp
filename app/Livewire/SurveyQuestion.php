@@ -268,7 +268,7 @@ class SurveyQuestion extends Component
     {
         // Check if 10 minutes have passed since quiz creation
         $timeLimit = 10 * 60; // 10 minutes in seconds
-        $elapsedSeconds = now()->diffInSeconds($this->quiz->created_at);
+        $elapsedSeconds = now()->diffInSeconds($this->quiz->created_at, true);
 
         return $elapsedSeconds >= $timeLimit;
     }
