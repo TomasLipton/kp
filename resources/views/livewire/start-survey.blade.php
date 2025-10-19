@@ -269,40 +269,6 @@
                     </div>
                 </div>
 
-                <!-- Selected Mode Info -->
-                {{--                <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/10 via-primary/5 to-transparent--}}
-                {{--                    border border-primary/30 p-5 backdrop-blur-sm">--}}
-                {{--                    <!-- Decorative Background Elements -->--}}
-                {{--                    <div class="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl"></div>--}}
-                {{--                    <div class="absolute bottom-0 left-0 w-24 h-24 bg-primary/5 rounded-full blur-2xl"></div>--}}
-
-                {{--                    <div class="relative flex items-center gap-3">--}}
-                {{--                        <div class="flex-shrink-0 p-2.5 rounded-lg bg-primary/20">--}}
-                {{--                            @svg('lucide-info', 'w-5 h-5 text-primary')--}}
-                {{--                        </div>--}}
-                {{--                        <div class="flex-1">--}}
-                {{--                            <div class="flex flex-wrap items-center gap-2 text-sm">--}}
-                {{--                                <span id="current-mode-questions" class="font-bold text-foreground text-base">--}}
-                {{--                                    @php--}}
-                {{--                                        if ($surveyMode === '10 pytań') {--}}
-                {{--                                            $count = 10;--}}
-                {{--                                        } else {--}}
-                {{--                                            $count = $topic->questions()->count();--}}
-                {{--                                        }--}}
-                {{--                                        $questionText = $count == 1 ? __('app.question') :--}}
-                {{--                                            (($count % 10 >= 2 && $count % 10 <= 4 && ($count % 100 < 10 || $count % 100 >= 20)) ? __('app.questions_few') : __('app.questions_many'));--}}
-                {{--                                    @endphp--}}
-                {{--                                    {{ $count }} {{ $questionText }}--}}
-                {{--                                </span>--}}
-                {{--                                <span class="text-primary/50 font-bold">•</span>--}}
-                {{--                                <span id="current-mode-desc" class="text-muted-foreground">--}}
-                {{--                                    {{ $surveyMode === '10 pytań' ? __('app.test_yourself_with_10_random_questions') : __('app.complete_quiz_with_all_questions') }}--}}
-                {{--                                </span>--}}
-                {{--                            </div>--}}
-                {{--                        </div>--}}
-                {{--                    </div>--}}
-                {{--                </div>--}}
-
                 <!-- Start Button -->
                 <button
                     id="start-button"
