@@ -31,7 +31,7 @@ Route::group([
         return Route::post('/livewire/update', $handle);
     });
 
-    Route::get('/', \App\Livewire\Main::class)->name('home');
+    Route::get('/', \App\Livewire\Main::class)->name('dashboard');
 
     Volt::route('topics', 'topics')->name('topics');
 
