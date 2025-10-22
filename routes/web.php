@@ -36,15 +36,7 @@ Route::group([
 
     Volt::route('topics', 'topics')->name('topics');
 
-    Volt::route('unlock', 'pricing')
-        ->middleware(['auth', function ($request, $next) {
-            if (! $request->user()?->isAdmin()) {
-                abort(403);
-            }
-
-            return $next($request);
-        }])
-        ->name('pricing');
+    Volt::route('unlock', 'pricing')->name('pricing');
 
     Route::get('profile', \App\Livewire\Profile::class)
         ->middleware(['auth'])

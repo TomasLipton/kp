@@ -1,14 +1,15 @@
 <?php
 
-use Livewire\Volt\Component;
 use Livewire\Attributes\Layout;
+use Livewire\Volt\Component;
 
-new #[Layout('layouts.app-kp')] class extends Component {
-    public string $billingPeriod = 'monthly';
-
-    public function setBillingPeriod(string $period): void
+new #[Layout('layouts.app-kp')] class extends Component
+{
+    public function mount(): void
     {
-        $this->billingPeriod = $period;
+        if (! auth()->check() || ! auth()->user()->isAdmin()) {
+            abort(404);
+        }
     }
 }; ?>
 
@@ -30,30 +31,9 @@ new #[Layout('layouts.app-kp')] class extends Component {
         <p class="text-xl md:text-2xl text-foreground/80 mb-6">
             Wybierz plan idealny dla Ciebie
         </p>
-        <p class="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
+        <p class="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
             Rozpocznij za darmo lub odblokuj zaawansowane funkcje, aby maksymalnie wykorzystać swoją naukę
         </p>
-
-        {{-- Billing Period Toggle --}}
-        <div class="inline-flex items-center gap-2 p-1 bg-gray-100 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-            <button wire:click="setBillingPeriod('monthly')"
-                    class="px-6 py-2 rounded-md font-semibold text-sm transition-all duration-200
-                           {{ $billingPeriod === 'monthly' ? 'bg-gradient-primary text-white shadow-md' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200' }}">
-                Miesięcznie
-            </button>
-            <button wire:click="setBillingPeriod('weekly')"
-                    class="px-6 py-2 rounded-md font-semibold text-sm transition-all duration-200
-                           {{ $billingPeriod === 'weekly' ? 'bg-gradient-primary text-white shadow-md' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200' }}">
-                Tygodniowo
-            </button>
-        </div>
-
-        @if($billingPeriod === 'monthly')
-            <p class="mt-4 text-sm text-green-600 dark:text-green-400 font-medium">
-                @svg('lucide-badge-percent', 'w-4 h-4 inline')
-                Oszczędzasz 31% z planem miesięcznym!
-            </p>
-        @endif
     </div>
 
     {{-- Pricing Comparison Cards --}}
@@ -124,22 +104,10 @@ new #[Layout('layouts.app-kp')] class extends Component {
             <div class="mb-6 mt-4">
                 <h3 class="text-2xl font-bold text-foreground mb-2">Premium</h3>
                 <div class="flex items-baseline gap-2 mb-4">
-                    @if($billingPeriod === 'monthly')
-                        <span class="text-5xl font-bold bg-gradient-primary bg-clip-text text-transparent">29 zł</span>
-                        <span class="text-muted-foreground">/miesiąc</span>
-                    @else
-                        <span class="text-5xl font-bold bg-gradient-primary bg-clip-text text-transparent">10 zł</span>
-                        <span class="text-muted-foreground">/tydzień</span>
-                    @endif
+                    <span class="text-5xl font-bold bg-gradient-primary bg-clip-text text-transparent">29 zł</span>
+                    <span class="text-muted-foreground">/miesiąc</span>
                 </div>
-                @if($billingPeriod === 'monthly')
-                    <p class="text-muted-foreground">Odblokuj pełen potencjał swojej nauki</p>
-                @else
-                    <div class="space-y-1">
-                        <p class="text-muted-foreground">Elastyczna opcja tygodniowa</p>
-                        <p class="text-xs text-green-600 dark:text-green-400 font-medium">42 zł/miesiąc - anuluj w każdej chwili</p>
-                    </div>
-                @endif
+                <p class="text-muted-foreground">Odblokuj pełen potencjał swojej nauki</p>
             </div>
 
             <div class="space-y-4 mb-8">
@@ -192,7 +160,7 @@ new #[Layout('layouts.app-kp')] class extends Component {
             </div>
 
             @auth
-                <a href="{{ route('subscribe', ['plan' => $billingPeriod]) }}"
+                <a href="{{ route('subscribe') }}"
                    class="block w-full text-center px-6 py-3 bg-gradient-primary text-white font-semibold rounded-lg shadow-glow hover:shadow-[0_15px_50px_-15px_hsl(var(--primary))] transition-all duration-300 hover:scale-105">
                     Przejdź na Premium
                 </a>
@@ -301,14 +269,10 @@ new #[Layout('layouts.app-kp')] class extends Component {
 
                 <div class="flex flex-wrap justify-center gap-4">
                     @auth
-                        <a href="{{ route('subscribe', ['plan' => $billingPeriod]) }}"
+                        <a href="{{ route('subscribe') }}"
                            class="inline-flex items-center gap-2 px-8 py-4 bg-white text-primary font-bold text-lg rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
                             @svg('lucide-rocket', 'w-5 h-5')
-                            @if($billingPeriod === 'monthly')
-                                <span>Zacznij teraz za 29 zł/miesiąc</span>
-                            @else
-                                <span>Zacznij teraz za 10 zł/tydzień</span>
-                            @endif
+                            <span>Zacznij teraz za 29 zł/miesiąc</span>
                         </a>
                     @else
                         <a href="{{ route('register') }}" wire:navigate
