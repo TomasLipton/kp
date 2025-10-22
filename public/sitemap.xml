@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+    <url>
+    <loc>https://kp.test/pl</loc>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://kp.test/pl" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://kp.test/uk" />
+    <xhtml:link rel="alternate" hreflang="be" href="https://kp.test/be" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://kp.test/ru" />
+            </url>
+    <url>
+    <loc>https://kp.test/pl/topics</loc>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://kp.test/pl/topics" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://kp.test/uk/topics" />
+    <xhtml:link rel="alternate" hreflang="be" href="https://kp.test/be/topics" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://kp.test/ru/topics" />
+            </url>
+    <url>
+    <loc>https://kp.test/pl/login</loc>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://kp.test/pl/login" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://kp.test/uk/login" />
+    <xhtml:link rel="alternate" hreflang="be" href="https://kp.test/be/login" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://kp.test/ru/login" />
+            </url>
+    <url>
+    <loc>https://kp.test/pl/register</loc>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://kp.test/pl/register" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://kp.test/uk/register" />
+    <xhtml:link rel="alternate" hreflang="be" href="https://kp.test/be/register" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://kp.test/ru/register" />
+            </url>
+    <url>
+    <loc>https://kp.test/pl/swieta-koscielne</loc>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://kp.test/pl/swieta-koscielne" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://kp.test/uk/swieta-koscielne" />
+    <xhtml:link rel="alternate" hreflang="be" href="https://kp.test/be/swieta-koscielne" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://kp.test/ru/swieta-koscielne" />
+    <lastmod>2025-10-17T20:22:46+02:00</lastmod>
+    <priority>0.8</priority>
+    <image:image>
+    <image:loc>https://kp.test/storage/topics/01K7QG0CGJ7JX4ZYB5Q3A3N5VC.jpg</image:loc>
+    <image:caption>Święta Kościelne</image:caption>
+</image:image>
+        </url>
+    <url>
+    <loc>https://kp.test/pl/znani-polacy</loc>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://kp.test/pl/znani-polacy" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://kp.test/uk/znani-polacy" />
+    <xhtml:link rel="alternate" hreflang="be" href="https://kp.test/be/znani-polacy" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://kp.test/ru/znani-polacy" />
+    <lastmod>2025-10-14T20:37:38+02:00</lastmod>
+    <priority>0.8</priority>
+    <image:image>
+    <image:loc>https://kp.test/storage/topics/01K2TDX9MFCWA366BS02C7WJBW.jpg</image:loc>
+    <image:caption>Znani Polacy</image:caption>
+</image:image>
+        </url>
+    <url>
+    <loc>https://kp.test/pl/swieta-panstwowe</loc>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://kp.test/pl/swieta-panstwowe" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://kp.test/uk/swieta-panstwowe" />
+    <xhtml:link rel="alternate" hreflang="be" href="https://kp.test/be/swieta-panstwowe" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://kp.test/ru/swieta-panstwowe" />
+    <lastmod>2025-10-14T20:59:34+02:00</lastmod>
+    <priority>0.8</priority>
+    <image:image>
+    <image:loc>https://kp.test/storage/topics/01K2TDZG65DQY5TNFR3WWV79GC.jpeg</image:loc>
+    <image:caption>Święta państwowe</image:caption>
+</image:image>
+        </url>
+    <url>
+    <loc>https://kp.test/pl/symbole-narodowe</loc>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://kp.test/pl/symbole-narodowe" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://kp.test/uk/symbole-narodowe" />
+    <xhtml:link rel="alternate" hreflang="be" href="https://kp.test/be/symbole-narodowe" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://kp.test/ru/symbole-narodowe" />
+    <lastmod>2025-10-14T21:04:51+02:00</lastmod>
+    <priority>0.8</priority>
+    <image:image>
+    <image:loc>https://kp.test/storage/topics/01K2TE7DJ5K9QT31HJKJWFWEY0.png</image:loc>
+    <image:caption>Symbole narodowe</image:caption>
+</image:image>
+        </url>
+    <url>
+    <loc>https://kp.test/pl/biografia</loc>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://kp.test/pl/biografia" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://kp.test/uk/biografia" />
+    <xhtml:link rel="alternate" hreflang="be" href="https://kp.test/be/biografia" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://kp.test/ru/biografia" />
+    <lastmod>2025-10-14T21:06:08+02:00</lastmod>
+    <priority>0.8</priority>
+    <image:image>
+    <image:loc>https://kp.test/storage/topics/01K2TDWA5W16S1ZGR9TKX4KR8B.jpeg</image:loc>
+    <image:caption>Biografia</image:caption>
+</image:image>
+        </url>
+    <url>
+    <loc>https://kp.test/pl/historia</loc>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://kp.test/pl/historia" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://kp.test/uk/historia" />
+    <xhtml:link rel="alternate" hreflang="be" href="https://kp.test/be/historia" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://kp.test/ru/historia" />
+    <lastmod>2025-10-14T21:08:56+02:00</lastmod>
+    <priority>0.8</priority>
+    <image:image>
+    <image:loc>https://kp.test/storage/topics/01K2TDM8QSZCWF2M52JFDHAE9E.png</image:loc>
+    <image:caption>Historia</image:caption>
+</image:image>
+        </url>
+    <url>
+    <loc>https://kp.test/pl/geografia</loc>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://kp.test/pl/geografia" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://kp.test/uk/geografia" />
+    <xhtml:link rel="alternate" hreflang="be" href="https://kp.test/be/geografia" />
+    <xhtml:link rel="alternate" hreflang="ru" href="https://kp.test/ru/geografia" />
+    <lastmod>2025-10-14T21:10:20+02:00</lastmod>
+    <priority>0.8</priority>
+    <image:image>
+    <image:loc>https://kp.test/storage/topics/01K2TDMNM9W9MF50EMXDS4YCDD.jpg</image:loc>
+    <image:caption>Geografia</image:caption>
+</image:image>
+        </url>
+</urlset>
