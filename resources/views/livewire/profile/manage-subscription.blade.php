@@ -151,7 +151,7 @@
                     <p class="text-sm text-gray-600 mb-4">
                         {{ __('Uzyskaj dostęp do premium funkcji i nieograniczonych możliwości.') }}
                     </p>
-                    <a href="#" class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary/90 transition-colors duration-200">
+                    <a href="/subscribe" class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary/90 transition-colors duration-200">
                         @svg('lucide-zap', 'w-4 h-4')
                         {{ __('Rozpocznij subskrypcję') }}
                     </a>
