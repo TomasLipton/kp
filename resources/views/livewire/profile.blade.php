@@ -9,6 +9,8 @@
                 </div>
             </div>
 
+            <livewire:profile.manage-subscription/>
+
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="max-w-xl space-y-6">
                     <header class="border-l-4 border-primary pl-4">
