@@ -17,14 +17,13 @@ Route::middleware('guest')->group(function () {
     if (! app()->environment('production')) {
         Volt::route('login_old', 'pages.auth.login')
             ->name('login_old');
-
+    }
 
     Volt::route('forgot-password', 'pages.auth.forgot-password')
         ->name('password.request');
 
     Volt::route('reset-password/{token}', 'pages.auth.reset-password')
         ->name('password.reset');
-    }
 
     // Google Authentication
     Route::get('/auth/redirect/google', function () {
@@ -37,14 +36,16 @@ Route::middleware('guest')->group(function () {
     Route::get('/auth/callback/telegram', [Telegram::class, 'callback'])->name('auth.telegram.callback');
 });
 
-Route::middleware('auth')->group(function () {
-    Volt::route('verify-email', 'pages.auth.verify-email')
-        ->name('verification.notice');
+if (! app()->environment('production')) {
+    Route::middleware('auth')->group(function () {
+        Volt::route('verify-email', 'pages.auth.verify-email')
+            ->name('verification.notice');
 
-    Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
-        ->middleware(['signed', 'throttle:6,1'])
-        ->name('verification.verify');
+        Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
+            ->middleware(['signed', 'throttle:6,1'])
+            ->name('verification.verify');
 
-    Volt::route('confirm-password', 'pages.auth.confirm-password')
-        ->name('password.confirm');
-});
+        Volt::route('confirm-password', 'pages.auth.confirm-password')
+            ->name('password.confirm');
+    });
+}
