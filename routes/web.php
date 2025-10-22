@@ -9,11 +9,29 @@ Route::group([
     'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath'],
 ], function () {
 
+//    Route::get('/subscribe', function (Request $request) {
+//        $user = \Illuminate\Support\Facades\Auth::user();
+//
+//        return $user->newSubscription('default', 'price_1SAtFwPkPU7QethbODxZxYbb')
+//            ->checkout([
+//                'success_url' => route('dashboard') . '?session_id={CHECKOUT_SESSION_ID}',
+//                'cancel_url' => route('dashboard'),
+//            ]);
+//    });
+//
+//    Route::get('/billing-portal', function (Request $request) {
+//        $user = \Illuminate\Support\Facades\Auth::user();
+//
+//        return $user->redirectToBillingPortal();
+//    });
+
+
+
     Livewire::setUpdateRoute(function ($handle) {
         return Route::post('/livewire/update', $handle);
     });
 
-    Route::get('/', \App\Livewire\Main::class)->name('dashboard');
+    Route::get('/', \App\Livewire\Main::class)->name('home');
 
     Volt::route('topics', 'topics')->name('topics');
 
