@@ -14,14 +14,17 @@ Route::middleware('guest')->group(function () {
     Volt::route('login', 'pages.auth.login_v2')
         ->name('login');
 
-    Volt::route('login_old', 'pages.auth.login')
-        ->name('login_old');
+    if (! app()->environment('production')) {
+        Volt::route('login_old', 'pages.auth.login')
+            ->name('login_old');
+
 
     Volt::route('forgot-password', 'pages.auth.forgot-password')
         ->name('password.request');
 
     Volt::route('reset-password/{token}', 'pages.auth.reset-password')
         ->name('password.reset');
+    }
 
     // Google Authentication
     Route::get('/auth/redirect/google', function () {
