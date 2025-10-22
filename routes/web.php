@@ -12,12 +12,19 @@ Route::group([
     Route::get('/subscribe', function (Request $request) {
         $user = \Illuminate\Support\Facades\Auth::user();
 
-        return $user->newSubscription('default', 'price_1SAtFwPkPU7QethbODxZxYbb')
+        // Determine which price ID to use based on plan parameter
+        $plan = $request->query('plan', 'monthly');
+        $priceId = $plan === 'weekly'
+            ? 'price_weekly_id_here' // Replace with your Stripe weekly price ID
+            : 'price_1SAtFwPkPU7QethbODxZxYbb'; // Monthly price ID
+
+        return $user->newSubscription('default', $priceId)
             ->checkout([
-                'success_url' => route('profile') . '?session_id={CHECKOUT_SESSION_ID}',
-                'cancel_url' => route('profile'),
+                'success_url' => route('profile').'?session_id={CHECKOUT_SESSION_ID}',
+                'cancel_url' => route('pricing'),
             ]);
-    });
+
+    })->name('subscribe');
     //
     //    Route::get('/billing-portal', function (Request $request) {
     //        $user = \Illuminate\Support\Facades\Auth::user();
@@ -35,6 +42,8 @@ Route::group([
     Route::redirect('/home', '/')->name('home');
 
     Volt::route('topics', 'topics')->name('topics');
+
+    Volt::route('unlock', 'pricing')->name('pricing');
 
     Route::get('profile', \App\Livewire\Profile::class)
         ->middleware(['auth'])
