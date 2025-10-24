@@ -65,14 +65,15 @@
         {{-- Main Quiz Container --}}
         <div class=" mx-auto relative">
             {{-- Выплывающий флажок справа --}}
-            <div class="absolute -right-11 top-32 -translate-y-1/2 z-10 group">
+            <div class="absolute top-28 -translate-y-1/2 z-10 group hidden lg:block" style="    right: -34px;">
                 <button
-                    class="flex items-center bg-orange-500 hover:bg-orange-600 text-white
-                           rounded-r-lg shadow-lg hover:shadow-xl transition-all duration-300
-                           py-3 px-3"
+                    class="flex items-center bg-orange-500/20 hover:bg-orange-500/40 text-orange-600
+                           border-2 border-l-0 border-orange-400 hover:border-orange-500
+                           rounded-r-lg shadow-md hover:shadow-lg transition-all duration-300
+                           py-2 px-2"
                     title="Zgłoś problem z pytaniem"
                 >
-                    @svg('lucide-flag', 'w-5 h-5')
+                    @svg('lucide-flag', 'w-4 h-4')
                 </button>
             </div>
 
