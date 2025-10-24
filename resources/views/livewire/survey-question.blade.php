@@ -39,16 +39,19 @@
         {{-- Header with Quit Button --}}
         <div class=" mx-auto mb-4">
             <div class="flex justify-between items-center">
-                {{-- ВАРИАНТ 1: В шапке слева --}}
+                {{-- Кнопка жалобы (только на мобилке) --}}
                 <button
                     class="inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium
                            bg-orange-50 hover:bg-orange-100 border border-orange-200 hover:border-orange-300
-                           text-orange-700 transition-all duration-200"
+                           text-orange-700 transition-all duration-200 lg:hidden"
                     title="Zgłoś problem z pytaniem"
                 >
                     @svg('lucide-flag', 'w-4 h-4')
                     <span class="hidden sm:inline">Zgłoś pytanie</span>
                 </button>
+
+                {{-- Пустой элемент для выравнивания на десктопе --}}
+                <div class="hidden lg:block"></div>
 
                 <button
                     @click="if(confirm('Czy na pewno chcesz zakończyć quiz? Nie będziesz mógł wrócić do pytań.')) { $wire.finish() }"
@@ -77,7 +80,7 @@
                 </button>
             </div>
 
-            <div class="bg-gradient-card backdrop-blur-sm shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)]
+            <div class="overflow-hidden  bg-gradient-card backdrop-blur-sm shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)]
                         border border-white/40 rounded-2xl relative
                         before:absolute before:inset-0 before:rounded-2xl before:p-[1px]
                         before:bg-gradient-to-br before:from-white/50 before:via-white/20 before:to-transparent before:-z-10">
