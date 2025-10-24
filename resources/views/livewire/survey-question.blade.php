@@ -41,6 +41,8 @@
             <div class="flex justify-between items-center">
                 {{-- Кнопка жалобы (только на мобилке) --}}
                 <button
+                    x-data=""
+                    x-on:click.prevent="$dispatch('open-modal', 'report-question')"
                     class="inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium
                            bg-orange-50 hover:bg-orange-100 border border-orange-200 hover:border-orange-300
                            text-orange-700 transition-all duration-200 lg:hidden"
@@ -70,6 +72,8 @@
             {{-- Выплывающий флажок справа --}}
             <div class="absolute top-28 -translate-y-1/2 z-10 group hidden lg:block" style="    right: -34px;">
                 <button
+                    x-data=""
+                    x-on:click.prevent="$dispatch('open-modal', 'report-question')"
                     class="flex items-center bg-orange-500/20 hover:bg-orange-500/40 text-orange-600
                            border-2 border-l-0 border-orange-400 hover:border-orange-500
                            rounded-r-lg shadow-md hover:shadow-lg transition-all duration-300
@@ -318,5 +322,10 @@
     @else
         {{-- Quiz Results --}}
         <livewire:survey-results :quiz="$quiz"/>
+    @endif
+
+    {{-- Report Question Modal --}}
+    @if($question)
+        <livewire:report-question :questionId="$question->id" />
     @endif
 </section>
