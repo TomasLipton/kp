@@ -332,7 +332,7 @@ class QuestionResource extends Resource
 
     public static function getGloballySearchableAttributes(): array
     {
-        return ['topics.name'];
+        return ['topics.name_pl'];
     }
 
     public static function getGlobalSearchResultDetails(Model $record): array
@@ -340,7 +340,7 @@ class QuestionResource extends Resource
         $details = [];
 
         if ($record->topics) {
-            $details['Topics'] = $record->topics->name;
+            $details['Topics'] = $record->topics->name_pl;
         }
 
         return $details;

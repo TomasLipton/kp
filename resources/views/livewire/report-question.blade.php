@@ -16,17 +16,61 @@
                 </button>
             </div>
 
+            {{-- Quick reasons --}}
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-foreground mb-2">
+                    Wybierz gotową przyczynę lub opisz własną
+                </label>
+                <div class="flex flex-wrap gap-2 mb-3">
+                    <button
+                        type="button"
+                        wire:click="$set('message', 'Błąd w pytaniu')"
+                        class="px-3 py-1.5 text-xs font-medium bg-orange-50 hover:bg-orange-100 text-orange-700 border border-orange-200 rounded-lg transition-colors"
+                    >
+                        Błąd w pytaniu
+                    </button>
+                    <button
+                        type="button"
+                        wire:click="$set('message', 'Niepoprawna odpowiedź')"
+                        class="px-3 py-1.5 text-xs font-medium bg-orange-50 hover:bg-orange-100 text-orange-700 border border-orange-200 rounded-lg transition-colors"
+                    >
+                        Niepoprawna odpowiedź
+                    </button>
+                    <button
+                        type="button"
+                        wire:click="$set('message', 'Niejasna treść pytania')"
+                        class="px-3 py-1.5 text-xs font-medium bg-orange-50 hover:bg-orange-100 text-orange-700 border border-orange-200 rounded-lg transition-colors"
+                    >
+                        Niejasna treść
+                    </button>
+                    <button
+                        type="button"
+                        wire:click="$set('message', 'Błąd ortograficzny lub gramatyczny')"
+                        class="px-3 py-1.5 text-xs font-medium bg-orange-50 hover:bg-orange-100 text-orange-700 border border-orange-200 rounded-lg transition-colors"
+                    >
+                        Błąd ortograficzny
+                    </button>
+                    <button
+                        type="button"
+                        wire:click="$set('message', 'Nieaktualne informacje')"
+                        class="px-3 py-1.5 text-xs font-medium bg-orange-50 hover:bg-orange-100 text-orange-700 border border-orange-200 rounded-lg transition-colors"
+                    >
+                        Nieaktualne info
+                    </button>
+                </div>
+            </div>
+
             {{-- Form --}}
             <div class="mb-4">
                 <label for="message" class="block text-sm font-medium text-foreground mb-2">
-                    Opisz problem
+                    Szczegóły problemu
                 </label>
                 <textarea
                     wire:model="message"
                     id="message"
                     rows="4"
                     class="w-full px-3 py-2 border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary resize-none"
-                    placeholder="Np. błąd w pytaniu, niepoprawna odpowiedź, niejasna treść..."
+                    placeholder="Możesz dodać więcej szczegółów..."
                 ></textarea>
                 @error('message')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>

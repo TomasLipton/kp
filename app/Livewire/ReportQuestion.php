@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\QuestionReport;
 use Livewire\Component;
 
 class ReportQuestion extends Component
@@ -24,12 +25,11 @@ class ReportQuestion extends Component
             'message.max' => 'Opis nie może przekraczać 500 znaków',
         ]);
 
-        // TODO: Сохранить жалобу в базу данных
-        // QuestionReport::create([
-        //     'question_id' => $this->questionId,
-        //     'message' => $this->message,
-        //     'user_id' => auth()->id(),
-        // ]);
+        QuestionReport::create([
+            'question_id' => $this->questionId,
+            'message' => $this->message,
+            'user_id' => auth()->id(),
+        ]);
 
         $this->reset('message');
         $this->resetErrorBag();
