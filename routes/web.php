@@ -46,6 +46,8 @@ Route::group([
         ->middleware(['auth'])
         ->name('analytics');
 
+    Volt::route('regulamin', 'terms')->name('terms');
+
     //    Route::get('ai-realtime-play/{quiz}', \App\Livewire\AiPage::class)
     //        ->middleware(['auth'])
     //        ->name('ai');
