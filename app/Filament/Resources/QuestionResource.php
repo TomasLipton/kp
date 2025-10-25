@@ -174,7 +174,9 @@ class QuestionResource extends Resource
                             ->label('Author')
                             ->relationship('user', 'name')
                             ->searchable()
-                            ->nullable(),
+                            ->nullable()
+                            ->hiddenOn('create')
+                            ->default(auth()->id()),
 
                         FileUpload::make('picture')
                             ->image()
