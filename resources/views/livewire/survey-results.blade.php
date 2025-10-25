@@ -54,7 +54,7 @@
                         <p class="text-sm text-green-700 mt-1">{{ __('app.quiz_completed_successfully') }}</p>
                         @if($quiz->type)
                             <span class="inline-block mt-2 px-3 py-1 bg-green-200 text-green-800 text-xs font-semibold rounded-full">
-                                {{ ucfirst($quiz->type) }}
+                                {{ Str::headline($quiz->type) }}
                             </span>
                         @endif
                     </div>
