@@ -5,15 +5,15 @@
 <?php
 
 use App\Models\Topics;
-use Livewire\Volt\Component;
 use Livewire\Attributes\Layout;
+use Livewire\Volt\Component;
 
 new #[Layout('layouts.app-kp')] class extends Component
 {
     public function with(): array
     {
         return [
-            'topics' => Topics::where('isVisibleToPublic', true)->get()
+            'topics' => Topics::where('isVisibleToPublic', true)->get(),
         ];
     }
 }; ?>
@@ -57,30 +57,60 @@ new #[Layout('layouts.app-kp')] class extends Component
         </div>
     </div>
 
-    {{-- Topics Grid --}}
-    <div class="overflow-hidden bg-gradient-card backdrop-blur-sm shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] border border-white/40 rounded-2xl  relative
-         before:absolute before:inset-0 before:rounded-2xl before:p-[1px] before:bg-gradient-to-br before:from-white/50 before:via-white/20 before:to-transparent before:-z-10">
+    {{-- Topics Section --}}
+    <div class="mt-14 relative">
+        <!-- Decorative frame -->
+        <div class="absolute inset-0 rounded-3xl border-2 border-primary/20 pointer-events-none"></div>
+        <div class="absolute -inset-1 rounded-3xl border border-primary/10 pointer-events-none"></div>
 
-        <section class="hero-section pt-8">
-            <div class="card-grid">
+        <div class="relative p-8 md:p-10">
+            {{-- Topic Cards - Image Focused --}}
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 @foreach($topics as $topic)
-                    <a class="category-card rounded-lg group" href="/{{$topic->slug}}" wire:navigate wire:navigate.hover>
-                        <div class="card__background" style="background-image: url({{url('storage/' . $topic->picture)}})"></div>
-                        <div class="card__content">
-                            <p class="card__category">
-                                {{$topic->questions()->count()}}
+                    <a href="/{{$topic->slug}}" wire:navigate wire:navigate.hover
+                       class="group bg-gray-50 dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] border border-gray-200 dark:border-gray-700 p-3">
+
+                        {{-- Image Section --}}
+                        <div class="relative overflow-hidden h-48 rounded-lg">
+                            <img src="{{url('storage/' . $topic->picture)}}" alt="{{$topic->name_pl}}"
+                                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+
+                            {{-- Badges on Image --}}
+                            <div class="absolute top-3 right-3 flex flex-col gap-2 items-end">
+                                {{-- Question Count Badge --}}
+                                <span class="px-3 py-1.5 rounded-full bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm text-xs font-semibold border border-primary/30 text-foreground">
+                                    {{$topic->questions()->count()}}
+                                    @php
+                                        $count = $topic->questions()->count();
+                                    @endphp
+                                    @if($count === 1)
+                                        {{ __('app.question') }}
+                                    @elseif($count % 10 >= 2 && $count % 10 <= 4 && ($count % 100 < 10 || $count % 100 >= 20))
+                                        {{ __('app.questions_few') }}
+                                    @else
+                                        {{ __('app.questions_many') }}
+                                    @endif
+                                </span>
+
+                                {{-- Difficulty Badge --}}
                                 @php
-                                    $count = $topic->questions()->count();
+                                    $difficultyColors = [
+                                        'easy' => 'border-green-500/50 text-green-700 dark:text-green-400',
+                                        'medium' => 'border-orange-500/50 text-orange-700 dark:text-orange-400',
+                                        'hard' => 'border-red-500/50 text-red-700 dark:text-red-400',
+                                    ];
+                                    $difficulty = $topic->difficulty ?? 'medium';
                                 @endphp
-                                @if($count == 1)
-                                    {{ __('app.question') }}
-                                @elseif($count % 10 >= 2 && $count % 10 <= 4 && ($count % 100 < 10 || $count % 100 >= 20))
-                                    {{ __('app.questions_few') }}
-                                @else
-                                    {{ __('app.questions_many') }}
-                                @endif
-                            </p>
-                            <h3 class="card__heading">
+                                <span class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm text-xs font-semibold border {{ $difficultyColors[$difficulty] }}">
+                                    @svg('lucide-zap', 'w-3 h-3')
+                                    <span class="hidden sm:inline">{{ __('app.difficulty_' . $difficulty) }}</span>
+                                </span>
+                            </div>
+                        </div>
+
+                        {{-- Content Section Below Image --}}
+                        <div class="p-4">
+                            <h3 class="text-lg font-bold mb-3 text-foreground group-hover:text-primary transition-colors line-clamp-2">
                                 @switch(LaravelLocalization::getCurrentLocale())
                                     @case('ru')
                                         {{trim($topic->name_ru ?? $topic->name_pl)}}
@@ -95,93 +125,21 @@ new #[Layout('layouts.app-kp')] class extends Component
                                         {{trim($topic->name_pl)}}
                                 @endswitch
                             </h3>
+
+                            <div class="flex items-center gap-2 text-sm font-medium text-primary">
+                                <span>{{ __('app.start_quiz') }}</span>
+                                <svg class="w-4 h-4 transition-transform group-hover:translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                                </svg>
+                            </div>
                         </div>
-                        <div class="absolute inset-0 border-2 scale-105 border-primary/0 group-hover:border-primary/50 transition-all duration-300 rounded-lg group-hover:shadow-[0_0_30px_rgba(var(--primary-rgb),0.3)]"></div>
+
+                        {{-- Hover Border Effect --}}
+                        <div class="absolute inset-0 rounded-xl ring-2 ring-primary/0 group-hover:ring-primary/50 transition-all duration-300 pointer-events-none"></div>
                     </a>
                 @endforeach
             </div>
-        </section>
+        </div>
     </div>
-
-    {{-- CTA Banner with gradient and glow effects --}}
-{{--    <div class="mt-16 mb-16 relative">--}}
-{{--        --}}{{-- Glow effect background --}}
-{{--        <div class="absolute inset-0 bg-gradient-to-r from-primary/20 via-secondary/20 to-primary/20 blur-3xl -z-10 rounded-3xl"></div>--}}
-
-{{--        <div class="overflow-hidden bg-gradient-card backdrop-blur-sm shadow-[0_20px_60px_-10px_rgba(0,0,0,0.2)] border border-white/40 rounded-2xl p-12 md:p-16 relative--}}
-{{--             before:absolute before:inset-0 before:rounded-2xl before:p-[1px] before:bg-gradient-to-br before:from-white/60 before:via-white/30 before:to-transparent before:-z-10">--}}
-
-{{--            --}}{{-- Decorative corner elements --}}
-{{--            <div class="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-primary/20 to-transparent rounded-bl-full -z-10"></div>--}}
-{{--            <div class="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-tr from-secondary/20 to-transparent rounded-tr-full -z-10"></div>--}}
-
-{{--            <div class="text-center max-w-3xl mx-auto relative z-10">--}}
-{{--                --}}{{-- Icon badge --}}
-{{--                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-primary mb-6 shadow-glow">--}}
-{{--                    @guest--}}
-{{--                        @svg('lucide-rocket', 'w-8 h-8 text-white')--}}
-{{--                    @else--}}
-{{--                        @svg('lucide-zap', 'w-8 h-8 text-white')--}}
-{{--                    @endguest--}}
-{{--                </div>--}}
-
-{{--                <h2 class="text-4xl md:text-5xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-6 leading-tight">--}}
-{{--                    @guest--}}
-{{--                        {{ __('Ready to start learning?') }}--}}
-{{--                    @else--}}
-{{--                        {{ __('Continue your learning journey') }}--}}
-{{--                    @endguest--}}
-{{--                </h2>--}}
-
-{{--                <p class="text-xl text-muted-foreground mb-10 leading-relaxed">--}}
-{{--                    @guest--}}
-{{--                        {{ __('Create a free account to track your progress and access all quiz features') }}--}}
-{{--                    @else--}}
-{{--                        {{ __('Choose any topic above and start practicing for your Polish Card exam') }}--}}
-{{--                    @endguest--}}
-{{--                </p>--}}
-
-{{--                @guest--}}
-{{--                    <div class="flex flex-wrap justify-center gap-4">--}}
-{{--                        <a href="{{ route('register') }}" wire:navigate--}}
-{{--                           class="group inline-flex items-center gap-2 px-8 py-4 bg-gradient-primary text-white font-semibold rounded-xl--}}
-{{--                                  shadow-glow hover:shadow-[0_20px_60px_-15px_hsl(var(--primary))] transition-all duration-300 hover:scale-105 hover:-translate-y-1">--}}
-{{--                            {{ __('Create a free account') }}--}}
-{{--                            @svg('lucide-user-plus', 'w-5 h-5 group-hover:rotate-12 transition-transform')--}}
-{{--                        </a>--}}
-{{--                        <a href="{{ route('login') }}" wire:navigate--}}
-{{--                           class="group inline-flex items-center gap-2 px-8 py-4 bg-white text-primary font-semibold rounded-xl border-2 border-primary--}}
-{{--                                  hover:bg-primary/5 transition-all duration-300 hover:scale-105 hover:-translate-y-1 hover:shadow-lg">--}}
-{{--                            {{ __('Already have an account?') }}--}}
-{{--                            @svg('lucide-log-in', 'w-5 h-5 group-hover:translate-x-1 transition-transform')--}}
-{{--                        </a>--}}
-{{--                    </div>--}}
-{{--                @else--}}
-{{--                    <a href="{{ route('dashboard') }}" wire:navigate--}}
-{{--                       class="group inline-flex items-center gap-2 px-8 py-4 bg-gradient-primary text-white font-semibold rounded-xl--}}
-{{--                              shadow-glow hover:shadow-[0_20px_60px_-15px_hsl(var(--primary))] transition-all duration-300 hover:scale-105 hover:-translate-y-1">--}}
-{{--                        {{ __('Go to Dashboard') }}--}}
-{{--                        @svg('lucide-arrow-right', 'w-5 h-5 group-hover:translate-x-2 transition-transform')--}}
-{{--                    </a>--}}
-{{--                @endguest--}}
-
-{{--                --}}{{-- Trust indicators --}}
-{{--                <div class="flex flex-wrap justify-center gap-8 mt-12 pt-8 border-t border-border/30">--}}
-{{--                    <div class="flex items-center gap-2 text-sm text-muted-foreground">--}}
-{{--                        @svg('lucide-shield-check', 'w-4 h-4 text-primary')--}}
-{{--                        <span>{{ __('Secure & Safe') }}</span>--}}
-{{--                    </div>--}}
-{{--                    <div class="flex items-center gap-2 text-sm text-muted-foreground">--}}
-{{--                        @svg('lucide-infinity', 'w-4 h-4 text-primary')--}}
-{{--                        <span>{{ __('Unlimited Access') }}</span>--}}
-{{--                    </div>--}}
-{{--                    <div class="flex items-center gap-2 text-sm text-muted-foreground">--}}
-{{--                        @svg('lucide-heart', 'w-4 h-4 text-primary')--}}
-{{--                        <span>{{ __('Always Free') }}</span>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
 
 </div>
