@@ -51,8 +51,8 @@ new #[Layout('layouts.app-kp')] class extends Component
                 <span class="text-sm font-semibold">{{ $topics->sum(fn($t) => $t->questions()->count()) }} {{ __('Questions') }}</span>
             </div>
             <div class="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-card backdrop-blur-sm border border-white/40">
-                @svg('lucide-sparkles', 'w-5 h-5 text-primary')
-                <span class="text-sm font-semibold">100% {{ __('Free') }}</span>
+                @svg('lucide-shield-check', 'w-5 h-5 text-primary')
+                <span class="text-sm font-semibold">{{ __('Expert Verified') }}</span>
             </div>
         </div>
     </div>

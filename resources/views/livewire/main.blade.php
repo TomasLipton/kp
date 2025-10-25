@@ -33,7 +33,7 @@
             </div>
             <div class="text-center">
                 <div class="text-3xl md:text-4xl font-bold text-primary">100%</div>
-                <div class="text-sm text-muted-foreground">{{ __('Free') }}</div>
+                <div class="text-sm text-muted-foreground">{{ __('Expert Verified') }}</div>
             </div>
         </div>
 
