@@ -70,7 +70,7 @@
 
 
     @filamentStyles
-    <script src="//code.jivo.ru/widget/SuLGlYe5Q0" async></script>
+{{--    <script src="//code.jivo.ru/widget/SuLGlYe5Q0" async></script>--}}
 </head>
 <body class="antialiased ">
 {{--<body class="antialiased bg-gradient-to-t from-purple-100 via-pink-100 to-indigo-100 ">--}}
