@@ -83,11 +83,6 @@ class SurveyQuestion extends Component
         $this->questionAnswers = $nextQuestion->answers;
     }
 
-    public function testClick()
-    {
-        $this->title = 'Post title changed...';
-    }
-
     public function finish()
     {
         $this->quiz->completed_at = now();
@@ -231,6 +226,11 @@ class SurveyQuestion extends Component
         $nextQuestion = $this->topic->questions()
             ->whereNotIn('id', $answeredQuestionIds)
             ->inRandomOrder()
+            ->with([
+                'answers' => function ($query) {
+                    $query->inRandomOrder();
+                },
+            ])
             ->first();
 
         if (! $nextQuestion) {
