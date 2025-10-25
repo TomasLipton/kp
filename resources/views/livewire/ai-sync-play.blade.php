@@ -46,34 +46,24 @@ class extends Component {
     }
 }; ?>
 
-<div>
-    <div class="max-w-7xl mx-auto px-4 mt-4">
-        <!-- Compact Header with Status -->
-        <div class="bg-gradient-to-r from-blue-500/80 to-purple-500/80 rounded-xl shadow-sm p-4 text-white">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                    <div class="bg-white/15 backdrop-blur-sm rounded-full p-2">
-                        @svg('lucide-mic', 'w-5 h-5')
-                    </div>
-                    <div>
-                        <h2 class="text-lg font-semibold">Voice Quiz</h2>
-                        <p class="text-xs text-white/70">{{ $quiz->topic->name_pl ?? 'N/A' }}</p>
-                    </div>
-                </div>
-                <div class="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-3 py-1.5">
-                    <div id="statusDot" class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></div>
-                    <span id="connectionStatus" class="text-xs font-medium">Connecting...</span>
-                </div>
-            </div>
-        </div>
+<section class="py-4">
+    <div class="mx-auto relative">
+        <div class="overflow-hidden bg-gradient-card backdrop-blur-sm shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)]
+                    border border-white/40 rounded-2xl relative
+                    before:absolute before:inset-0 before:rounded-2xl before:p-[1px]
+                    before:bg-gradient-to-br before:from-white/50 before:via-white/20 before:to-transparent before:-z-10">
 
-        <!-- Two Column Layout -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
-            <!-- Left Column: Controls -->
-            <div class="space-y-4">
-                <!-- Recording Controls -->
-                <div class="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
-                    <div class="bg-gray-50 px-4 py-2 border-b border-gray-200 flex items-center justify-between" x-data="{
+            {{-- Header with Status --}}
+            <div class="bg-gradient-to-r from-primary/5 via-secondary/5 to-primary/5 border-b border-border/30 p-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        @svg('lucide-mic', 'w-5 h-5 text-primary flex-shrink-0')
+                        <div>
+                            <span class="text-base font-semibold text-foreground">Voice Quiz</span>
+                            <p class="text-xs text-muted-foreground">{{ $quiz->topic->name_pl ?? 'N/A' }}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2" x-data="{
                         startTime: new Date('{{ $quiz->created_at }}'),
                         timeElapsed: '0:00',
                         updateTimeElapsed() {
@@ -83,72 +73,86 @@ class extends Component {
                             this.timeElapsed = `${minutes}:${seconds}`;
                         }
                     }" x-init="setInterval(() => updateTimeElapsed(), 1000)">
-                        <h3 class="font-semibold text-gray-800 text-sm flex items-center gap-2">
-                            @svg('lucide-circle-dot', 'w-4 h-4 text-red-500')
-                            Recording Controls
-                        </h3>
-                        <div class="flex items-center gap-1.5 text-xs font-medium text-gray-600">
-                            @svg('lucide-timer', 'w-4 h-4')
-                            <span x-text="timeElapsed"></span>
-                        </div>
-                    </div>
-                    <div class="p-4 space-y-3">
-                        <div class="flex gap-3">
-                            <button id="startBtn" disabled
-                                    class="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors font-medium text-sm flex items-center justify-center gap-2">
-                                @svg('lucide-play', 'w-4 h-4')
-                                Start
-                            </button>
-                            <button id="stopBtn" disabled
-                                    class="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors font-medium text-sm flex items-center justify-center gap-2">
-                                @svg('lucide-square', 'w-4 h-4')
-                                Stop
-                            </button>
-                        </div>
-                        <div class="text-center">
-                            <span id="spaceHint" class="text-xs text-gray-600 inline-flex items-center gap-1">
-                                Hold <kbd class="px-2 py-0.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-300 rounded">Space</kbd> to record
-                            </span>
-                            <span id="recordingIndicator" class="hidden text-xs text-red-600 font-semibold inline-flex items-center gap-2">
-                                <span class="relative flex h-2 w-2">
-                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-                                </span>
-                                Recording...
-                            </span>
-                        </div>
+                        @svg('lucide-timer', 'w-5 h-5 text-primary')
+                        <span class="text-sm font-medium text-foreground" x-text="timeElapsed"></span>
                     </div>
                 </div>
-
-                <!-- End Quiz Button -->
-                <button
-                    wire:click="endQuiz"
-                    wire:confirm="Czy na pewno chcesz zakończyć ten quiz? Nie będziesz mógł wrócić."
-                    class="w-full inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-sm font-medium
-                           bg-red-50 hover:bg-red-100 border border-red-200 hover:border-red-300
-                           text-red-700 transition-all duration-200">
-                    @svg('lucide-flag', 'w-4 h-4')
-                    Zakończ Quiz
-                </button>
-
-                <audio id="player" class="hidden"></audio>
+                <div class="flex items-center gap-2 mt-3 bg-white/50 backdrop-blur-sm rounded-lg px-3 py-1.5 border border-border/30 w-fit">
+                    <div id="statusDot" class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></div>
+                    <span id="connectionStatus" class="text-xs font-medium text-foreground">Connecting...</span>
+                </div>
             </div>
 
-            <!-- Right Column: Chat Log -->
-            <div class="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden flex flex-col" style="height: calc(100vh - 250px);">
-                <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-5 py-3 border-b border-gray-200">
-                    <h3 class="font-semibold text-gray-800 flex items-center gap-2">
-                        @svg('lucide-message-square', 'w-5 h-5 text-blue-500')
-                        Conversation
-                    </h3>
+            {{-- Two Column Layout --}}
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 p-6 sm:p-8">
+                {{-- Left Column: Controls --}}
+                <div class="space-y-4">
+                    {{-- Recording Controls --}}
+                    <div class="bg-white/50 rounded-xl border border-border/30 overflow-hidden">
+                        <div class="bg-gradient-to-r from-primary/5 to-secondary/5 px-4 py-3 border-b border-border/30">
+                            <h3 class="font-semibold text-foreground text-sm flex items-center gap-2">
+                                @svg('lucide-circle-dot', 'w-4 h-4 text-red-500')
+                                Recording Controls
+                            </h3>
+                        </div>
+                        <div class="p-4 space-y-3">
+                            <div class="flex gap-3">
+                                <button id="startBtn" disabled
+                                        class="flex-1 px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 font-medium text-sm flex items-center justify-center gap-2 hover:shadow-md">
+                                    @svg('lucide-play', 'w-4 h-4')
+                                    Start
+                                </button>
+                                <button id="stopBtn" disabled
+                                        class="flex-1 px-4 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 font-medium text-sm flex items-center justify-center gap-2 hover:shadow-md">
+                                    @svg('lucide-square', 'w-4 h-4')
+                                    Stop
+                                </button>
+                            </div>
+                            <div class="text-center">
+                                <span id="spaceHint" class="text-xs text-muted-foreground inline-flex items-center gap-1">
+                                    Hold <kbd class="px-2 py-0.5 text-xs font-semibold text-foreground bg-white/80 border border-border/30 rounded">Space</kbd> to record
+                                </span>
+                                <span id="recordingIndicator" class="hidden text-xs text-red-600 font-semibold inline-flex items-center gap-2">
+                                    <span class="relative flex h-2 w-2">
+                                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                        <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                                    </span>
+                                    Recording...
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- End Quiz Button --}}
+                    <button
+                        wire:click="endQuiz"
+                        wire:confirm="Czy na pewno chcesz zakończyć ten quiz? Nie będziesz mógł wrócić."
+                        class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-medium
+                               bg-red-50 hover:bg-red-100 border border-red-200 hover:border-red-300
+                               text-red-700 transition-all duration-200 hover:shadow-md">
+                        @svg('lucide-flag', 'w-4 h-4')
+                        Zakończ Quiz
+                    </button>
+
+                    <audio id="player" class="hidden"></audio>
                 </div>
-                <div id="chatLog" class="flex-1 p-4 overflow-y-auto bg-gradient-to-br from-gray-50 to-blue-50/30">
-                    <div id="messages" class="space-y-2"></div>
+
+                {{-- Right Column: Chat Log --}}
+                <div class="bg-white/50 rounded-xl border border-border/30 overflow-hidden flex flex-col" style="height: calc(100vh - 250px);">
+                    <div class="bg-gradient-to-r from-primary/5 to-secondary/5 px-4 py-3 border-b border-border/30">
+                        <h3 class="font-semibold text-foreground flex items-center gap-2">
+                            @svg('lucide-message-square', 'w-5 h-5 text-primary')
+                            Conversation
+                        </h3>
+                    </div>
+                    <div id="chatLog" class="flex-1 p-4 overflow-y-auto bg-gradient-to-br from-primary/5 to-secondary/5">
+                        <div id="messages" class="space-y-2"></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 
 @script
 <script>
